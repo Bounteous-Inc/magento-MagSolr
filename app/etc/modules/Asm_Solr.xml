@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Asm_Solr>
+			<active>true</active>
+			<codePool>community</codePool>
+		</Asm_Solr>
+	</modules>
+</config>

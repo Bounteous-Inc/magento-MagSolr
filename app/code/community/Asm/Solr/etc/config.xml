@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Asm_Solr>
+			<version>0.0.1</version>
+		</Asm_Solr>
+	</modules>
+</config>

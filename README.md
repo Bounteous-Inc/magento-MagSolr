@@ -1,0 +1,1 @@
+# Apache Solr for Magento
