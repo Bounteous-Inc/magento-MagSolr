@@ -17,6 +17,18 @@
 
 	</adminhtml>
 
+	<frontend>
+		<routers>
+			<solr>
+				<use>standard</use>
+				<args>
+					<module>Asm_Solr</module>
+					<frontName>solr</frontName>
+				</args>
+			</solr>
+		</routers>
+	</frontend>
+
 	<default>
 		<solr>
 			<connection>
