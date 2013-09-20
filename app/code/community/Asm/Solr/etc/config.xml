@@ -13,4 +13,18 @@
 			</solr>
 		</helpers>
 	</global>
+	<adminhtml>
+
+	</adminhtml>
+
+	<default>
+		<solr>
+			<connection>
+				<scheme>http</scheme>
+				<host>localhost</host>
+				<port>8080</port>
+				<path>solr/</path>
+			</connection>
+		</solr>
+	</default>
 </config>

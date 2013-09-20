@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+	<acl>
+			<resources>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<solr translate="title" module="solr">
+											<title>Solr Search</title>
+										</solr>
+										<index translate="title" module="solr">
+											<title>Indexing</title>
+										</index>
+										<search translate="title" module="solr">
+											<title>Search Queries</title>
+										</search>
+										<logging translate="title" module="solr">
+											<title>Search Logging</title>
+										</logging>
+									</children>
+								</config>
+							</children>
+						</system>
+					  </children>
+				</admin>
+			</resources>
+		</acl>
+</config>
