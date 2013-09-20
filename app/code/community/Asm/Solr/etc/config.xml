@@ -5,4 +5,12 @@
 			<version>0.0.1</version>
 		</Asm_Solr>
 	</modules>
+
+	<global>
+		<helpers>
+			<solr>
+				<class>Asm_Solr_Helper</class>
+			</solr>
+		</helpers>
+	</global>
 </config>
