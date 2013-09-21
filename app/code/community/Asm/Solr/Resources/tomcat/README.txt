@@ -16,6 +16,6 @@ where $CATALINA_HOME is the Tomcat installation directory.
 solr-tomcat
 ---------------------------------
 This is a simple start/stop script to keep Tomcat running as a service when rebooting the server. Make sure to adjust
-the variables at the top of the script as needed, the script was written for a Ubuntu environment. Place this file
-into /etc/init.d
+the variables at the top of the script as needed, especially JAVA_HOME and TOMCAT_USER might be different for your
+system. The script was written for a Ubuntu environment. Place this file into /etc/init.d
 Usage: 'service solr-tomcat start|stop|restart|status'
