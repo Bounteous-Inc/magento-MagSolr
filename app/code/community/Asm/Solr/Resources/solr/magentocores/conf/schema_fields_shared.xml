@@ -1,0 +1,191 @@
+<fields>
+	<!--
+	Valid attributes for fields:
+
+	name: mandatory - the name for the field
+	type: mandatory - the name of a field type from the
+		<types> fieldType section
+	indexed: true if this field should be indexed (searchable or sortable)
+		stored: true if this field should be retrievable
+		docValues: true if this field should have doc values. Doc values are
+		useful for faceting, grouping, sorting and function queries. Although not
+		required, doc values will make the index faster to load, more
+		NRT-friendly and more memory-efficient. They however come with some
+		limitations: they are currently only supported by StrField, UUIDField
+		and all Trie*Fields, and depending on the field type, they might
+		require the field to be single-valued, be required or have a default
+		value (check the documentation of the field type you're interested in
+		for more information)
+	multiValued: true if this field may contain multiple values per document
+	omitNorms: (expert) set to true to omit the norms associated with
+		this field (this disables length normalization and index-time
+		boosting for the field, and saves some memory).  Only full-text
+		fields or fields that need an index-time boost need norms.
+		Norms are omitted for primitive (non-analyzed) types by default.
+	termVectors: [false] set to true to store the term vector for a
+		given field.
+		When using MoreLikeThis, fields used for similarity should be
+		stored for best performance.
+	termPositions: Store position information with the term vector.
+		This will increase storage costs.
+	termOffsets: Store offset information with the term vector. This
+		will increase storage costs.
+	required: The field is required.  It will throw an error if the
+		value does not exist
+	default: a value that should be used if no value is specified
+		when adding a document.
+	-->
+
+	<!--
+		The document id is derived from a site-specific key (hash) and some
+		record properties like:
+		$document->id = $siteHash . '/' . $type . '/' . $record['uid'];
+	-->
+	<field name="id" type="string" indexed="true" stored="true" required="true" />
+
+	<field name="_version_" type="long" indexed="true" stored="true" />
+
+	<!--
+		Using these fields we can "connect" the indexed documents to
+		specific sites.
+	-->
+	<field name="site"     type="string" indexed="true" stored="true" />
+
+	<field name="siteHash" type="string" indexed="true" stored="true" />
+
+	<!--
+		The application key which will come in handy as soon as other
+		systems start sending their content to the same index. Thus you
+		can search "external" systems' content through TYPO3
+	-->
+	<field name="appKey" type="string" indexed="true" stored="false" required="true" />
+
+	<!--
+		The type by default represents the table name of a record. For
+		external systems this field could be used differently.
+	-->
+	<field name="type" type="string" indexed="true" stored="true" required="true" />
+
+	<field name="created" type="date" indexed="true" stored="true" />
+
+	<field name="changed" type="date" indexed="true" stored="true" />
+
+	<field name="indexed" type="date" indexed="true" stored="true" default="NOW/SECOND" />
+
+
+	<!-- Magento fields -->
+
+
+	<field name="sku" type="string" indexed="true" stored="true" />
+
+	<field name="productId" type="integer" indexed="true" stored="true" required="true" />
+
+	<field name="storeId" type="integer" indexed="true" stored="true" required="true" />
+
+	<field name="categoryId" type="int" indexed="true" multiValued="true" />
+
+	<field name="inStock" type="boolean" indexed="true" required="true" />
+
+	<field name="isVisible" type="int" indexed="true" required="true" />
+
+	<field name="manufacturer" type="text" indexed="true" stored="true" />
+	<field name="manufacturerExact" type="string" indexed="true" stored="true" />
+	<copyField source="manufacturer" dest="manufacturerExact" />
+
+	<field name="price" type="float" indexed="true" stored="true" />
+
+	<!-- automatically calculate price for other currencies -->
+	<field name="priceCurrency" type="currency" indexed="true" stored="true" />
+	<copyField source="price" dest="priceCurrency" />
+
+
+	<!-- Content fields -->
+
+
+	<field name="title" type="text" indexed="true"  stored="true" termVectors="true" omitNorms="true" />
+
+	<field name="content" type="text" indexed="true"  stored="true" termVectors="true" />
+
+	<field name="keywords" type="text" indexed="true"  stored="true" multiValued="true" omitNorms="true" />
+
+	<field name="url" type="string" indexed="true" stored="true" />
+
+	<!--
+		A set of fields for text extracted from tag contents which
+		we can then boost individually at query time.
+	-->
+	<field name="tagsH1"     type="text" indexed="true" stored="false" omitNorms="true" />
+	<field name="tagsH2H3"   type="text" indexed="true" stored="false" omitNorms="true" />
+	<field name="tagsH4H5H6" type="text" indexed="true" stored="false" omitNorms="true" />
+	<field name="tagsA"      type="text" indexed="true" stored="false" omitNorms="true" />
+	<!-- Inline tags are typically u, b, i, em, strong -->
+	<field name="tagsInline" type="text" indexed="true" stored="false" omitNorms="true" />
+
+
+	<field name="spellcheckContent" type="textSpell" indexed="true" stored="false" multiValued="true" omitTermFreqAndPositions="true" />
+	<copyField source="title"   dest="spellcheckContent" />
+	<copyField source="content" dest="spellcheckContent" />
+
+	<!--
+		Dynamic field definitions. If a field name is not found, dynamic
+		fields will be used if the name matches any of the patterns.
+	-->
+	<dynamicField name="*_stringS"     type="string"      indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_stringM"     type="string"      indexed="true" stored="true" multiValued="true" />
+
+	<dynamicField name="*_boolS"       type="boolean"     indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_boolM"       type="boolean"     indexed="true" stored="true" multiValued="true" />
+
+	<dynamicField name="*_binS"        type="binary"      indexed="false" stored="true" multiValued="false" />
+	<dynamicField name="*_binM"        type="binary"      indexed="false" stored="true" multiValued="true" />
+
+	<dynamicField name="*_intS"        type="integer"     indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_intM"        type="integer"     indexed="true" stored="true" multiValued="true" />
+	<dynamicField name="*_floatS"      type="float"       indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_floatM"      type="float"       indexed="true" stored="true" multiValued="true" />
+	<dynamicField name="*_longS"       type="long"        indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_longM"       type="long"        indexed="true" stored="true" multiValued="true" />
+	<dynamicField name="*_doubleS"     type="double"      indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_doubleM"     type="double"      indexed="true" stored="true" multiValued="true" />
+	<dynamicField name="*_double4S"    type="double4"     indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_double4M"    type="double4"     indexed="true" stored="true" multiValued="true" />
+
+	<dynamicField name="*_dateS"       type="date"        indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_dateM"       type="date"        indexed="true" stored="true" multiValued="true" />
+	<dynamicField name="*_date6S"      type="date6"       indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_date6M"      type="date6"       indexed="true" stored="true" multiValued="true" />
+
+	<dynamicField name="*_textS"       type="text"        indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_textM"       type="text"        indexed="true" stored="true" multiValued="true" />
+	<dynamicField name="*_textTS"      type="textTight"   indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_textTM"      type="textTight"   indexed="true" stored="true" multiValued="true" />
+
+	<dynamicField name="*_alphaSortS"  type="alphaOnlySort"           indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_alphaSortM"  type="alphaOnlySort"           indexed="true" stored="true" multiValued="true" />
+
+	<dynamicField name="*_textWstS"    type="textWhiteSpaceTokenized" indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_textWstM"    type="textWhiteSpaceTokenized" indexed="true" stored="true" multiValued="true" />
+
+	<dynamicField name="*_path"        type="path"        indexed="true" stored="true" multiValued="false" />
+
+	<dynamicField name="*_phoneticS"   type="phonetic"    indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_phoneticM"   type="phonetic"    indexed="true" stored="true" multiValued="true" />
+
+	<dynamicField name="*_random"      type="random"      indexed="true" stored="true" multiValued="false" />
+
+	<dynamicField name="*_currency"    type="currency"    indexed="true" stored="true" multiValued="false" />
+
+	<dynamicField name="*_point"       type="point"       indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_location"    type="location"    indexed="true" stored="true" multiValued="false" />
+	<dynamicField name="*_locationRpt" type="locationRpt" indexed="true" stored="true" multiValued="false" />
+
+	<!-- Type used to index the latitude and longitude components for the "location" field type -->
+	<dynamicField name="*_coordinate"  type="double"      indexed="true" stored="false" multiValued="false" />
+
+	<!--
+		Eventually, the following catch-all dynamicField causes Solr to ignore any fields that don't
+		already match an existing field name or dynamic field, rather than reporting them as an error.
+	-->
+	<dynamicField name="*" type="ignored" />
+
+</fields>
