@@ -1,0 +1,14 @@
+{
+    "name": "asm/solr",
+    "description": "Apache Solr for Magento",
+    "authors": [
+        {
+            "name": "Ingo Renner",
+            "email": "ingo@infielddesign.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+
+    }
+}
