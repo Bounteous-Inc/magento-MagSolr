@@ -52,6 +52,8 @@ class Asm_Solr_Model_SolrConnection extends Apache_Solr_Service {
 
 	protected $lukeData       = array();
 	protected $systemData     = NULL;
+
+	protected $schemaName     = NULL;
 	protected $solrconfigName = NULL;
 
 
@@ -248,9 +250,12 @@ class Asm_Solr_Model_SolrConnection extends Apache_Solr_Service {
 	 * @return string Name of the active schema.xml
 	 */
 	public function getSchemaName() {
-		$systemInformation = $this->getSystemInformation();
+		if (is_null($this->schemaName)) {
+			$systemInformation = $this->getSystemInformation();
+			$this->schemaName = $systemInformation->core->schema;
+		}
 
-		return $systemInformation->core->schema;
+		return $this->schemaName;
 	}
 
 	/**
