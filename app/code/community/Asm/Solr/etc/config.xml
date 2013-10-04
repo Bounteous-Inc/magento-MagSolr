@@ -18,8 +18,18 @@
 			</solr>
 		</models>
 	</global>
-	<adminhtml>
 
+	<adminhtml>
+		<events>
+			<catalog_product_save_after>
+				<observers>
+					<asm_observer_product>
+						<class>solr/observer_product</class>
+						<method>updateProduct</method>
+					</asm_observer_product>
+				</observers>
+			</catalog_product_save_after>
+		</events>
 	</adminhtml>
 
 	<frontend>
