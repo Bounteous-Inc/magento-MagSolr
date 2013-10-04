@@ -12,6 +12,11 @@
 				<class>Asm_Solr_Helper</class>
 			</solr>
 		</helpers>
+		<models>
+			<solr>
+				<class>Asm_Solr_Model</class>
+			</solr>
+		</models>
 	</global>
 	<adminhtml>
 
