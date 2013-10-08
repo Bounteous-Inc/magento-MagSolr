@@ -157,7 +157,7 @@
 
 	<requestHandler name="/select" class="solr.SearchHandler">
 		<lst name="defaults">
-			<defType>edismax</defType>
+			<str name="defType">edismax</str>
 			<str name="echoParams">explicit</str>
 			<str name="q.op">OR</str>
 			<str name="qf">content^40.0 title^5.0 keywords^2.0 tagsH1^5.0 tagsH2H3^3.0 tagsH4H5H6^2.0 tagsInline^1.0</str>
