@@ -208,17 +208,17 @@ TOMCAT_MAINVERSION=`echo "$TOMCAT_VER" | cut -d'.' -f1`
 wget --progress=bar:force http://apache.osuosl.org/tomcat/tomcat-$TOMCAT_MAINVERSION/v$TOMCAT_VER/bin/apache-tomcat-$TOMCAT_VER.zip 2>&1 | progressfilt
 
 cecho "Downloading Apache Solr $SOLR_VER" $green
-wget --progress=bar:force http://archive.apache.org/dist/lucene/solr/$SOLR_VER/apache-solr-$SOLR_VER.zip 2>&1 | progressfilt
+wget --progress=bar:force http://archive.apache.org/dist/lucene/solr/$SOLR_VER/solr-$SOLR_VER.zip 2>&1 | progressfilt
 
 cecho "Unpacking Apache Tomcat." $green
 unzip -q apache-tomcat-$TOMCAT_VER.zip
 
 cecho "Unpacking Apache Solr." $green
-unzip -q apache-solr-$SOLR_VER.zip
+unzip -q solr-$SOLR_VER.zip
 
 mv apache-tomcat-$TOMCAT_VER tomcat
 
-cp -r apache-solr-$SOLR_VER/example/solr .
+cp -r solr-$SOLR_VER/example/solr .
 
 # ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
@@ -285,8 +285,8 @@ wgetresource tomcat/solr.xml
 
 # copy libs
 cd /opt/solr-tomcat/
-cp -r apache-solr-$SOLR_VER/dist solr/
-cp -r apache-solr-$SOLR_VER/contrib solr/
+cp -r solr-$SOLR_VER/dist solr/
+cp -r solr-$SOLR_VER/contrib solr/
 
 # ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
@@ -297,8 +297,8 @@ chmod a+x tomcat/bin/*
 # ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
 cecho "Cleaning up." $green
-rm -rf apache-solr-$SOLR_VER.zip
-rm -rf apache-solr-$SOLR_VER
+rm -rf solr-$SOLR_VER.zip
+rm -rf solr-$SOLR_VER
 rm -rf apache-tomcat-$TOMCAT_VER.zip
 
 # ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
