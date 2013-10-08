@@ -98,7 +98,7 @@
 	<updateHandler class="solr.DirectUpdateHandler2">
 
 		<updateLog>
-			<str name="dir">${solr.ulog.dir:}</str>
+			<str name="dir">${solr.data.dir:}</str>
 		</updateLog>
 
 		<autoCommit>
