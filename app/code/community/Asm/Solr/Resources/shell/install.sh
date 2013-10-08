@@ -261,7 +261,12 @@ cd ../..
 rm solr.xml
 wgetresource solr/solr.xml
 
+# Create Solr shared lib directory (although not used currently)
+mkdir lib
+
 # clean up
+# TODO do conf, data directories still exist?
+rm -rf collection1
 rm -rf bin
 rm -rf conf
 rm -rf data
@@ -287,6 +292,8 @@ wgetresource tomcat/solr.xml
 cd /opt/solr-tomcat/
 cp -r solr-$SOLR_VER/dist solr/
 cp -r solr-$SOLR_VER/contrib solr/
+cp -r solr-$SOLR_VER/example/lib/ext/* tomcat/lib/
+cp -r solr-$SOLR_VER/example/resources/log4j.properties tomcat/lib/
 
 # ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
