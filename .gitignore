@@ -41,7 +41,16 @@
 /info.php
 /install.php
 /js/
-/lib/
+/lib/3Dsecure/
+/lib/flex/
+/lib/googlecheckout/
+/lib/LinLibertineFont/
+/lib/Mage/
+/lib/PEAR/
+/lib/phpseclib/
+/lib/Varien/
+/lib/Zend/
+/lib/.htaccess
 /LICENSE.html
 /LICENSE.txt
 /LICENSE_AFL.txt
