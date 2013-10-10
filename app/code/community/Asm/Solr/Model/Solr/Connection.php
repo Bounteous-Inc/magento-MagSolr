@@ -7,7 +7,8 @@
  * @package Asm_Solr
  * @author Ingo Renner <ingo@infielddesign.com>
  */
-class Asm_Solr_Model_SolrConnection extends Apache_Solr_Service {
+class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
+{
 
 	const LUKE_SERVLET    = 'admin/luke';
 	const PLUGINS_SERVLET = 'admin/plugins';
