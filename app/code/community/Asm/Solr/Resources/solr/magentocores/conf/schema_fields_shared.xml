@@ -84,9 +84,9 @@
 
 	<field name="categoryId" type="integer" indexed="true" multiValued="true" />
 
-	<field name="inStock" type="boolean" indexed="true" required="true" />
+	<field name="inStock" type="boolean" indexed="true" />
 
-	<field name="isVisible" type="integer" indexed="true" required="true" />
+	<field name="isVisible" type="integer" indexed="true" />
 
 	<field name="manufacturer" type="text" indexed="true" stored="true" />
 	<field name="manufacturerExact" type="string" indexed="true" stored="true" />
