@@ -30,6 +30,15 @@
 					</asm_observer_product>
 				</observers>
 			</catalog_product_save_after>
+			<catalog_product_delete_after>
+				<!-- delete products -->
+				<observers>
+					<asm_observer_product>
+						<class>solr/GarbageCollector</class>
+						<method>deleteProduct</method>
+					</asm_observer_product>
+				</observers>
+			</catalog_product_delete_after>
 		</events>
 	</adminhtml>
 
