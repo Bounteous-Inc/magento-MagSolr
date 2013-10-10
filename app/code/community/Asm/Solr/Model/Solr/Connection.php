@@ -129,11 +129,13 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 	 * @param integer $offset result offset for pagination
 	 * @param integer $limit number of results to retrieve
 	 * @param array $params additional HTTP GET parameters
+	 * @param string $method The HTTP method (Apache_Solr_Service::METHOD_GET or Apache_Solr_Service::METHOD::POST)
 	 * @return Apache_Solr_Response Solr response
 	 * @throws RuntimeException if Solr returns a HTTP status code other than 200
 	 */
-	public function search($query, $offset = 0, $limit = 10, $params = array()) {
-		$response = parent::search($query, $offset, $limit, $params);
+	public function search($query, $offset = 0, $limit = 10, $params = array(), $method = self::METHOD_GET)
+	{
+		$response = parent::search($query, $offset, $limit, $params, $method);
 		$this->hasSearched = TRUE;
 
 		$this->responseCache = $response;
