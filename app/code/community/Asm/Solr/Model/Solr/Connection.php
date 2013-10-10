@@ -61,15 +61,21 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 	/**
 	 * Constructor for class tx_solr_SolrService.
 	 *
-	 * @param string $host Solr host
-	 * @param string $port Solr port
-	 * @param string $path Solr path
-	 * @param string $scheme Scheme, defaults to http, can be https
+	 * @param array $connectionParameters Must have keys scheme, host, port, path
 	 */
-	public function __construct($host = '', $port = '8080', $path = '/solr/', $scheme = 'http') {
-		$this->setScheme($scheme);
+	public function __construct(array $connectionParameters)
+	{
+		$this->setScheme($connectionParameters['scheme']);
 
-		parent::__construct($host, $port, $path);
+		$solr4CompatibilityLayer = new Apache_Solr_Compatibility_Solr4CompatibilityLayer();
+
+		parent::__construct(
+			$connectionParameters['host'],
+			$connectionParameters['port'],
+			$connectionParameters['path'],
+			false,
+			$solr4CompatibilityLayer
+		);
 	}
 
 	/**
