@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<solr persistent="true" sharedLib="lib">
+
+
+
+	<!-- TODO What's host, hostPort, hostContext attributes? -->
+
+	<cores adminPath="/admin/cores" host="${host:}" hostPort="${tomcat.port:8080}" hostContext="${hostContext:solr}" shareSchema="true">
+		<core name="core_en" instanceDir="magentocores" schema="english/schema.xml" dataDir="data/core_en">
+			<property name="language" value="english" />
+		</core>
+	</cores>
+
+
+
+	<!--
+
+	TODO swith to new style Solr 4.4+ / 5.0 solr.xml
+	http://wiki.apache.org/solr/Solr.xml%204.4%20and%20beyond
+
+	TODO move solr.xml into Zookeeper - SOLR-4718
+
+	<str name="sharedLib">${sharedLib:lib}</str>
+
+	<solrcloud>
+		<str name="host">${host:}</str>
+		<int name="hostPort">${tomcat.port:8080}</int>
+		<str name="hostContext">${hostContext:solr}</str>
+		<int name="zkClientTimeout">${zkClientTimeout:15000}</int>
+		<bool name="genericCoreNodeNames">${genericCoreNodeNames:true}</bool>
+	</solrcloud>
+
+	<shardHandlerFactory name="shardHandlerFactory" class="HttpShardHandlerFactory">
+		<int name="socketTimeout">${socketTimeout:0}</int>
+		<int name="connTimeout">${connTimeout:0}</int>
+	</shardHandlerFactory>
+	-->
+
+</solr>
