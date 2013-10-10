@@ -76,7 +76,7 @@
 	<!-- Magento fields -->
 
 
-	<field name="sku" type="string" indexed="true" stored="true" />
+	<field name="sku" type="string" indexed="true" stored="true" required="true" />
 
 	<field name="productId" type="integer" indexed="true" stored="true" required="true" />
 
