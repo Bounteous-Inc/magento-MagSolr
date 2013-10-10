@@ -58,7 +58,7 @@
 		systems start sending their content to the same index. Thus you
 		can search "external" systems' content through TYPO3
 	-->
-	<field name="appKey" type="string" indexed="true" stored="false" required="true" />
+	<field name="appKey" type="string" indexed="true" stored="true" required="true" />
 
 	<!--
 		The type by default represents the table name of a record. For
