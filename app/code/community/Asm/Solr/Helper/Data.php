@@ -10,4 +10,11 @@
 class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
+	public function getProductDocumentId($productId) {
+		// TODO replace ### with site hash
+		$documentId = '###/product/' . $productId;
+
+		return $documentId;
+	}
+
 }
