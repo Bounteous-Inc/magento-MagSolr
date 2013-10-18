@@ -21,6 +21,13 @@
 				<class>Asm_Solr_Model_Resource</class>
 			</solr_resource>
 		</models>
+		<index>
+			<indexer>
+				<solr>
+					<model>solr/indexer_catalog</model>
+				</solr>
+			</indexer>
+		</index>
 	</global>
 
 	<adminhtml>
