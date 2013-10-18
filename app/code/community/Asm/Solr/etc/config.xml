@@ -15,7 +15,11 @@
 		<models>
 			<solr>
 				<class>Asm_Solr_Model</class>
+				<resourceModel>solr_resource</resourceModel>
 			</solr>
+			<solr_resource>
+				<class>Asm_Solr_Model_Resource</class>
+			</solr_resource>
 		</models>
 	</global>
 
