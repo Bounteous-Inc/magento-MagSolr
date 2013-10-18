@@ -32,7 +32,7 @@ class Asm_Solr_Model_Indexer_Product extends Asm_Solr_Model_Indexer_Abstract
 
 		// TODO What if product in multiple stores?
 		// @see Websites / "Product in Websites"
-		$document->setField('storeId',   Mage::app()->getStore()->getStoreId());
+		$document->setField('storeId',   $product->getStoreId());
 
 		$document->setField('title',     $product->getName());
 		$document->setField('content',   $product->getDescription());
