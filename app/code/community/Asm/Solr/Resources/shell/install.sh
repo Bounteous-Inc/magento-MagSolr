@@ -181,7 +181,7 @@ fi
 for LANGUAGE in ${LANGUAGES[*]}
 do
 	echo -n "Checking availability of language \"$LANGUAGE\": "
-	wgetresource solr/typo3cores/conf/"$LANGUAGE"/schema.xml justcheck
+	wgetresource solr/magentocores/conf/"$LANGUAGE"/schema.xml justcheck
 	if [ $? -ne 0 ]
 	then
 		cecho "ERROR: Could not find Solr configuration files for language \"$LANGUAGE\"" $red
