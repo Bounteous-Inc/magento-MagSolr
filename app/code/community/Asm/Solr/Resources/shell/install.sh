@@ -63,9 +63,10 @@ wgetresource ()
 
 	if [ $BRANCH_TEST_RETURN -eq "0" ]
 	then
-		RESOURCE="http://forge.typo3.org/projects/extension-solr/repository/revisions/$GITBRANCH_PATH/raw/resources/"$1
-	else
-		RESOURCE="http://forge.typo3.org/projects/extension-solr/repository/revisions/master/raw/resources/"$1
+# FIXME have an actual download location
+#		RESOURCE="http://www.infielddesign.com/fileadmin/asm/$GITBRANCH_PATH/"$1
+#	else
+		RESOURCE="http://www.infielddesign.com/fileadmin/asm/master/"$1
 	fi
 
 	if [ "$2" ]
@@ -124,10 +125,6 @@ cecho "Checking requirements." $green
 
 PASSALLCHECKS=1
 
-# test if release branch exists, if so we'll download from there
-wget --no-check-certificate -q -O /dev/null http://forge.typo3.org/projects/extension-solr/repository/revisions/$GITBRANCH_PATH/raw/
-BRANCH_TEST_RETURN=$?
-
 # Make sure only root can run this script
 if [[ $EUID -ne 0 ]]
 then
@@ -146,6 +143,10 @@ fi
 
 # wget installed?
 wget --version > /dev/null 2>&1
+# test if release branch exists, if so we'll download from there
+wget --no-check-certificate -q -O /dev/null http://www.infielddesign.com/fileadmin/asm/$GITBRANCH_PATH/
+BRANCH_TEST_RETURN=$?
+
 CHECK=$?
 if [ $CHECK -ne "0" ]
 then
