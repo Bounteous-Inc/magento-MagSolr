@@ -10,9 +10,18 @@
 class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
+	/**
+	 * Generates a document id for documents representing product records.
+	 *
+	 * @param integer $productId Product ID
+	 * @return string The document id for that product
+	 */
 	public function getProductDocumentId($productId) {
-		// TODO replace ### with site hash
-		$documentId = '###/' . Mage_Catalog_Model_Product::ENTITY . '/' . $productId;
+		$baseUrl  = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
+		$host     = parse_url($baseUrl, PHP_URL_HOST);
+		$siteHash = $this->getSiteHashForDomain($host);
+
+		$documentId = $siteHash . '/' . Mage_Catalog_Model_Product::ENTITY . '/' . $productId;
 
 		return $documentId;
 	}
