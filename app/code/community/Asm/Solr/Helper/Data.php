@@ -17,4 +17,22 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 		return $documentId;
 	}
 
+	/**
+	 * Gets the site hash for a domain
+	 *
+	 * @param string $domain Domain to calculate the site hash for.
+	 * @return string site hash for $domain
+	 */
+	public function getSiteHashForDomain($domain) {
+		$encryptionKey = Mage::getStoreConfig('global/crypt/key');
+
+		$siteHash = sha1(
+			$domain .
+			$encryptionKey .
+			'Asm_Solr'
+		);
+
+		return $siteHash;
+	}
+
 }
