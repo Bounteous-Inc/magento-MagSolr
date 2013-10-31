@@ -63,3 +63,5 @@
 /skin/
 /var/
 /vendor/
+
+/app/code/community/Asm/Solr/NOTES.txt
