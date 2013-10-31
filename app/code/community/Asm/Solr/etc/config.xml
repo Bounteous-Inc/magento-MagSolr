@@ -59,7 +59,7 @@
 				<use>standard</use>
 				<args>
 					<module>Asm_Solr</module>
-					<frontName>solr</frontName>
+					<frontName>search</frontName>
 				</args>
 			</solr>
 		</routers>
