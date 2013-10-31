@@ -51,11 +51,30 @@ class Asm_Solr_Model_Indexer_Catalog extends Mage_Index_Model_Indexer_Abstract
 	protected function _registerEvent(Mage_Index_Model_Event $event)
 	{
 		// TODO: Implement _registerEvent() method.
+
+		$event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
+		switch ($event->getEntity()) {
+			case Mage_Catalog_Model_Product::ENTITY:
+				$this->registerCatalogProductEvent($event);
+				break;
+			// TODO handle other models
+		}
 	}
 
 	protected function registerCatalogProductEvent(Mage_Index_Model_Event $event)
 	{
-		// TODO implement registerCatalogProductEvent() method.
+		switch ($event->getType()) {
+			case Mage_Index_Model_Event::TYPE_SAVE:
+				$product = $event->getDataObject();
+				/** @var Mage_Catalog_Model_Product $product */
+				$event->addNewData('solr_update_product_id', $product->getId());
+				break;
+			case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+
+
+				break;
+
+		}
 	}
 
 	/**
@@ -66,6 +85,13 @@ class Asm_Solr_Model_Indexer_Catalog extends Mage_Index_Model_Indexer_Abstract
 	protected function _processEvent(Mage_Index_Model_Event $event)
 	{
 		// TODO: Implement _processEvent() method.
+
+//		if ($event->getData('solr_update_product_id'))
+//		{
+//			$this->callEventHandler($event);
+//		}
+
+
 	}
 
 	public function reindexAll()
@@ -73,5 +99,12 @@ class Asm_Solr_Model_Indexer_Catalog extends Mage_Index_Model_Indexer_Abstract
 		$resource = $this->getResource();
 		/** @var Asm_Solr_Model_Resource_Indexer_Catalog $resource */
 		$resource->rebuildIndex();
+
+
+
+		$connection = Mage::helper('solr/connectionManager')->getConnection();
+		/** @var $connection Asm_Solr_Model_Solr_Connection */
+
+		$connection->commit();
 	}
 }
