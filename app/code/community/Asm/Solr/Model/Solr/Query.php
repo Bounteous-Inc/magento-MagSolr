@@ -895,7 +895,7 @@ class Asm_Solr_Model_Solr_Query extends Mage_Core_Model_Abstract
 		} else {
 			// remove all hl.* settings
 			foreach ($this->queryParameters as $key => $value) {
-				if (t3lib_div::isFirstPartOfStr($key, 'hl')) {
+				if (strpos($key, 'hl') === 0) {
 					unset($this->queryParameters[$key]);
 				}
 			}
