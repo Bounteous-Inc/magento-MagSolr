@@ -473,10 +473,12 @@ class Asm_Solr_Model_Solr_Query extends Mage_Core_Model_Abstract
 	 * @param array $allowedSites Array of domains
 	 */
 	public function setSiteHashFilter(array $allowedSites) {
+		/** @var Asm_Solr_Helper_Data $helper */
+		$helper = Mage::helper('solr');
 		$filters = array();
 
 		foreach($allowedSites as $site) {
-			$filters[] = Mage::helper('solr')->getSiteHashForDomain($site);
+			$filters[] = $helper->getSiteHashForDomain($site);
 		}
 
 		$this->addFilter('siteHash', '"' . implode(' OR ', $filters) . '"');
