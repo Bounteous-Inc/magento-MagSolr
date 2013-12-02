@@ -1,6 +1,5 @@
 /.htaccess
 /.idea/
-/.modman/
 /api.php
 /app/.htaccess
 /app/code/community/Phoenix/
