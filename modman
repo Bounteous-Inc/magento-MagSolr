@@ -1,0 +1,3 @@
+app/etc/modules/Asm_Solr.xml			app/etc/modules/Asm_Solr.xml
+app/code/community/Aoe/Asm_Solr/		app/code/community/Aoe/Asm_Solr/
+lib/Apache/								lib/Apache/
