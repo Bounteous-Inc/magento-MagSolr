@@ -16,6 +16,8 @@ class Asm_Solr_Model_Solr_Query
 	const OPERATOR_AND = 'AND';
 	const OPERATOR_OR  = 'OR';
 
+	const QUERY_PARAMETER_NAME = 'q';
+
 
 	/**
 	 * Used to identify the queries.
@@ -114,6 +116,15 @@ class Asm_Solr_Model_Solr_Query
 		return $this->id;
 	}
 
+	/**
+	 * Retrieve search query parameter name
+	 *
+	 * @return string
+	 */
+	public function getQueryParameterName()
+	{
+		return self::QUERY_PARAMETER_NAME;
+	}
 
 	/**
 	 * Quote and escape search strings
