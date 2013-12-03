@@ -7,7 +7,7 @@
  * @package Asm_Solr
  * @author Ingo Renner <ingo@infielddesign.com>
  */
-class Asm_Solr_Model_Solr_Query extends Mage_Core_Model_Abstract
+class Asm_Solr_Model_Solr_Query
 {
 
 	const SORT_ASC  = 'ASC';
