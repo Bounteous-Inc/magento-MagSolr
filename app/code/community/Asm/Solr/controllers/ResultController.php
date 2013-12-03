@@ -11,8 +11,9 @@ class Asm_Solr_ResultController extends Mage_Core_Controller_Front_Action {
 		$q = $this->getRequest()->getParam('q');
 
 		/** @var $query Asm_Solr_Model_Solr_Query */
-		$query = Mage::getModel('solr/solr_query');
-		$query->setKeywords($q);
+		$query = Mage::getModel('solr/solr_query', array(
+			'keywords' => $q
+		));
 		$query->addFilter('storeId', Mage::app()->getStore()->getId());
 
 

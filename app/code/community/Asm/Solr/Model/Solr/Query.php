@@ -83,22 +83,17 @@ class Asm_Solr_Model_Solr_Query
 	 * Constructor
 	 *
 	 */
-	public function __construct() {
-//	public function __construct($keywords) {
+	public function __construct(array $queryParameters = array()) {
 		// TODO move fieldList into queryParameters
 		$this->fieldList = array('*', 'score');
-//		$this->setKeywords($keywords);
 		$this->sortingFields  = '';
 
+		if (!empty($queryParameters['keywords'])) {
+			$this->setKeywords($queryParameters['keywords']);
+		}
 
 		$this->id = ++self::$idCount;
 	}
-
-// FIXME put into the right place
-//	public function setKeywords($keywords) {
-//		$this->keywords    = $this->escape($keywords);
-//		$this->keywordsRaw = $keywords;
-//	}
 
 	/**
 	 * magic implementation for clone(), makes sure that the id counter is
@@ -661,6 +656,16 @@ class Asm_Solr_Model_Solr_Query
 
 
 	/**
+	 * Set query keywords / query terms
+	 *
+	 * @param string $keywords Keywords
+	 */
+	public function setKeywords($keywords) {
+		$this->keywords    = $this->escape($keywords);
+		$this->keywordsRaw = $keywords;
+	}
+
+	/**
 	 * Get the query keywords, keywords are escaped.
 	 *
 	 * @return string query keywords
@@ -687,16 +692,6 @@ class Asm_Solr_Model_Solr_Query
 	 */
 	public function getKeywordsRaw() {
 		return $this->keywordsRaw;
-	}
-
-	/**
-	 * Sets the query keywords, escapes them as needed for Solr/Lucene.
-	 *
-	 * @param string $keywords user search terms/keywords
-	 */
-	public function setKeywords($keywords) {
-		$this->keywords    = $this->escape($keywords);
-		$this->keywordsRaw = $keywords;
 	}
 
 	/**
