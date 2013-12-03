@@ -19,6 +19,19 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 		return Mage::getSingleton('solr/solr_query');
 	}
 
+	/**
+	 * Generates the result page URL
+	 *
+	 * @param string $keywords
+	 * @return string
+	 */
+	public function getResultUrl($keywords = null)
+	{
+		return $this->_getUrl('search/result', array(
+			'_query' => array(Asm_Solr_Model_Solr_Query::QUERY_PARAMETER_NAME => $keywords),
+			'_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+		));
+	}
 
 	/**
 	 * Generates a document id for documents representing product records.
