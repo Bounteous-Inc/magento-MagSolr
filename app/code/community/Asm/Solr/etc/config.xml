@@ -28,6 +28,11 @@
 				</solr>
 			</indexer>
 		</index>
+		<blocks>
+			<solr>
+				<class>Asm_Solr_Block</class>
+			</solr>
+		</blocks>
 	</global>
 
 	<adminhtml>
