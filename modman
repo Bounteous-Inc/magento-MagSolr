@@ -1,3 +1,5 @@
-app/etc/modules/Asm_Solr.xml			app/etc/modules/Asm_Solr.xml
-app/code/community/Asm/Solr/			app/code/community/Asm/Solr/
-lib/Apache/								lib/Apache/
+app/etc/modules/Asm_Solr.xml						app/etc/modules/Asm_Solr.xml
+app/code/community/Asm/Solr/						app/code/community/Asm/Solr/
+lib/Apache/											lib/Apache/
+app/design/frontend/base/default/layout/solr.xml	app/design/frontend/base/default/layout/solr.xml
+app/design/frontend/base/default/template/solr/		app/design/frontend/base/default/template/solr/
