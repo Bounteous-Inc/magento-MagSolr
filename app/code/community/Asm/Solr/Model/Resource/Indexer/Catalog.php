@@ -149,7 +149,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		$document = new Apache_Solr_Document();
 
 		$document->setField('appKey',    'Asm_Solr');
-		$document->setField('type',      'product');
+		$document->setField('type',      'catalog/product');
 
 		$document->setField('id',        $helper->getProductDocumentId($product->getEntityId()));
 		$document->setField('sku',       $product->getSku());
