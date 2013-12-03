@@ -691,7 +691,7 @@ class Asm_Solr_Model_Solr_Query
 	 * @return string The cleaned keywords.
 	 */
 	public function getKeywordsCleaned() {
-		return self::cleanKeywords($this->keywordsRaw);
+		return $this->cleanKeywords($this->keywordsRaw);
 	}
 
 	/**
