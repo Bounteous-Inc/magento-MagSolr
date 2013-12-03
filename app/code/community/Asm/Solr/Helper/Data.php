@@ -9,6 +9,16 @@
  */
 class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 {
+	/**
+	 * Gets the current Solr query
+	 *
+	 * @return Asm_Solr_Model_Solr_Query
+	 */
+	public function getQuery()
+	{
+		return Mage::getSingleton('solr/solr_query');
+	}
+
 
 	/**
 	 * Generates a document id for documents representing product records.
