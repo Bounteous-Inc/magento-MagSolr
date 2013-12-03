@@ -34,6 +34,18 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 	}
 
 	/**
+	 * Generates the suggest URL
+	 *
+	 * @return string
+	 */
+	public function getSuggestUrl()
+	{
+		return $this->_getUrl('search/suggest', array(
+			'_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+		));
+	}
+
+	/**
 	 * Generates a document id for documents representing product records.
 	 *
 	 * @param integer $productId Product ID
