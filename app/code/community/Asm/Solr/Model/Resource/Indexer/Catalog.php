@@ -142,23 +142,50 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 
 	protected function buildProductDocument($productId, $storeId)
 	{
-		$helper   = Mage::helper('solr');
+		$helper = Mage::helper('solr');
+		/** @var $helper Asm_Solr_Helper_Data */
 
 		// FIXME get rid of ->load(), use $productIndex from rebuildStoreIndex()
 		$product  = Mage::getModel('catalog/product')->load($productId);
+
+		$baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
+		$host = parse_url($baseUrl, PHP_URL_HOST);
+
+		/* @var $product Mage_Catalog_Model_Product */
 		$document = new Apache_Solr_Document();
 
 		$document->setField('appKey',    'Asm_Solr');
 		$document->setField('type',      'catalog/product');
 
 		$document->setField('id',        $helper->getProductDocumentId($product->getEntityId()));
+		$document->setField('site',      $host);
+		$document->setField('siteHash',  $helper->getSiteHashForDomain($host));
+
+		$document->setField('created',   $helper->dateToIso($product->getCreatedAt()));
+		$document->setField('changed',   $helper->dateToIso($product->getUpdatedAt()));
+
 		$document->setField('sku',       $product->getSku());
 		$document->setField('productId', $product->getEntityId());
 		$document->setField('storeId',   $storeId);
 
+		$categoryIds = $product->getCategoryIds();
+		foreach ($categoryIds as $categoryId) {
+			$document->addField('categoryId', $categoryId);
+		}
+
+		$document->setField('inStock',   $product->isInStock());
+		$document->setField('isVisible', $product->getStatus());
+		$document->setField('isVisibleInCatalog', $product->isVisibleInCatalog());
+
 		$document->setField('title',     $product->getName());
 		$document->setField('content',   $product->getDescription());
+		$document->setField('keywords',  $product->getMetaKeyword());
 		$document->setField('url',       $product->getProductUrl());
+
+		$document->setField('manufacturer', $product->getAttributeText('manufacturer'));
+		$document->setField('price',     $product->getPrice());
+
+
 
 		// TODO iterate over other searchable/filterable attributes
 		// add them as dynamic fields
