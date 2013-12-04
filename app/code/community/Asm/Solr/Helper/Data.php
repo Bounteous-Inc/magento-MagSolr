@@ -81,4 +81,20 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 		return $siteHash;
 	}
 
+	/**
+	 * Takes a Magento date string or Zend_Date and turns it into an
+	 * ISO 8601 compliant formatted string of the date.
+	 *
+	 * @param string|Zend_Date $date Magento date string
+	 * @return string ISO date (using Z instead of +00:00)
+	 */
+	public function dateToIso($date)
+	{
+		if (is_string($date)) {
+			$date = new Zend_Date($date);
+		}
+
+		return str_replace('+00:00', 'Z', $date->getIso());
+	}
+
 }
