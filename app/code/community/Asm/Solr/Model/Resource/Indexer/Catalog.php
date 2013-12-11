@@ -182,8 +182,11 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		$document->setField('keywords',  $product->getMetaKeyword());
 		$document->setField('url',       $product->getProductUrl());
 
-		$document->setField('manufacturer', $product->getAttributeText('manufacturer'));
 		$document->setField('price',     $product->getPrice());
+
+		if ($product->getManufacturer()) {
+			$document->setField('manufacturer', $product->getAttributeText('manufacturer'));
+		}
 
 
 
