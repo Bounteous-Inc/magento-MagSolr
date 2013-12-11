@@ -81,6 +81,11 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 		return $siteHash;
 	}
 
+	public function getLogger()
+	{
+		return Mage::helper('solr/logger');
+	}
+
 	/**
 	 * Takes a Magento date string or Zend_Date and turns it into an
 	 * ISO 8601 compliant formatted string of the date.
