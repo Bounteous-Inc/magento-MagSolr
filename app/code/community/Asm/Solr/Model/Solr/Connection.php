@@ -61,10 +61,14 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 	/**
 	 * Constructor for class tx_solr_SolrService.
 	 *
-	 * @param array $connectionParameters Must have keys scheme, host, port, path
+	 * @param array|Mage_Core_Model_Config_Element $connectionParameters Must have keys scheme, host, port, path
 	 */
-	public function __construct(array $connectionParameters)
+	public function __construct($connectionParameters)
 	{
+		if ($connectionParameters instanceof Mage_Core_Model_Config_Element) {
+			$connectionParameters = $connectionParameters->asArray();
+		}
+
 		$this->setScheme($connectionParameters['scheme']);
 
 		$solr4CompatibilityLayer = new Apache_Solr_Compatibility_Solr4CompatibilityLayer();
