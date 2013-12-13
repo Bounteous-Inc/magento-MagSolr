@@ -44,7 +44,7 @@ class Asm_Solr_Helper_Logger
 		$this->log($message, Zend_Log::NOTICE, $data);
 	}
 
-	public function information($message, $data = null)
+	public function info($message, $data = null)
 	{
 		$this->log($message, Zend_Log::INFO, $data);
 	}
