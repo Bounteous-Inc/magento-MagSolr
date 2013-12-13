@@ -82,9 +82,26 @@
 			<show_in_default>1</show_in_default>
 			<show_in_website>1</show_in_website>
 			<show_in_store>1</show_in_store>
-			<!--<groups>
-
-			</groups>-->
+			<groups>
+				<index>
+					<label>Index Management</label>
+					<sort_order>10</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<empty_index translate="button_label">
+							<label></label>
+							<button_label>Empty Index</button_label>
+							<frontend_model>solr/adminhtml_system_config_emptyindex</frontend_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</empty_index>
+					</fields>
+				</index>
+			</groups>
 		</index>
 
 		<search>

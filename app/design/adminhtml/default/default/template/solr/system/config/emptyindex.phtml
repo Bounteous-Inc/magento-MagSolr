@@ -1,0 +1,41 @@
+<?php
+/** @var $this Asm_Solr_Adminhtml_Solr_System_Config_UtilityController */
+
+$ajaxRequestParameters = new stdClass();
+$ajaxRequestParameters->section = Mage::app()->getRequest()->getParam('section') ?: 0;
+$ajaxRequestParameters->website = Mage::app()->getRequest()->getParam('website') ?: 0;
+$ajaxRequestParameters->store   = Mage::app()->getRequest()->getParam('store')   ?: 0;
+
+?>
+<script type="text/javascript">
+	function emptyIndex() {
+		var elem = $('<?php echo $this->getHtmlId() ?>');
+
+		new Ajax.Request('<?php echo $this->getAjaxUrl() ?>', {
+			parameters: <?php echo json_encode($ajaxRequestParameters) ?>,
+			onSuccess: function (response) {
+				result = '<?php echo $this->__('Failed to empty Solr index. Please confirm Solr is running.') ?>';
+
+				try {
+					response = response.responseText;
+
+					if (response == 1) {
+						result = '<?php echo $this->__('Index has been emptied successfully!') ?>';
+						elem.removeClassName('fail').addClassName('success')
+					} else {
+						elem.removeClassName('success').addClassName('fail')
+					}
+				} catch (e) {
+					elem.removeClassName('success').addClassName('fail')
+				}
+
+				$('solr_empty_index_result').update(result);
+			}
+		});
+	}
+</script>
+<button onclick="javascript:emptyIndex(); return false;" class="scalable"
+		type="button" id="<?php echo $this->getHtmlId() ?>">
+	<span
+		id="solr_empty_index_result"><?php echo $this->escapeHtml($this->getButtonLabel()) ?></span>
+</button>
