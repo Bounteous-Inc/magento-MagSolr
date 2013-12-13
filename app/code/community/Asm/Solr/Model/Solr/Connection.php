@@ -128,6 +128,41 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 	}
 
 	/**
+	 * Central method for making a post operation against this Solr Server
+	 *
+	 * @param string $url
+	 * @param string $rawPost
+	 * @param bool|float $timeout Read timeout in seconds
+	 * @param string $contentType
+	 * @return Apache_Solr_Response
+	 */
+	protected function _sendRawPost($url, $rawPost, $timeout = FALSE, $contentType = 'text/xml; charset=UTF-8')
+	{
+		$logSeverity = 0; // info
+
+		try {
+			$response = parent::_sendRawPost($url, $rawPost, $timeout, $contentType);
+		} catch (Apache_Solr_HttpTransportException $e) {
+			$response = $e->getResponse();
+		}
+
+		$logData = array(
+			'query url' => $url,
+			'content'   => $rawPost,
+			'response'  => (array) $response
+		);
+
+		if (!empty($e)) {
+			$logData['exception'] = $e->__toString();
+		}
+
+		Mage::helper('solr')->getLogger()->debug('Querying Solr using POST', $logData);
+
+
+		return $response;
+	}
+
+	/**
 	 * Performs a search.
 	 *
 	 * @param string $query query string / search term
