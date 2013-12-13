@@ -69,7 +69,8 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 			$connectionParameters = $connectionParameters->asArray();
 		}
 
-		$this->setScheme($connectionParameters['scheme']);
+
+		$this->setScheme($connectionParameters['scheme'] ?: 'http');
 
 		$solr4CompatibilityLayer = new Apache_Solr_Compatibility_Solr4CompatibilityLayer();
 
