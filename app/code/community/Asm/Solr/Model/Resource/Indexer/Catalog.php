@@ -155,8 +155,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		$searchableAttributes = $this->getNamedProductAttributes($searchableAttributes);
 		$product              = Mage::getModel('catalog/product')
 			->setStoreId($storeId)
-			->load($productId);
-		/** @var Mage_Catalog_Model_Product $product */
+			->load($productId); /** @var Mage_Catalog_Model_Product $product */
 
 		$baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
 		$host    = parse_url($baseUrl, PHP_URL_HOST);
