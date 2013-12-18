@@ -13,6 +13,14 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 	protected $attributeCodeToIdMap = array();
 
 	/**
+	 * Product attributes that have fixed schema fields and thus do not need
+	 * to be added when processing dynamic fields.
+	 *
+	 * @var array
+	 */
+	protected $fixedSchemaFieldAttributes = array('name', 'description', 'meta_keyword', 'price', 'status', 'visibility');
+
+	/**
 	 * Product Type Instances cache
 	 *
 	 * @var array
@@ -39,18 +47,13 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 			$storeIds = array_keys(Mage::app()->getStores());
 			foreach ($storeIds as $storeId) {
 				$this->rebuildStoreIndex($storeId, $productIds);
+				Mage::helper('solr/connectionManager')->getConnectionByStore($storeId)->commit();
 			}
 		} else {
 			// re-index specific store
 			$this->rebuildStoreIndex($storeId, $productIds);
+			Mage::helper('solr/connectionManager')->getConnectionByStore($storeId)->commit();
 		}
-
-		// FIXME use getConnectionByStoreId($storeId)
-		// FIXME move into if/else/loop above
-		$connection = Mage::helper('solr/connectionManager')->getConnection();
-		/** @var $connection Asm_Solr_Model_Solr_Connection */
-
-		$connection->commit();
 	}
 
 	protected function rebuildStoreIndex($storeId, $productIds = null)
@@ -121,17 +124,22 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 				}
 
 				// FIXME find better name for $productIndex
-				$productIndex = array($productData['entity_id'] => $singleProductAttributes);
+#				$productIndex = array($productData['entity_id'] => $singleProductAttributes);
 
-				if ($productChildren = $productRelations[$productData['entity_id']]) {
-					foreach ($productChildren as $productChildId) {
-						if (isset($productAttributes[$productChildId])) {
-							$productIndex[$productChildId] = $productAttributes[$productChildId];
-						}
-					}
-				}
 
-				$productDocument = $this->buildProductDocument($productData['entity_id'], $storeId);
+				// convert numeric product attribute IDs keys to names
+
+
+
+#				if ($productChildren = $productRelations[$productData['entity_id']]) {
+#					foreach ($productChildren as $productChildId) {
+#						if (isset($productAttributes[$productChildId])) {
+#							$productIndex[$productChildId] = $productAttributes[$productChildId];
+#						}
+#					}
+#				}
+
+				$productDocument = $this->buildProductDocument($storeId, $productData['entity_id'], $singleProductAttributes);
 				$productDocuments[] = $productDocument;
 			}
 
@@ -140,18 +148,20 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 	}
 
 
-	protected function buildProductDocument($productId, $storeId)
+	protected function buildProductDocument($storeId, $productId, $searchableAttributes)
 	{
 		$helper = Mage::helper('solr');
-		/** @var $helper Asm_Solr_Helper_Data */
 
-		// FIXME get rid of ->load(), use $productIndex from rebuildStoreIndex()
-		$product  = Mage::getModel('catalog/product')->load($productId);
+		$searchableAttributes = $this->getNamedProductAttributes($searchableAttributes);
+		$product              = Mage::getModel('catalog/product')
+			->setStoreId($storeId)
+			->load($productId);
+		/** @var Mage_Catalog_Model_Product $product */
 
 		$baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
-		$host = parse_url($baseUrl, PHP_URL_HOST);
+		$host    = parse_url($baseUrl, PHP_URL_HOST);
 
-		/* @var $product Mage_Catalog_Model_Product */
+
 		$document = new Apache_Solr_Document();
 
 		$document->setField('appKey',    'Asm_Solr');
@@ -179,7 +189,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 
 		$document->setField('title',     $product->getName());
 		$document->setField('content',   $product->getDescription());
-		$document->setField('keywords',  $product->getMetaKeyword());
+		$document->setField('keywords',  $helper->trimExplode(',', $product->getMetaKeyword(), true));
 		$document->setField('url',       $product->getProductUrl());
 
 		$document->setField('price',     $product->getPrice());
@@ -188,14 +198,32 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 			$document->setField('manufacturer', $product->getAttributeText('manufacturer'));
 		}
 
+		foreach ($searchableAttributes as $attributeCode => $attributeValue) {
+			if (in_array($attributeCode, $this->fixedSchemaFieldAttributes)) {
+				continue;
+			}
 
+			$attribute = Mage::getSingleton('eav/config')
+				->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
 
-		// TODO iterate over other searchable/filterable attributes
-		// add them as dynamic fields
-
-
-//		$document->setField('name_stringS', $this->getAttributeByName($singleProduct, 'name'));
-
+			switch ($attribute->getBackendType()) {
+				case 'datetime':
+					$document->setField($attributeCode . '_dateS', $helper->dateToIso($attributeValue));
+					break;
+				case 'decimal':
+					$document->setField($attributeCode . '_doubleS', $attributeValue);
+					break;
+				case 'int':
+					$document->setField($attributeCode . '_intS', $attributeValue);
+					break;
+				case 'text':
+				case 'varchar':
+					// TODO there might be cases when you want a string instead,
+					// might need a configuration option
+					$document->setField($attributeCode . '_textS', $attributeValue);
+					break;
+			}
+		}
 
 		return $document;
 	}
@@ -408,12 +436,12 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 
 
 
-	protected function getAttributeByName($productIndex, $attributeName)
+	protected function getAttributeByName($product, $attributeName)
 	{
 		$attributeNameToIdMap = $this->getAttributeCodeToIdMap();
 		$attributeId          = $attributeNameToIdMap[$attributeName];
 
-		return $productIndex[$attributeId];
+		return $product[$attributeId];
 	}
 
 	protected function getAttributeCodeToIdMap()
@@ -433,6 +461,22 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		return $this->attributeCodeToIdMap;
 	}
 
+	protected function getNamedProductAttributes(array $productAttributes)
+	{
+		$namedAttributes = array();
+
+		if (empty($this->attributeCodeToIdMap)) {
+			$this->getAttributeCodeToIdMap();
+		}
+
+		foreach ($productAttributes as $attributeId => $attributeValue) {
+			list($attributeCode) = array_keys($this->attributeCodeToIdMap, $attributeId);
+			$namedAttributes[$attributeCode] = $attributeValue;
+		}
+
+		return $namedAttributes;
+	}
+
 
 
 	///// ///// write to Solr
@@ -440,10 +484,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 
 
 	protected function addProductDocuments($storeId, $productDocuments = array()) {
-		// FIXME use getConnectionByStoreId($storeId)
-		$connection = Mage::helper('solr/connectionManager')->getConnection();
-		/** @var $connection Asm_Solr_Model_Solr_Connection */
-
+		$connection = Mage::helper('solr/connectionManager')->getConnectionByStore($storeId);
 		$connection->addDocuments($productDocuments);
 	}
 
