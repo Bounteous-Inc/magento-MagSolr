@@ -81,6 +81,11 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 		return $siteHash;
 	}
 
+	/**
+	 * Gets an instance of the logger
+	 *
+	 * @return Asm_Solr_Helper_Logger
+	 */
 	public function getLogger()
 	{
 		return Mage::helper('solr/logger');

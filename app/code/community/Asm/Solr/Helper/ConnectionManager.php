@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Solr data helper
+ * Solr connection manager.
+ *
+ * Can retrieve a Solr connection for different contexts.
  *
  * @category Asm
  * @package Asm_Solr
@@ -25,6 +27,8 @@ class Asm_Solr_Helper_ConnectionManager
 	}
 
 	/**
+	 * Gets the Solr connection for a specific store
+	 *
 	 * @param string|int $store Store code or store ID
 	 * @return Asm_Solr_Model_Solr_Connection
 	 */
@@ -46,6 +50,12 @@ class Asm_Solr_Helper_ConnectionManager
 		return $connection;
 	}
 
+	/**
+	 * Gets the Solr connections for all stores of a website.
+	 *
+	 * @param int|string $site Website code or ID
+	 * @return Asm_Solr_Model_Solr_Connection[] Array of Asm_Solr_Model_Solr_Connection objects
+	 */
 	public function getConnectionsBySite($site)
 	{
 		$connections = array();
@@ -69,6 +79,11 @@ class Asm_Solr_Helper_ConnectionManager
 		return $connections;
 	}
 
+	/**
+	 * Gets all connections for all websites and their stores
+	 *
+	 * @return Asm_Solr_Model_Solr_Connection[]
+	 */
 	public function getAllConnections()
 	{
 		$connections = array();

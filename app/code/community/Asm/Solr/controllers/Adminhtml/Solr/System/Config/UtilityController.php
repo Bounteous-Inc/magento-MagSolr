@@ -5,6 +5,10 @@
 class Asm_Solr_Adminhtml_Solr_System_Config_UtilityController extends Mage_Adminhtml_Controller_Action
 {
 
+	/**
+	 * Action to empty indexes depending on the current scope
+	 *
+	 */
 	public function emptyindexAction()
 	{
 		$result = true;

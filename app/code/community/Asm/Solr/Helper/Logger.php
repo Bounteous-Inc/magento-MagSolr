@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Logger with some helpful shortcut methods
+ *
+ *
+ */
 class Asm_Solr_Helper_Logger
 {
 	protected $logFileName = 'solr.log';
