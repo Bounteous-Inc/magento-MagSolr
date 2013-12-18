@@ -107,4 +107,31 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 		return str_replace('+00:00', 'Z', $date->getIso());
 	}
 
+	/**
+	 * Explodes a string and trims all values for whitespace in the ends.
+	 * If $onlyNonEmptyValues is set, then all blank ('') values are removed.
+	 *
+	 * @param string $delimiter Delimiter string to explode with
+	 * @param string $string The string to explode
+	 * @param boolean $removeEmptyValues If set, all empty values will be removed from output
+	 * @return array Exploded values
+	 */
+	public function trimExplode($delimiter, $string, $removeEmptyValues = false)
+	{
+		$explodedValues = explode($delimiter, $string);
+		$result = array_map('trim', $explodedValues);
+
+		if ($removeEmptyValues) {
+			$temp = array();
+			foreach ($result as $value) {
+				if ($value !== '') {
+					$temp[] = $value;
+				}
+			}
+			$result = $temp;
+		}
+
+		return $result;
+	}
+
 }
