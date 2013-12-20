@@ -35,6 +35,18 @@
 		</blocks>
 	</global>
 
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<Asm_Solr before="Mage_Adminhtml">Asm_Solr_Adminhtml</Asm_Solr>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+
 	<adminhtml>
 		<events>
 			<catalog_product_save_after>
