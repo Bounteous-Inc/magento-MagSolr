@@ -68,6 +68,13 @@
 				</args>
 			</solr>
 		</routers>
+		<layout>
+			<updates>
+				<solr>
+					<file>solr.xml</file>
+				</solr>
+			</updates>
+		</layout>
 	</frontend>
 
 	<default>
