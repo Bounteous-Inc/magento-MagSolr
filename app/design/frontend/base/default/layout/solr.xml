@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
 
-    <default>
-        <reference name="header">
-            <remove name="top.search" />
-            <block type="solr/form_mini" name="solr.form.mini" as="topSearch" template="solr/form.mini.phtml" />
-        </reference>
-    </default>
+	<default>
+		<reference name="header">
+			<remove name="top.search"/>
+			<block type="solr/form_mini" name="solr.form.mini" as="topSearch" template="solr/form.mini.phtml"/>
+		</reference>
+	</default>
 
 	<solr_result_index translate="label">
 		<label>Search Results</label>
