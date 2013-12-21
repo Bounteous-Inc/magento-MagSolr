@@ -6,21 +6,17 @@ class Asm_Solr_ResultController extends Mage_Core_Controller_Front_Action {
 	{
 
 		$connection = Mage::helper('solr/connectionManager')->getConnection();
-		/** @var $connection Asm_Solr_Model_Solr_Connection */
-
-		$q = $this->getRequest()->getParam('q');
 
 		/** @var $query Asm_Solr_Model_Solr_Query */
 		$query = Mage::getModel('solr/solr_query', array(
-			'keywords' => $q
+			'keywords' => $this->getRequest()->getParam('q')
 		));
-		$query->addFilter('storeId', Mage::app()->getStore()->getId());
 
 
-		// FIXME temporary direct access
-		$response = $connection->search($q, 0, 500, array(
-			'fq' => array('storeId:' . Mage::app()->getStore()->getId())
-		));
+
+		$search   = Mage::getResourceModel('solr/search');
+		$response = $search->search($query);
+
 		$resultDocuments = $response->response->docs;
 
 
