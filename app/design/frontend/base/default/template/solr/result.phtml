@@ -12,6 +12,6 @@
     <h1><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('solr')->getQuery()->getKeywordsCleaned()) ?></h1>
 </div>
 <p class="note-msg">
-    <?php echo ($this->getNoResultText()) ? $this->getNoResultText() : $this->__('Your search returns no results.') ?>
+    <?php echo ($this->getNoResultText()) ? $this->getNoResultText() : $this->__('Your search returned no results.') ?>
 </p>
 <?php endif; ?>
