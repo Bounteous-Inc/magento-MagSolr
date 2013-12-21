@@ -161,6 +161,39 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 	}
 
 	/**
+	 * Central method for making a get operation against this Solr Server
+	 *
+	 * @param string $url
+	 * @param bool|float $timeout Read timeout in seconds
+	 * @return Apache_Solr_Response
+	 */
+	protected function _sendRawGet($url, $timeout = FALSE)
+	{
+		try {
+			$response = parent::_sendRawGet($url, $timeout);
+		} catch (Apache_Solr_HttpTransportException $e) {
+			$response = $e->getResponse();
+		}
+
+		$logData = array(
+			'query url' => $url,
+			'response'  => (array)$response
+		);
+
+		if (!empty($e)) {
+			$logData['exception'] = $e->__toString();
+		} else {
+			// trigger data parsing
+			$response->response;
+			$logData['response data'] = print_r($response, TRUE);
+		}
+
+		Mage::helper('solr')->getLogger()->debug('Querying Solr using GET', $logData);
+
+		return $response;
+	}
+
+	/**
 	 * Performs a search.
 	 *
 	 * @param string $query query string / search term
