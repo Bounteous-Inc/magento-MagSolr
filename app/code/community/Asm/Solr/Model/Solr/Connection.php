@@ -138,8 +138,6 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 	 */
 	protected function _sendRawPost($url, $rawPost, $timeout = FALSE, $contentType = 'text/xml; charset=UTF-8')
 	{
-		$logSeverity = 0; // info
-
 		try {
 			$response = parent::_sendRawPost($url, $rawPost, $timeout, $contentType);
 		} catch (Apache_Solr_HttpTransportException $e) {
