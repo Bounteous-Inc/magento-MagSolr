@@ -21,29 +21,48 @@ class Asm_Solr_ResultController extends Mage_Core_Controller_Front_Action {
 		$response = $search->search($query, $offset, $limit);
 
 		$numberOfResults = $response->response->numFound;
+		/** @var Apache_Solr_Document[] $resultDocuments */
 		$resultDocuments = $response->response->docs;
 
-
-		/** @var Mage_Catalog_Model_Resource_Product_Collection $collection */
-		$collection = Mage::getModel('catalog/product')->getCollection();
+		/** @var Asm_Solr_Model_Resource_Product_Collection $collection */
+		$collection = Mage::getModel('solr/product')->getCollection();
+		$collection->setSize($numberOfResults);
 
 		$productIds = array();
 
-		foreach ($resultDocuments as $doc)
+		$fieldToAttributeMap = Mage::helper('solr')->getFieldToAttributeMap();
+		// build a reverse map, remove fields that have no atrribute
+		$fieldToAttributeMap = array_filter($fieldToAttributeMap);
+		$attributeToFieldMap = array_flip($fieldToAttributeMap);
+
+		foreach ($resultDocuments as $document)
 		{
 			$product = Mage::getModel('catalog/product');
 
-			// set all product data here
-			$product->setData('entity_id',   $doc->productId);
-			$product->setData('name',        $doc->title);
-			$product->setData('description', $doc->content);
+			$unmappedDocumentFields = $document->getFieldNames();
 
-			$productIds[] = $doc->productId;
+			foreach ($attributeToFieldMap as $attribute => $field) {
+				$product->setData($attribute, $document->{$field});
+
+				// remove fields that have been mapped, should leave dynamic fields
+				$fieldKey = array_search($field, $unmappedDocumentFields);
+				if ($fieldKey !== false) {
+					unset($unmappedDocumentFields[$fieldKey]);
+				}
+			}
+
+			$dynamicFields = array_diff(
+				$unmappedDocumentFields,
+				Mage::helper('solr')->getFieldToAttributeMap()
+			);
+
+			// TODO map dynamic fields to attributes
+
+			$productIds[] = $document->productId;
 
 			$collection->addItem($product);
 		}
 
-		$collection->_setIsLoaded(true);
 		$collection->addAttributeToFilter('entity_id', array('in' => $productIds));
 
 
