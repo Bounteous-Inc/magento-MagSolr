@@ -140,7 +140,6 @@ class Asm_Solr_Block_Result extends Mage_Core_Block_Template
 	{
 		if (!$this->getData('result_count')) {
 			$size = $this->getProductCollection()->getSize();
-#			$this->helper('solr')->getQuery()->setNumResults($size);
 			$this->setResultCount($size);
 		}
 		return $this->getData('result_count');
