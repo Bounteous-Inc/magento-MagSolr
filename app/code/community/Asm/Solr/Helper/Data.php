@@ -10,6 +10,51 @@
 class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 {
 	/**
+	 * A map of  Solr document fields to Magento product attributes.
+	 *
+	 * Contains all fixed indexed fields/attributes, other product attributes
+	 * are added to Solr documents using dynamic fields.
+	 *
+	 * @var array
+	 */
+	protected static $fieldToAttributeMap = array(
+		'appKey'             => '',
+		'type'               => '',
+		'id'                 => '',
+		'site'               => '',
+		'siteHash'           => '',
+		'created'            => 'created_at',
+		'changed'            => 'changed_at',
+		'sku'                => 'sku',
+		'productId'          => 'entity_id',
+		'storeId'            => '',
+		'categoryId'         => 'category_ids',
+		'inStock'            => '',
+		'isVisible'          => 'status',
+		'isVisibleInCatalog' => '',
+		'title'              => 'name',
+		'content'            => 'description',
+		'keywords'           => 'meta_keywords',
+		'url'                => '',
+		'price'              => 'price',
+		'manufacturer'       => 'manufacturer',
+		'priceCurrency'      => '',
+		'indexed'            => '',
+		'_version_'          => '',
+		'score'              => ''
+	);
+
+	/**
+	 * Gets a map of  Solr document fields to Magento product attributes.
+	 *
+	 * @return array
+	 */
+	public static function getFieldToAttributeMap()
+	{
+		return self::$fieldToAttributeMap;
+	}
+
+	/**
 	 * Gets the current Solr query
 	 *
 	 * @return Asm_Solr_Model_Solr_Query
