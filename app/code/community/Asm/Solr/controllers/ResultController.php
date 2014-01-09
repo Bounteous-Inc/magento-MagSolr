@@ -44,7 +44,7 @@ class Asm_Solr_ResultController extends Mage_Core_Controller_Front_Action {
 			foreach ($attributeToFieldMap as $attribute => $field) {
 				$product->setData($attribute, $document->{$field});
 
-				// remove fields that have been mapped, should leave dynamic fields
+				// remove fields that have been mapped, leaves dynamic fields
 				$fieldKey = array_search($field, $unmappedDocumentFields);
 				if ($fieldKey !== false) {
 					unset($unmappedDocumentFields[$fieldKey]);
