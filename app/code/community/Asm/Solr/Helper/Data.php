@@ -45,7 +45,7 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 	);
 
 	/**
-	 * Gets a map of  Solr document fields to Magento product attributes.
+	 * Gets a map of Solr document fields to Magento product attributes.
 	 *
 	 * @return array
 	 */
