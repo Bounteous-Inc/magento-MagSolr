@@ -41,6 +41,7 @@ class Asm_Solr_ResultController extends Mage_Core_Controller_Front_Action {
 
 			$unmappedDocumentFields = $document->getFieldNames();
 
+			// map "core/static" Solr document fields to Magento product attributes
 			foreach ($attributeToFieldMap as $attribute => $field) {
 				$product->setData($attribute, $document->{$field});
 
@@ -56,6 +57,7 @@ class Asm_Solr_ResultController extends Mage_Core_Controller_Front_Action {
 				array_keys(Mage::helper('solr')->getFieldToAttributeMap())
 			);
 
+			// map Solr dynamic fields to Magento product attributes
 			$dynamicFieldSuffixes = Mage::helper('solr')->getDynamicFieldSuffixes();
 			foreach ($dynamicFields as $dynamicField) {
 				$fieldNameParts = explode('_', $dynamicField);
