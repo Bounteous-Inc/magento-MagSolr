@@ -45,6 +45,22 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 	);
 
 	/**
+	 * A list of dynamic field suffixes. There are more dynamic field types,
+	 * but these are the ones that are currently used.
+	 *
+	 * Used to automatically map dynamic fields back to product attributes.
+	 *
+	 * @var array
+	 */
+	protected static $dynamicFieldSuffixes = array(
+		'dateS',
+		'doubleS',
+		'intS',
+		'stringS',
+		'textS'
+	);
+
+	/**
 	 * Gets a map of Solr document fields to Magento product attributes.
 	 *
 	 * @return array
@@ -52,6 +68,16 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 	public function getFieldToAttributeMap()
 	{
 		return self::$fieldToAttributeMap;
+	}
+
+	/**
+	 * Gets a list of Solr dynamic field suffixes
+	 *
+	 * @return array
+	 */
+	public function getDynamicFieldSuffixes()
+	{
+		return self::$dynamicFieldSuffixes;
 	}
 
 	/**
