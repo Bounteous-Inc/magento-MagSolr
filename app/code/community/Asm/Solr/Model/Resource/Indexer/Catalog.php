@@ -201,6 +201,8 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		$document->setField('small_image_stringS', $product->getSmallImage());
 		$document->setField('thumbnail_stringS', $product->getThumbnail());
 
+		$document->setField('type_id_stringS', $product->getTypeId());
+
 
 		foreach ($searchableAttributes as $attributeCode => $attributeValue) {
 			if (in_array($attributeCode, $this->fixedSchemaFieldAttributes)) {
