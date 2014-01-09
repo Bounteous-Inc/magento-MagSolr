@@ -49,7 +49,7 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 	 *
 	 * @return array
 	 */
-	public static function getFieldToAttributeMap()
+	public function getFieldToAttributeMap()
 	{
 		return self::$fieldToAttributeMap;
 	}
