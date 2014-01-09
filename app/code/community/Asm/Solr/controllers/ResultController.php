@@ -53,10 +53,20 @@ class Asm_Solr_ResultController extends Mage_Core_Controller_Front_Action {
 
 			$dynamicFields = array_diff(
 				$unmappedDocumentFields,
-				Mage::helper('solr')->getFieldToAttributeMap()
+				array_keys(Mage::helper('solr')->getFieldToAttributeMap())
 			);
 
-			// TODO map dynamic fields to attributes
+			$dynamicFieldSuffixes = Mage::helper('solr')->getDynamicFieldSuffixes();
+			foreach ($dynamicFields as $dynamicField) {
+				$fieldNameParts = explode('_', $dynamicField);
+
+				// do we have a valid dynamic field? If so, generate attribute name, map to Solr field
+				if (in_array($fieldNameParts[count($fieldNameParts) - 1], $dynamicFieldSuffixes)) {
+					array_pop($fieldNameParts);
+					$attributeName = implode('_', $fieldNameParts);
+					$product->setData($attributeName, $document->{$dynamicField});
+				}
+			}
 
 			$productIds[] = $document->productId;
 
