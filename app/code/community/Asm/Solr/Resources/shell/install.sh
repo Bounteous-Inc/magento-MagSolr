@@ -303,6 +303,7 @@ wgetresource tomcat/solr.xml
 # copy libs
 cd /opt/solr-tomcat/
 cp -r solr-$SOLR_VER/dist solr/
+cp -r solr-$SOLR_VER/dist/solr-$SOLR_VER.war tomcat/webapps/solr.war
 cp -r solr-$SOLR_VER/contrib solr/
 cp -r solr-$SOLR_VER/example/lib/ext/* tomcat/lib/
 cp -r solr-$SOLR_VER/example/resources/log4j.properties tomcat/lib/
