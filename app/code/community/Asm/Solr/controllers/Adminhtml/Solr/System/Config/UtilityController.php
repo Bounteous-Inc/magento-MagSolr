@@ -69,6 +69,18 @@ class Asm_Solr_Adminhtml_Solr_System_Config_UtilityController extends Mage_Admin
 		echo $result ? 1 : 0;
 	}
 
+	/**
+	 * Action to test the configured connection (ping) depending on the current scope
+	 *
+	 */
+	public function testconnectionAction()
+	{
+		$store      = $this->getRequest()->getParam('store');
+		$connection = Mage::helper('solr/connectionManager')->getConnectionByStore($store);
+
+		echo $connection->ping() ? 1 : 0;
+	}
+
 	public function playgroundAction()
 	{
 #		var_dump(Mage::getConfig()->getNode('solr/connection', 'stores', 'german'));

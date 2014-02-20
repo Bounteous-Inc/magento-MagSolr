@@ -70,6 +70,17 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</path>
+						<test_connection translate="button_label">
+							<label></label>
+							<button_label>Test Connection</button_label>
+							<frontend_model>
+								solr/adminhtml_system_config_testconnection
+							</frontend_model>
+							<sort_order>70</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+						</test_connection>
 					</fields>
 				</connection>
 			</groups>
