@@ -201,12 +201,25 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		$document->setField('small_image_stringS', $product->getSmallImage());
 		$document->setField('thumbnail_stringS',   $product->getThumbnail());
 
-		$document->setField('type_id_stringS', $product->getTypeId());
+		$productType = $product->getTypeId();
+		$document->setField('type_id_stringS', $productType);
 
+		if ($productType == 'configurable') {
+			$childProductAttributes = $this->getConfigurableProductChildProductAttributes($product);
+			$searchableAttributes = array_merge($searchableAttributes, $childProductAttributes);
+		}
 
+		// add other searchable attributes as dynamic fields
 		foreach ($searchableAttributes as $attributeCode => $attributeValue) {
 			if (in_array($attributeCode, $this->fixedSchemaFieldAttributes)) {
 				continue;
+			}
+
+			// single or multivalue field type
+			// default to single value, use multivalue for arrays
+			$countFieldType = 'S';
+			if (is_array($attributeValue)) {
+				$countFieldType = 'M';
 			}
 
 			$attribute = Mage::getSingleton('eav/config')
@@ -214,24 +227,48 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 
 			switch ($attribute->getBackendType()) {
 				case 'datetime':
-					$document->setField($attributeCode . '_dateS', $helper->dateToIso($attributeValue));
+					$document->setField($attributeCode . '_date' . $countFieldType, $helper->dateToIso($attributeValue));
 					break;
 				case 'decimal':
-					$document->setField($attributeCode . '_doubleS', $attributeValue);
+					$document->setField($attributeCode . '_double' . $countFieldType, $attributeValue);
 					break;
 				case 'int':
-					$document->setField($attributeCode . '_intS', $attributeValue);
+					$document->setField($attributeCode . '_int' . $countFieldType, $attributeValue);
 					break;
 				case 'text':
 				case 'varchar':
 					// TODO there might be cases when you want a string instead,
 					// might need a configuration option
-					$document->setField($attributeCode . '_textS', $attributeValue);
+					$document->setField($attributeCode . '_text' . $countFieldType, $attributeValue);
 					break;
 			}
 		}
 
 		return $document;
+	}
+
+	protected function getConfigurableProductChildProductAttributes($product) {
+		$childProductAttributes = array();
+		$configurableProduct = Mage::getModel('catalog/product_type_configurable')->setProduct($product);
+
+		$associatedProducts     = $configurableProduct->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
+		$superProductAttributes = $configurableProduct->getUsedProductAttributes();
+
+		foreach ($associatedProducts as $simpleProduct) {
+			// find/iterate over attributes that make a product configurable
+			foreach ($superProductAttributes as $attribute) {
+				$attributeCode = $attribute->attribute_code;
+				if (!array_key_exists($attributeCode, $childProductAttributes)) {
+					$childProductAttributes[$attributeCode] = array();
+				}
+
+				if (!in_array($simpleProduct->{$attributeCode}, $childProductAttributes[$attributeCode])) {
+					$childProductAttributes[$attributeCode][] = $simpleProduct->{$attributeCode};
+				}
+			}
+		}
+
+		return $childProductAttributes;
 	}
 
 
