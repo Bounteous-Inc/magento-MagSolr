@@ -9,7 +9,9 @@ working beta version.
 ## Installation
 
 Use [modman](https://github.com/colinmollenhour/modman) to install the module:
-	modman clone git@github.com:infielddesign/magento-MagSolr.git
+```
+modman clone git@github.com:infielddesign/magento-MagSolr.git
+```
 
 ##Credits
 
@@ -17,8 +19,8 @@ Infield Design
 
 http://www.infielddesign.com
 
-Ingo Renner ingo@infielddesign.com
-Kevin Mitchell kevin@infielddesign.com
-Ian Anderson ian@infielddesign.com
+* Ingo Renner ingo@infielddesign.com
+* Kevin Mitchell kevin@infielddesign.com
+* Ian Anderson ian@infielddesign.com
 
 [![Analytics](https://ga-beacon.appspot.com/UA-47888627-1/magento-MagSolr/readme)](https://github.com/infielddesign/magento-MagSolr)
