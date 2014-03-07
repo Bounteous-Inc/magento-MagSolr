@@ -12,9 +12,9 @@ class Asm_Solr_Model_Observer_Product
 	 */
 	public function updateProduct($event)
 	{
-		$indexer = Mage::getModel('solr/indexer_product');
-		/* @var $indexer Asm_Solr_Model_Indexer_Product */
-		$indexer->indexProduct($event->getProduct()->getEntityId());
+		$indexer = Mage::getModel('solr/resource_indexer_catalog');
+		/* @var $indexer Asm_Solr_Model_Resource_Indexer_Catalog */
+		$indexer->rebuildIndex(null, $event->getProduct()->getId());
 	}
 
 }
