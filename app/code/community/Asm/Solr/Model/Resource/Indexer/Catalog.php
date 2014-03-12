@@ -211,8 +211,8 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 
 		// add other searchable attributes as dynamic fields
 		foreach ($searchableAttributes as $attributeCode => $attributeValue) {
-			if (empty($attributeValue)
-			|| in_array($attributeCode, $this->fixedSchemaFieldAttributes)) {
+			if (empty($attributeValue) // don't index empty values (for now), might result in type conflicts
+			|| in_array($attributeCode, $this->fixedSchemaFieldAttributes)) { // don't add fixed schema fields twice
 				continue;
 			}
 
