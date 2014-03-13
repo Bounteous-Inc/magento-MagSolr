@@ -8,9 +8,8 @@ class Asm_Solr_ResultController extends Mage_Core_Controller_Front_Action {
 		$layout = $this->getLayout();
 
 		/** @var Asm_Solr_Model_Solr_Query $query */
-		$query = Mage::getModel('solr/solr_query', array(
-			'keywords' => $this->getRequest()->getParam('q')
-		));
+		$query = Mage::helper('solr')->getQuery();
+		$query->setKeywords($this->getRequest()->getParam('q'));
 
 		$listToolbar = $layout->getBlock('product_list_toolbar');
 		$limit  = $listToolbar->getLimit();
