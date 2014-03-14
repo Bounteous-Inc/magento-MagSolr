@@ -182,6 +182,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 			$document->addField('categoryId', $categoryId);
 		}
 
+		$document->setField('isSalable', $product->isSalable());
 		$document->setField('inStock',   $product->isInStock());
 		$document->setField('isVisible', $product->getStatus());
 		$document->setField('isVisibleInCatalog', $product->isVisibleInCatalog());

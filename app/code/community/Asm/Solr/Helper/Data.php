@@ -30,6 +30,7 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 		'storeId'            => '',
 		'categoryId'         => 'category_ids',
 		'inStock'            => '',
+		'isSalable'          => 'is_salable',
 		'isVisible'          => 'status',
 		'isVisibleInCatalog' => '',
 		'title'              => 'name',

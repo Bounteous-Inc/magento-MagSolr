@@ -85,6 +85,7 @@
 	<field name="categoryId" type="integer" indexed="true" multiValued="true" />
 
 	<field name="inStock" type="boolean" indexed="true" />
+	<field name="isSalable" type="boolean" indexed="true"/>
 
 	<field name="isVisible" type="integer" indexed="true" />
 	<field name="isVisibleInCatalog" type="boolean" indexed="true" />
