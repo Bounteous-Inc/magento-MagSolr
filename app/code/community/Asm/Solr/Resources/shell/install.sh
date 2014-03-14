@@ -63,10 +63,9 @@ wgetresource ()
 
 	if [ $BRANCH_TEST_RETURN -eq "0" ]
 	then
-# FIXME have an actual download location
-#		RESOURCE="http://www.infielddesign.com/fileadmin/asm/$GITBRANCH_PATH/"$1
-#	else
-		RESOURCE="http://www.infielddesign.com/fileadmin/asm/master/"$1
+		RESOURCE="https://raw.github.com/infielddesign/magento-MagSolr/$GITBRANCH_PATH/app/code/community/Asm/Solr/Resources/"$1
+	else
+		RESOURCE="https://raw.github.com/infielddesign/magento-MagSolr/master/app/code/community/Asm/Solr/Resources/"$1
 	fi
 
 	if [ "$2" ]
@@ -146,7 +145,7 @@ if [ $CHECK -ne "0" ]
 fi
 
 # test if release branch exists, if so we'll download from there
-wget --no-check-certificate -q -O /dev/null http://www.infielddesign.com/fileadmin/asm/$GITBRANCH_PATH/
+wget --no-check-certificate -q -O /dev/null https://raw.github.com/infielddesign/magento-MagSolr/$GITBRANCH_PATH/
 BRANCH_TEST_RETURN=$?
 
 # make sure Java is installed
