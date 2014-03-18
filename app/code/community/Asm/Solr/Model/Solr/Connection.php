@@ -144,17 +144,20 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 			$response = $e->getResponse();
 		}
 
-		$logData = array(
-			'query url' => $url,
-			'content'   => $rawPost,
-			'response'  => (array) $response
-		);
 
-		if (!empty($e)) {
-			$logData['exception'] = $e->__toString();
+		if (Mage::getStoreConfig('logging/log/rawPost')) {
+			$logData = array(
+				'query url' => $url,
+				'content'   => $rawPost,
+				'response'  => (array) $response
+			);
+
+			if (!empty($e)) {
+				$logData['exception'] = $e->__toString();
+			}
+
+			Mage::helper('solr')->getLogger()->debug('Querying Solr using POST', $logData);
 		}
-
-		Mage::helper('solr')->getLogger()->debug('Querying Solr using POST', $logData);
 
 
 		return $response;
@@ -175,20 +178,22 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 			$response = $e->getResponse();
 		}
 
-		$logData = array(
-			'query url' => $url,
-			'response'  => (array)$response
-		);
+		if (Mage::getStoreConfig('logging/log/rawGet')) {
+			$logData = array(
+				'query url' => $url,
+				'response' => (array)$response
+			);
 
-		if (!empty($e)) {
-			$logData['exception'] = $e->__toString();
-		} else {
-			// trigger data parsing
-			$response->response;
-			$logData['response data'] = print_r($response, TRUE);
+			if (!empty($e)) {
+				$logData['exception'] = $e->__toString();
+			} else {
+				// trigger data parsing
+				$response->response;
+				$logData['response data'] = print_r($response, TRUE);
+			}
+
+			Mage::helper('solr')->getLogger()->debug('Querying Solr using GET', $logData);
 		}
-
-		Mage::helper('solr')->getLogger()->debug('Querying Solr using GET', $logData);
 
 		return $response;
 	}

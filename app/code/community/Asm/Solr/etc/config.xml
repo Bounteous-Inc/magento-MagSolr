@@ -98,5 +98,11 @@
 				<path>solr/</path>
 			</connection>
 		</solr>
+		<logging>
+			<log>
+				<rawPost>0</rawPost>
+				<rawGet>0</rawGet>
+			</log>
+		</logging>
 	</default>
 </config>
