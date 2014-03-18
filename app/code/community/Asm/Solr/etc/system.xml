@@ -348,7 +348,7 @@
 			</groups>
 		</search>
 
-		<logging>
+		<log>
 			<label>Logging</label>
 			<tab>solr</tab>
 			<sort_order>40</sort_order>
@@ -356,7 +356,7 @@
 			<show_in_website>1</show_in_website>
 			<show_in_store>1</show_in_store>
 			<groups>
-				<log>
+				<query>
 					<label>Queries</label>
 					<sort_order>10</sort_order>
 					<show_in_default>1</show_in_default>
@@ -382,9 +382,9 @@
 							<show_in_store>1</show_in_store>
 						</rawGet>
 					</fields>
-				</log>
+				</query>
 			</groups>
-		</logging>
+		</log>
 
 	</sections>
 </config>

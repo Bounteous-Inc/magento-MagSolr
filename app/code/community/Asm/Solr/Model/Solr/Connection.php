@@ -145,7 +145,7 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 		}
 
 
-		if (Mage::getStoreConfig('logging/log/rawPost')) {
+		if (Mage::getStoreConfig('log/query/rawPost')) {
 			$logData = array(
 				'query url' => $url,
 				'content'   => $rawPost,
@@ -178,7 +178,7 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 			$response = $e->getResponse();
 		}
 
-		if (Mage::getStoreConfig('logging/log/rawGet')) {
+		if (Mage::getStoreConfig('log/query/rawGet')) {
 			$logData = array(
 				'query url' => $url,
 				'response' => (array)$response
