@@ -17,9 +17,9 @@
 									<search translate="title" module="solr">
 										<title>Search Queries</title>
 									</search>
-									<logging translate="title" module="solr">
+									<log translate="title" module="solr">
 										<title>Search Logging</title>
-									</logging>
+									</log>
 								</children>
 							</config>
 						</children>
