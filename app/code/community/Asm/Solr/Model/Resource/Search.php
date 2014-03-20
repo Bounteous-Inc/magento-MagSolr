@@ -62,7 +62,8 @@ class Asm_Solr_Model_Resource_Search
 	 * @param integer $limit Maximum number of results to return. If set to NULL, this value is taken from the query object.
 	 * @return Apache_Solr_Response Solr response
 	 */
-	public function search(Asm_Solr_Model_Solr_Query $query, $offset = 0, $limit = 10) {
+	public function search(Asm_Solr_Model_Solr_Query $query, $offset = 0, $limit = 10)
+	{
 		$this->query = $query;
 
 		if (empty($limit)) {
