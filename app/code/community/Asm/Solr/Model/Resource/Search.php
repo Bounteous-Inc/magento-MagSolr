@@ -64,6 +64,7 @@ class Asm_Solr_Model_Resource_Search
 	 */
 	public function search(Asm_Solr_Model_Solr_Query $query, $offset = 0, $limit = 10)
 	{
+		Mage::dispatchEvent('asm_search_query_before', array('query' => $query));
 		$this->query = $query;
 
 		if (empty($limit)) {
