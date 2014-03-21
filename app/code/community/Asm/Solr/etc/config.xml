@@ -87,6 +87,16 @@
 				</solr>
 			</updates>
 		</layout>
+		<events>
+			<asm_search_query_before>
+				<observers>
+					<asm_querymodifier_faceting>
+						<class>solr/solr_query_modifier_faceting</class>
+						<method>modifyQuery</method>
+					</asm_querymodifier_faceting>
+				</observers>
+			</asm_search_query_before>
+		</events>
 	</frontend>
 
 	<default>
