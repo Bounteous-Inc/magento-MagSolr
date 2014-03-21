@@ -82,6 +82,60 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 	}
 
 	/**
+	 * Generates a (dynamic) field name for a given attribute
+	 *
+	 * @param string|Mage_Eav_Model_Entity_Attribute_Abstract $attribute Maybe an attribute object or an attribute code
+	 * @param bool $multiValue If true, generates a multi value field name, single value if false/by default
+	 * @return bool|string Field name or false if the attribute's backend type cannot be matched to a Solr field type
+	 * @throws UnexpectedValueException if $attribute is not an attribute code or an attribute instance
+	 */
+	public function getFieldNameByAttribute($attribute, $multiValue = false)
+	{
+		$fieldName = false;
+
+		$countFieldType = 'S'; // single value
+		if ($multiValue) {
+			$countFieldType = 'M';
+		}
+
+		if (is_string($attribute)) {
+			// turn attribute code into attribute instance
+			$attribute = Mage::getSingleton('eav/config')
+				->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attribute);
+		}
+
+		if (!($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract)) {
+			throw new UnexpectedValueException(
+				'$attribute must either be an attribute code or an instance of Mage_Eav_Model_Entity_Attribute_Abstract',
+				1395360135
+			);
+		}
+
+		$attributeCode = $attribute->getAttributeCode();
+
+		switch ($attribute->getBackendType()) {
+			case 'datetime':
+				$fieldName = $attributeCode . '_date' . $countFieldType;
+				break;
+			case 'decimal':
+				$fieldName = $attributeCode . '_double' . $countFieldType;
+				break;
+			case 'int':
+				$fieldName = $attributeCode . '_int' . $countFieldType;
+				break;
+			case 'text':
+			case 'varchar':
+				// TODO there might be cases when you want a string instead,
+				// might need a configuration option
+				$fieldName = $attributeCode . '_text' . $countFieldType;
+				break;
+		}
+
+		return $fieldName;
+	}
+
+
+	/**
 	 * Gets the current Solr query
 	 *
 	 * @return Asm_Solr_Model_Solr_Query
