@@ -219,31 +219,21 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 
 			// single or multivalue field type
 			// default to single value, use multivalue for arrays
-			$countFieldType = 'S';
+			$multiValue = false;
 			if (is_array($attributeValue)) {
-				$countFieldType = 'M';
+				$multiValue = true;
 			}
 
 			$attribute = Mage::getSingleton('eav/config')
 				->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
 
-			switch ($attribute->getBackendType()) {
-				case 'datetime':
-					$document->setField($attributeCode . '_date' . $countFieldType, $helper->dateToIso($attributeValue));
-					break;
-				case 'decimal':
-					$document->setField($attributeCode . '_double' . $countFieldType, $attributeValue);
-					break;
-				case 'int':
-					$document->setField($attributeCode . '_int' . $countFieldType, $attributeValue);
-					break;
-				case 'text':
-				case 'varchar':
-					// TODO there might be cases when you want a string instead,
-					// might need a configuration option
-					$document->setField($attributeCode . '_text' . $countFieldType, $attributeValue);
-					break;
+			if ($attribute->getBackendType() == 'datetime') {
+				$attributeValue = $helper->dateToIso($attributeValue);
 			}
+			$document->setField(
+				$helper->getFieldNameByAttribute($attribute, $multiValue),
+				$attributeValue
+			);
 		}
 
 		return $document;
