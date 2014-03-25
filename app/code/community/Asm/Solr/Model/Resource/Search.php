@@ -31,7 +31,7 @@ class Asm_Solr_Model_Resource_Search
 	 *
 	 * @var Apache_Solr_Response
 	 */
-	protected $response = NULL;
+	protected $rawResponse = NULL;
 
 	/**
 	 * Flag for marking a search
@@ -60,7 +60,7 @@ class Asm_Solr_Model_Resource_Search
 	 * @param Asm_Solr_Model_Solr_Query $query The query with keywords, filters, and so on.
 	 * @param integer $offset Result offset for pagination.
 	 * @param integer $limit Maximum number of results to return. If set to NULL, this value is taken from the query object.
-	 * @return Apache_Solr_Response Solr response
+	 * @return Asm_Solr_Model_Solr_Response Solr response
 	 */
 	public function search(Asm_Solr_Model_Solr_Query $query, $offset = 0, $limit = 10)
 	{
@@ -82,10 +82,10 @@ class Asm_Solr_Model_Resource_Search
 			$response = $this->connection->getResponse();
 		}
 
-		$this->response    = $response;
+		$this->rawResponse = $response;
 		$this->hasSearched = TRUE;
 
-		return $this->response;
+		return Mage::getModel('solr/solr_response', array('rawResponse' => $response));
 	}
 
 }
