@@ -142,7 +142,12 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 	 */
 	public function getQuery()
 	{
-		return Mage::getSingleton('solr/solr_query');
+		$registryKey = 'solr/query';
+		if (!Mage::registry($registryKey)) {
+			Mage::register($registryKey, Mage::getModel('solr/solr_query'));
+		}
+
+		return Mage::registry($registryKey);
 	}
 
 	/**
