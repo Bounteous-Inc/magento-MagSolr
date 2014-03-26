@@ -18,7 +18,8 @@ class Asm_Solr_Model_Solr_Response
 	 * Constructor
 	 *
 	 */
-	public function __construct(array $responseParameters = array()) {
+	public function __construct(array $responseParameters = array())
+	{
 		$this->rawResponse = $responseParameters['rawResponse'];
 	}
 
@@ -27,7 +28,8 @@ class Asm_Solr_Model_Solr_Response
 	 *
 	 * @return integer Number of results found
 	 */
-	public function getNumberOfResults() {
+	public function getNumberOfResults()
+	{
 		return $this->rawResponse->response->numFound;
 	}
 
@@ -36,7 +38,8 @@ class Asm_Solr_Model_Solr_Response
 	 *
 	 * @return Apache_Solr_Document[] Array of Apache_Solr_Document
 	 */
-	public function getDocuments() {
+	public function getDocuments()
+	{
 		return $this->rawResponse->response->docs;
 	}
 
@@ -45,16 +48,19 @@ class Asm_Solr_Model_Solr_Response
 	 *
 	 * @return Asm_Solr_Model_Solr_Facet_Facet[] Array of Asm_Solr_Model_Solr_Facet_Facet
 	 */
-	public function getFacetFields() {
+	public function getFacetFields()
+	{
 
 	}
 
 	/* TODO add range and query facet support
-	public function getFacetRanges() {
+	public function getFacetRanges()
+	{
 
 	}
 
-	public function getFacetQueries() {
+	public function getFacetQueries()
+	{
 
 	}
 	*/
