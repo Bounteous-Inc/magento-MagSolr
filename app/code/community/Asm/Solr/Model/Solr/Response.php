@@ -50,7 +50,34 @@ class Asm_Solr_Model_Solr_Response
 	 */
 	public function getFacetFields()
 	{
+		$facets      = array();
+		$facetFields = $this->rawResponse->facet_counts->facet_fields;
 
+		foreach ($facetFields as $facetField => $facetOptions) {
+			// remove field type suffix
+			$attributeCode = implode('_', explode('_', $facetField, -1));
+
+			$facet = Mage::getModel('solr/solr_facet_facet', array(
+				'attributeCode' => $attributeCode,
+				'field'         => $facetField
+			));
+
+			if (!empty($facetOptions)) {
+				foreach ($facetOptions as $optionValue => $numberOfResults) {
+					$facetOption = Mage::getModel('solr/solr_facet_facetOption', array(
+						'facetName'       => $attributeCode,
+						'optionValue'     => $optionValue,
+						'numberOfResults' => $numberOfResults
+					));
+
+					$facet->addOption($facetOption);
+				}
+			}
+
+			$facets[] = $facet;
+		}
+
+		return $facets;
 	}
 
 	/* TODO add range and query facet support
