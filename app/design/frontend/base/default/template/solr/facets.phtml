@@ -1,0 +1,24 @@
+<?php
+
+$facets = $this->getFacets();
+
+?>
+<ul>
+	<?php foreach ($facets as $facet): ?>
+		<li>
+			<?php echo $facet->getLabel() ?>
+			<?php if (count($facet->getOptions())): ?>
+			<ul>
+				<?php foreach ($facet->getOptions() as $facetOption): ?>
+					<li>
+						<?php echo $facetOption->getLabel() ?>
+						<?php if ($this->shouldDisplayProductCount()): ?>
+							(<?php echo $facetOption->getNumberOfResults() ?>)
+						<?php endif; ?>
+					</li>
+				<?php endforeach ?>
+			</ul>
+			<?php endif ?>
+		</li>
+	<?php endforeach ?>
+</ul>
