@@ -1,24 +1,30 @@
-<?php
 
-$facets = $this->getFacets();
-
-?>
-<ul>
-	<?php foreach ($facets as $facet): ?>
-		<li>
-			<?php echo $facet->getLabel() ?>
+<div class="block block-layered-nav">
+	<div class="block-title">
+		<strong><span><?php echo $this->__('Narrow Search By') ?></span></strong>
+	</div>
+	<div class="block-content">
+		<!-- TODO Add block to list selected filters -->
+		<ul id="narrow-by-list">
+			<?php $facets = $this->getFacets() ?>
+			<?php foreach ($facets as $facet): ?>
 			<?php if (count($facet->getOptions())): ?>
-			<ul>
-				<?php foreach ($facet->getOptions() as $facetOption): ?>
-					<li>
-						<?php echo $facetOption->getLabel() ?>
-						<?php if ($this->shouldDisplayProductCount()): ?>
-							(<?php echo $facetOption->getNumberOfResults() ?>)
-						<?php endif; ?>
-					</li>
-				<?php endforeach ?>
-			</ul>
+				<li>
+					<?php echo $facet->getLabel() ?>
+					<!-- TODO move the following ul into a separate block -->
+					<ul>
+						<?php foreach ($facet->getOptions() as $facetOption): ?>
+							<li>
+								<?php echo $facetOption->getLabel() ?>
+								<?php if ($this->shouldDisplayProductCount()): ?>
+									(<?php echo $facetOption->getNumberOfResults() ?>)
+								<?php endif; ?>
+							</li>
+						<?php endforeach ?>
+					</ul>
+				</li>
 			<?php endif ?>
-		</li>
-	<?php endforeach ?>
-</ul>
+			<?php endforeach ?>
+		</ul>
+	</div>
+</div>
