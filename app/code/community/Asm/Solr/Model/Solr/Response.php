@@ -57,19 +57,18 @@ class Asm_Solr_Model_Solr_Response
 			// remove field type suffix
 			$attributeCode = implode('_', explode('_', $facetField, -1));
 
-			$facet = Mage::getModel('solr/solr_facet_facet', array(
-				'attributeCode' => $attributeCode,
-				'field'         => $facetField
-			));
+			$facet = Mage::getModel('solr/solr_facet_facet')
+				->setName($attributeCode)
+				->setAttributeCode($attributeCode)
+				->setField($facetField);
 
 			if (!empty($facetOptions)) {
 				foreach ($facetOptions as $optionValue => $numberOfResults) {
-					$facetOption = Mage::getModel('solr/solr_facet_facetOption', array(
-						'facetName'       => $attributeCode,
-						'optionValue'     => $optionValue,
-						'numberOfResults' => $numberOfResults
-					));
-
+					$facetOption = Mage::getModel('solr/solr_facet_facetOption')
+						->setFacet($facet)
+						->setLabel($optionValue)
+						->setValue($optionValue)
+						->setNumberOfResults($numberOfResults);
 					$facet->addOption($facetOption);
 				}
 			}

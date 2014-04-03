@@ -8,7 +8,7 @@
  * @package Asm_Solr
  * @author Ingo Renner <ingo@infielddesign.com>
  */
-class Asm_Solr_Model_Solr_Facet_Facet
+class Asm_Solr_Model_Solr_Facet_Facet extends Varien_Object
 {
 	const TYPE_FIELD = 'field';
 
@@ -24,54 +24,13 @@ class Asm_Solr_Model_Solr_Facet_Facet
 	protected $type = self::TYPE_FIELD;
 
 	/**
-	 * The facet's name
-	 *
-	 * @var string
-	 */
-	protected $name;
-
-	/**
-	 * The attribute the facet belongs to
-	 *
-	 * @var string
-	 */
-	protected $attributeCode;
-
-	/**
-	 * The index field the facet is built from.
-	 *
-	 * @var string
-	 */
-	protected $field;
-
-	/**
 	 * Facet options
 	 *
 	 * @var array
 	 */
 	protected $options = array();
 
-	/**
-	 * Constructor
-	 *
-	 * @param array $parameters Must contain keys 'name' and 'field
-	 * @throws RuntimeException if $parameters does not contain key 'name'
-	 * @throws RuntimeException if $parameters does not contain key 'field'
-	 */
-	public function __construct(array $parameters = array())
-	{
-		if (empty($parameters['attributeCode'])) {
-			throw new RuntimeException('Must provide attributeCode parameter for facet', 1395872280);
-		}
 
-		if (empty($parameters['field'])) {
-			throw new RuntimeException('Must provide field parameter for facet', 1395872289);
-		}
-
-		$this->attributeCode = $parameters['attributeCode'];
-		$this->name          = $parameters['attributeCode']; // same as attribute code for now
-		$this->field         = $parameters['field'];
-	}
 
 	/**
 	 * Checks whether an option of the facet has been selected by the user by
@@ -132,26 +91,6 @@ class Asm_Solr_Model_Solr_Facet_Facet
 	}
 
 	/**
-	 * Gets the facet's name
-	 *
-	 * @return string The facet's name
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
-
-	/**
-	 * Gets the field name the facet is operating on.
-	 *
-	 * @return string The name of the field the facet is operating on.
-	 */
-	public function getField()
-	{
-		return $this->field;
-	}
-
-	/**
 	 * Gets the facet's internal type. One of field, range, or query.
 	 *
 	 * @return string Facet type.
@@ -168,7 +107,7 @@ class Asm_Solr_Model_Solr_Facet_Facet
 	 */
 	public function getLabel()
 	{
-		return $this->name;
+		return $this->getName();
 	}
 
 }
