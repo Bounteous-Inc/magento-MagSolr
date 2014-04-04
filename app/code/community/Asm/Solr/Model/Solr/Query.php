@@ -395,6 +395,7 @@ class Asm_Solr_Model_Solr_Query
 	public function setFaceting($faceting = TRUE) {
 		if ($faceting) {
 			$this->queryParameters['facet'] = 'true';
+			$this->queryParameters['facet.mincount'] = 1;
 		} else {
 			foreach ($this->queryParameters as $key => $value) {
 				// remove all facet.* settings
