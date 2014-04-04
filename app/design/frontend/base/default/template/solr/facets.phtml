@@ -5,14 +5,15 @@
 	</div>
 	<div class="block-content">
 		<!-- TODO Add block to list selected filters -->
-		<ul id="narrow-by-list">
+		<dl id="narrow-by-list">
 			<?php $facets = $this->getFacets() ?>
 			<?php foreach ($facets as $facet): ?>
 			<?php if (count($facet->getOptions())): ?>
-				<li>
+				<dt>
 					<?php echo $facet->getLabel() ?>
 					<!-- TODO move the following ul into a separate block -->
-					<ul>
+					<dd>
+						<ol>
 						<?php foreach ($facet->getOptions() as $facetOption): ?>
 							<li>
 								<?php echo $facetOption->getLabel() ?>
@@ -21,10 +22,11 @@
 								<?php endif; ?>
 							</li>
 						<?php endforeach ?>
-					</ul>
-				</li>
+						</ol>
+					</dd>
+				</dt>
 			<?php endif ?>
 			<?php endforeach ?>
-		</ul>
+		</dl>
 	</div>
 </div>
