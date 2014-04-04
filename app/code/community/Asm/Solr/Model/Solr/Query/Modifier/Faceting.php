@@ -60,7 +60,7 @@ class Asm_Solr_Model_Solr_Query_Modifier_Faceting
 	protected function getQueryFilters()
 	{
 		$filters = array();
-		$helper = Mage::helper('solr');
+		$helper  = Mage::helper('solr');
 
 		// get query part from current URL
 		$currentQuery = Mage::getModel('core/url')->getRequest()->getQuery();
