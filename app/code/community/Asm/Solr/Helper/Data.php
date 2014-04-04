@@ -114,6 +114,10 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 
 		$attributeCode = $attribute->getAttributeCode();
 
+		if (array_key_exists($attributeCode, self::$fieldToAttributeMap)) {
+			return self::$fieldToAttributeMap[$attributeCode];
+		}
+
 		switch ($attribute->getBackendType()) {
 			case 'datetime':
 				$fieldName = $attributeCode . '_date' . $countFieldType;
