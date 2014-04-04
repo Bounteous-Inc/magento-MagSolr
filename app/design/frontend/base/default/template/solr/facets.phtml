@@ -16,7 +16,7 @@
 						<ol>
 						<?php foreach ($facet->getOptions() as $facetOption): ?>
 							<li>
-								<?php echo $facetOption->getLabel() ?>
+								<a href="<?php echo Mage::helper('core')->escapeUrl($facetOption->getAddUrl()) ?>"><?php echo $facetOption->getLabel() ?></a>
 								<?php if ($this->shouldDisplayProductCount()): ?>
 									(<?php echo $facetOption->getNumberOfResults() ?>)
 								<?php endif; ?>
