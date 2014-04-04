@@ -4,6 +4,11 @@ class Asm_Solr_Model_Solr_Query_Modifier_Faceting
 {
 
 	/**
+	 * @var Mage_Catalog_Model_Resource_Eav_Attribute[]
+	 */
+	protected $filterableAttributes;
+
+	/**
 	 * Called before a query is executed. Modifies the query to add faceting
 	 * parameters.
 	 *
@@ -15,8 +20,10 @@ class Asm_Solr_Model_Solr_Query_Modifier_Faceting
 		$query = $observer->getQuery();
 		$query->setFaceting();
 
-		$filterAttributes = $this->getFilterableAttributes();
-		foreach ($filterAttributes as $attribute) {
+		$this->filterableAttributes = $this->getFilterableAttributes();
+
+		// set facet.* query parameters / which facets to generate
+		foreach ($this->filterableAttributes as $attribute) {
 			$query->addFacetField(Mage::helper('solr')->getFieldNameByAttribute($attribute));
 		}
 	}
