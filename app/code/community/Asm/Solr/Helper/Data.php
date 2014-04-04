@@ -94,7 +94,8 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 		$fieldName = false;
 
 		$countFieldType = 'S'; // single value
-		if ($multiValue) {
+		if ($multiValue
+		|| ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract && $attribute->getIsConfigurable())) {
 			$countFieldType = 'M';
 		}
 
