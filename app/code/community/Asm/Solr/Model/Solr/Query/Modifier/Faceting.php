@@ -26,6 +26,12 @@ class Asm_Solr_Model_Solr_Query_Modifier_Faceting
 		foreach ($this->filterableAttributes as $attribute) {
 			$query->addFacetField(Mage::helper('solr')->getFieldNameByAttribute($attribute));
 		}
+
+		// set filter query (fq) parameters / actually filtering results
+		$filters = $this->getQueryFilters();
+		foreach ($filters as $fieldName => $value) {
+			$query->addFilter($fieldName, $value);
+		}
 	}
 
 	/**
@@ -44,6 +50,33 @@ class Asm_Solr_Model_Solr_Query_Modifier_Faceting
 		$collection->load();
 
 		return $collection;
+	}
+
+	/**
+	 * Generate filters from current URL query
+	 *
+	 * @return array Filters as field name => value pairs
+	 */
+	protected function getQueryFilters()
+	{
+		$filters = array();
+		$helper = Mage::helper('solr');
+
+		// get query part from current URL
+		$currentQuery = Mage::getModel('core/url')->getRequest()->getQuery();
+
+		foreach ($this->filterableAttributes as $attribute) {
+			$attributeCode = $attribute->getAttributeCode();
+
+			// match attribute codes
+			if (array_key_exists($attributeCode, $currentQuery)) {
+				// generate filters from matches
+				$fieldName = $helper->getFieldNameByAttribute($attribute);
+				$filters[$fieldName] = $currentQuery[$attributeCode];
+			}
+		}
+
+		return $filters;
 	}
 
 }
