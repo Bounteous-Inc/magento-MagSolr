@@ -83,11 +83,22 @@ class Asm_Solr_Model_Solr_Facet_Facet extends Varien_Object
 	 * @param Asm_Solr_Model_Solr_Facet_FacetOption $option
 	 */
 	public function addOption(Asm_Solr_Model_Solr_Facet_FacetOption $option) {
-		$this->options[] = $option;
+		$this->options[$option->getValue()] = $option;
 	}
 
 	public function getOptions() {
 		return $this->options;
+	}
+
+	/**
+	 * Gets an option by its value
+	 *
+	 * @param string $optionValue Option value
+	 * @return Asm_Solr_Model_Solr_Facet_FacetOption
+	 */
+	public function getOption($optionValue)
+	{
+		return $this->options[$optionValue];
 	}
 
 	/**
