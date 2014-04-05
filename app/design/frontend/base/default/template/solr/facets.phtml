@@ -4,7 +4,9 @@
 		<strong><span><?php echo $this->__('Narrow Search') ?></span></strong>
 	</div>
 	<div class="block-content">
-		<!-- TODO Add block to list selected filters -->
+
+		<?php echo $this->getAppliedFiltersHtml() ?>
+
 		<p class="block-subtitle"><?php echo $this->__('Filter Options') ?></p>
 		<dl id="narrow-by-list">
 			<?php $facets = $this->getFacets() ?>

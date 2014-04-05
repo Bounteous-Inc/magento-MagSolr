@@ -6,6 +6,15 @@ class Asm_Solr_Block_Facets extends Mage_Core_Block_Template
 	protected $displayProductCount = null;
 
 	/**
+	 * Get the rendered block for the applied filters
+	 *
+	 * @return string rendered applied filters block
+	 */
+	public function getAppliedFiltersHtml() {
+		return $this->getChildHtml('solr.filters_applied');
+	}
+
+	/**
 	 * Whether to show the number of products that will be returned when
 	 * applying a filter.
 	 *
