@@ -1,0 +1,25 @@
+
+<?php $filters = $this->getAppliedFilters() ?>
+<?php if (!empty($filters)): ?>
+
+	<div class="currently">
+		<p class="block-subtitle"><?php echo $this->__('Currently Filtering by:') ?></p>
+		<ol>
+			<?php foreach ($filters as $filter): ?>
+				<li>
+					<span class="label">
+						<?php echo $this->__($filter->getFacet()->getName()) ?>:
+					</span><span class="value">
+						<?php echo $this->stripTags($filter->getLabel()) ?>
+					</span>
+					<a class="btn-remove"
+					   href="<?php echo $filter->getRemoveUrl() ?>"
+					   title="<?php echo $this->__('Remove This Item') ?>">
+						<?php echo $this->__('Remove This Item') ?>
+					</a>
+				</li>
+			<?php endforeach; ?>
+		</ol>
+	</div>
+
+<?php endif ?>

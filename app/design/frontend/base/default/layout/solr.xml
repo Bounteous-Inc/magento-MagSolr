@@ -14,7 +14,9 @@
 			<action method="setTemplate"><template>page/3columns.phtml</template></action>
 		</reference>
 		<reference name="left">
-			<block type="solr/facets" name="solr.leftnav" after="currency" template="solr/facets.phtml"/>
+			<block type="solr/facets" name="solr.leftnav" after="currency" template="solr/facets.phtml">
+				<block type="solr/filtersApplied" name="solr.filters_applied" template="solr/filters_applied.phtml"/>
+			</block>
 		</reference>
 		<reference name="content">
 			<block type="solr/result" name="search.result" template="solr/result.phtml">
