@@ -63,16 +63,16 @@ class Asm_Solr_Model_Solr_Query_Modifier_Faceting
 		$helper  = Mage::helper('solr');
 
 		// get query part from current URL
-		$currentQuery = Mage::getModel('core/url')->getRequest()->getQuery();
+		$urlQuery = Mage::getModel('core/url')->getRequest()->getQuery();
 
 		foreach ($this->filterableAttributes as $attribute) {
 			$attributeCode = $attribute->getAttributeCode();
 
 			// match attribute codes
-			if (array_key_exists($attributeCode, $currentQuery)) {
+			if (array_key_exists($attributeCode, $urlQuery)) {
 				// generate filters from matches
 				$fieldName = $helper->getFieldNameByAttribute($attribute);
-				$filters[$fieldName] = $currentQuery[$attributeCode];
+				$filters[$fieldName] = $urlQuery[$attributeCode];
 			}
 		}
 
