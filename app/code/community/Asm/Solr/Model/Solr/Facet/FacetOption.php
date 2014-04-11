@@ -6,6 +6,13 @@
  * @category Asm
  * @package Asm_Solr
  * @author Ingo Renner <ingo@infielddesign.com>
+ *
+ * @method Asm_Solr_Model_Solr_Facet_Facet getFacet()
+ * @method Asm_Solr_Model_Solr_Facet_FacetOption setFacet(Asm_Solr_Model_Solr_Facet_Facet $facet)
+ * @method string getValue()
+ * @method Asm_Solr_Model_Solr_Facet_FacetOption setLabel(string $label)
+ * @method Asm_Solr_Model_Solr_Facet_FacetOption setValue(string $value)
+ * @method Asm_Solr_Model_Solr_Facet_FacetOption setNumberOfResults(string $numberOfResults)
  */
 class Asm_Solr_Model_Solr_Facet_FacetOption extends Varien_Object
 {

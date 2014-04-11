@@ -7,6 +7,11 @@
  * @category Asm
  * @package Asm_Solr
  * @author Ingo Renner <ingo@infielddesign.com>
+ *
+ * @method string getName()
+ * @method Asm_Solr_Model_Solr_Facet_Facet setName(string $name)
+ * @method Asm_Solr_Model_Solr_Facet_Facet setAttributeCode(string $attributeCode)
+ * @method Asm_Solr_Model_Solr_Facet_Facet setField(string $field)
  */
 class Asm_Solr_Model_Solr_Facet_Facet extends Varien_Object
 {
