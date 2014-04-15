@@ -454,13 +454,11 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 
 	protected function unifyField($field, $backendType = 'varchar')
 	{
-		// FIXME don't rely on catalogsearch
-
 		if ($backendType == 'datetime') {
-			$expr = Mage::getResourceHelper('catalogsearch')->castField(
+			$expr = Mage::getResourceHelper('solr')->castField(
 				$this->_getReadAdapter()->getDateFormatSql($field, '%Y-%m-%d %H:%i:%s'));
 		} else {
-			$expr = Mage::getResourceHelper('catalogsearch')->castField($field);
+			$expr = Mage::getResourceHelper('solr')->castField($field);
 		}
 
 		return $expr;
