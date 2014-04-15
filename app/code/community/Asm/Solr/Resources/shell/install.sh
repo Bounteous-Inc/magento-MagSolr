@@ -8,7 +8,7 @@
 #	sudo ./install-solr.sh english german french
 
 TOMCAT_VER=7.0.53
-SOLR_VER=4.7.1
+SOLR_VER=4.7.2
 ASM_SOLR_VER=0.7.0
 
 GITBRANCH_PATH="asm_$ASM_SOLR_VER.x"
