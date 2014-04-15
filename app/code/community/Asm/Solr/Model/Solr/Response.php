@@ -50,13 +50,16 @@ class Asm_Solr_Model_Solr_Response
 	 */
 	public function getFacetFields()
 	{
-		$facets      = array();
-		$facetFields = $this->rawResponse->facet_counts->facet_fields;
+		$facets              = array();
+		$facetFields         = $this->rawResponse->facet_counts->facet_fields;
+		$fieldToAttributeMap = Mage::helper('solr')->getFieldToAttributeMap();
 
 		foreach ($facetFields as $facetField => $facetOptions) {
-			// remove field type suffix
-			// FIXME messes with non-dynamic attributes
-			$attributeCode = implode('_', explode('_', $facetField, -1));
+			$attributeCode = $facetField;
+			if (!array_key_exists($facetField, $fieldToAttributeMap)) {
+				// remove field type suffix
+				$attributeCode = implode('_', explode('_', $facetField, -1));
+			}
 
 			$facet = Mage::getModel('solr/solr_facet_facet')
 				->setName($attributeCode)
