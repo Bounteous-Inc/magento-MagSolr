@@ -469,6 +469,11 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 	///// ///// attribute name to id map ///// /////
 
 
+	/**
+	 * Creates a map of attribute codes associated to their numerical IDs
+	 *
+	 * @return array attributeCode => attributeId
+	 */
 	protected function getAttributeCodeToIdMap()
 	{
 		if (empty($this->attributeCodeToIdMap)) {
@@ -486,6 +491,13 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		return $this->attributeCodeToIdMap;
 	}
 
+	/**
+	 * Takes an array of product attributeId/value pairs and turns it into an
+	 * array of attributeCode/value pairs.
+	 *
+	 * @param array $productAttributes Array of attributeId/value pairs
+	 * @return array Array of attributeCode/value pairs
+	 */
 	protected function getNamedProductAttributes(array $productAttributes)
 	{
 		$namedAttributes = array();
