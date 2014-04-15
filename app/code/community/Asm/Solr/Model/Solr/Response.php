@@ -55,6 +55,7 @@ class Asm_Solr_Model_Solr_Response
 
 		foreach ($facetFields as $facetField => $facetOptions) {
 			// remove field type suffix
+			// FIXME messes with non-dynamic attributes
 			$attributeCode = implode('_', explode('_', $facetField, -1));
 
 			$facet = Mage::getModel('solr/solr_facet_facet')
