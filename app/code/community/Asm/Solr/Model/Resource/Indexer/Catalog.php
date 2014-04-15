@@ -469,15 +469,6 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 	///// ///// attribute name to id map ///// /////
 
 
-
-	protected function getAttributeByName($product, $attributeName)
-	{
-		$attributeNameToIdMap = $this->getAttributeCodeToIdMap();
-		$attributeId          = $attributeNameToIdMap[$attributeName];
-
-		return $product[$attributeId];
-	}
-
 	protected function getAttributeCodeToIdMap()
 	{
 		if (empty($this->attributeCodeToIdMap)) {
