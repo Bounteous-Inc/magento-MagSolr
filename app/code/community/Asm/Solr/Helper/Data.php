@@ -126,7 +126,9 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 				$fieldName = $attributeCode . '_double' . $countFieldType;
 				break;
 			case 'int':
-				$fieldName = $attributeCode . '_int' . $countFieldType;
+				// FIXME must use correct field type if it's actually int
+				// $fieldName = $attributeCode . '_int' . $countFieldType;
+				$fieldName = $attributeCode . '_string' . $countFieldType;
 				break;
 			case 'text':
 			case 'varchar':
