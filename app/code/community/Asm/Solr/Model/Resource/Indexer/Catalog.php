@@ -209,7 +209,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		$document->setField('type_id_stringS', $productType);
 
 		if ($productType == 'configurable') {
-			$childProductAttributes = $this->getConfigurableProductChildProductAttributes($product);
+			$childProductAttributes = $this->getConfigurableProductChildProductAttributes($storeId, $product);
 			$searchableAttributes = array_merge($searchableAttributes, $childProductAttributes);
 		}
 
@@ -242,7 +242,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		return $document;
 	}
 
-	protected function getConfigurableProductChildProductAttributes($product) {
+	protected function getConfigurableProductChildProductAttributes($storeId, $product) {
 		$childProductAttributes = array();
 		$configurableProduct = Mage::getModel('catalog/product_type_configurable')->setProduct($product);
 
@@ -258,8 +258,12 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 					$childProductAttributes[$attributeCode] = array();
 				}
 
-				if (!in_array($simpleProduct->{$attributeCode}, $childProductAttributes[$attributeCode])) {
-					$childProductAttributes[$attributeCode][] = $simpleProduct->{$attributeCode};
+				// TODO try to set storeId further up, probably/maybe on Mage::getModel('catalog/product_type_configurable')->setProduct($product);
+				$attribute = $simpleProduct->getResource()->getAttribute($attributeCode)->setStoreId($storeId);
+				$attrOptVal = $attribute->getSource()->getOptionText($simpleProduct->{$attributeCode});
+
+				if (!in_array($attrOptVal, $childProductAttributes[$attributeCode])) {
+					$childProductAttributes[$attributeCode][] = $attrOptVal;
 				}
 			}
 		}
