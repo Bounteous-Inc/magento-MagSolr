@@ -3,6 +3,9 @@
 class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_Db_Abstract
 {
 
+	// FIXME refactor storeId to be a member instead of providing it as parameter everywhere
+
+
 	/**
 	 * Searchable attributes cache
 	 *
