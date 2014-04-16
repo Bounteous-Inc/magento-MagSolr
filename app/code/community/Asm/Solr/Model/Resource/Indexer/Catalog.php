@@ -234,7 +234,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 				$attributeValue = $helper->dateToIso($attributeValue);
 			}
 			$document->setField(
-				$helper->getFieldNameByAttribute($attribute, $multiValue),
+				Mage::helper('solr/schema')->getFieldNameByAttribute($attribute, $multiValue),
 				$attributeValue
 			);
 		}
