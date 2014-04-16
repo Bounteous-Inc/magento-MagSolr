@@ -29,7 +29,7 @@ class Asm_Solr_ResultController extends Mage_Core_Controller_Front_Action {
 
 		$productIds = array();
 
-		$fieldToAttributeMap = Mage::helper('solr')->getFieldToAttributeMap();
+		$fieldToAttributeMap = Mage::helper('solr/schema')->getFieldToAttributeMap();
 		// build a reverse map, remove fields that have no atrribute
 		$fieldToAttributeMap = array_filter($fieldToAttributeMap);
 		$attributeToFieldMap = array_flip($fieldToAttributeMap);
@@ -53,11 +53,11 @@ class Asm_Solr_ResultController extends Mage_Core_Controller_Front_Action {
 
 			$dynamicFields = array_diff(
 				$unmappedDocumentFields,
-				array_keys(Mage::helper('solr')->getFieldToAttributeMap())
+				array_keys(Mage::helper('solr/schema')->getFieldToAttributeMap())
 			);
 
 			// map Solr dynamic fields to Magento product attributes
-			$dynamicFieldSuffixes = Mage::helper('solr')->getDynamicFieldSuffixes();
+			$dynamicFieldSuffixes = Mage::helper('solr/schema')->getDynamicFieldSuffixes();
 			foreach ($dynamicFields as $dynamicField) {
 				$fieldNameParts = explode('_', $dynamicField);
 
