@@ -253,7 +253,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 			// find/iterate over attributes that make a product configurable
 			// add attribute values to super product attributes
 			foreach ($superProductAttributes as $attribute) {
-				$attributeCode = $attribute->attribute_code;
+				$attributeCode = $attribute->getAttributeCode();
 				if (!array_key_exists($attributeCode, $childProductAttributes)) {
 					$childProductAttributes[$attributeCode] = array();
 				}
