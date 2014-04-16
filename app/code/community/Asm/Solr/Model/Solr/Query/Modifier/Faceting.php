@@ -72,7 +72,7 @@ class Asm_Solr_Model_Solr_Query_Modifier_Faceting
 			if (array_key_exists($attributeCode, $urlQuery)) {
 				// generate filters from matches
 				$fieldName = $helper->getFieldNameByAttribute($attribute);
-				$filters[$fieldName] = $urlQuery[$attributeCode];
+				$filters[$fieldName] = '"' . $urlQuery[$attributeCode] . '"';
 			}
 		}
 
