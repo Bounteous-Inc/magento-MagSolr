@@ -1,0 +1,36 @@
+
+<div class="block block-layered-nav">
+	<div class="block-title">
+		<strong><span><?php echo $this->__('Narrow Search') ?></span></strong>
+	</div>
+	<div class="block-content">
+
+		<?php echo $this->getAppliedFiltersHtml() ?>
+
+		<p class="block-subtitle"><?php echo $this->__('Filter Options') ?></p>
+		<dl id="narrow-by-list">
+			<?php $facets = $this->getFacets() ?>
+			<?php foreach ($facets as $facet): ?>
+			<?php if (count($facet->getOptions())): ?>
+				<dt>
+					<?php echo $facet->getLabel() ?>
+					<!-- TODO move the following list into a separate block -->
+					<dd>
+						<ol>
+						<?php foreach ($facet->getOptions() as $facetOption): ?>
+							<li>
+								<a href="<?php echo Mage::helper('core')->escapeUrl($facetOption->getAddUrl()) ?>"><?php echo $facetOption->getLabel() ?></a>
+								<?php if ($this->shouldDisplayProductCount()): ?>
+									(<?php echo $facetOption->getNumberOfResults() ?>)
+								<?php endif; ?>
+							</li>
+						<?php endforeach ?>
+						</ol>
+					</dd>
+				</dt>
+			<?php endif ?>
+			<?php endforeach ?>
+		</dl>
+
+	</div>
+</div>

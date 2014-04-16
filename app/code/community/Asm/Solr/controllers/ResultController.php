@@ -18,10 +18,12 @@ class Asm_Solr_ResultController extends Mage_Core_Controller_Front_Action {
 
 		$search   = Mage::getResourceModel('solr/search');
 		$response = $search->search($query, $offset, $limit);
+		Mage::register('solr/response', $response);
 
-		$numberOfResults = $response->response->numFound;
+
+		$numberOfResults = $response->getNumberOfResults();
 		/** @var Apache_Solr_Document[] $resultDocuments */
-		$resultDocuments = $response->response->docs;
+		$resultDocuments = $response->getDocuments();
 
 		/** @var Asm_Solr_Model_Resource_Product_Collection $collection */
 		$collection = Mage::getModel('solr/product')->getCollection();

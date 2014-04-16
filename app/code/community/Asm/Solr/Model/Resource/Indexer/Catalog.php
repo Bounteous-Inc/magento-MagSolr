@@ -3,6 +3,9 @@
 class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_Db_Abstract
 {
 
+	// FIXME refactor storeId to be a member instead of providing it as parameter everywhere
+
+
 	/**
 	 * Searchable attributes cache
 	 *
@@ -206,7 +209,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		$document->setField('type_id_stringS', $productType);
 
 		if ($productType == 'configurable') {
-			$childProductAttributes = $this->getConfigurableProductChildProductAttributes($product);
+			$childProductAttributes = $this->getConfigurableProductChildProductAttributes($storeId, $product);
 			$searchableAttributes = array_merge($searchableAttributes, $childProductAttributes);
 		}
 
@@ -239,7 +242,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		return $document;
 	}
 
-	protected function getConfigurableProductChildProductAttributes($product) {
+	protected function getConfigurableProductChildProductAttributes($storeId, $product) {
 		$childProductAttributes = array();
 		$configurableProduct = Mage::getModel('catalog/product_type_configurable')->setProduct($product);
 
@@ -250,13 +253,17 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 			// find/iterate over attributes that make a product configurable
 			// add attribute values to super product attributes
 			foreach ($superProductAttributes as $attribute) {
-				$attributeCode = $attribute->attribute_code;
+				$attributeCode = $attribute->getAttributeCode();
 				if (!array_key_exists($attributeCode, $childProductAttributes)) {
 					$childProductAttributes[$attributeCode] = array();
 				}
 
-				if (!in_array($simpleProduct->{$attributeCode}, $childProductAttributes[$attributeCode])) {
-					$childProductAttributes[$attributeCode][] = $simpleProduct->{$attributeCode};
+				// TODO try to set storeId further up, probably/maybe on Mage::getModel('catalog/product_type_configurable')->setProduct($product);
+				$attribute = $simpleProduct->getResource()->getAttribute($attributeCode)->setStoreId($storeId);
+				$attrOptVal = $attribute->getSource()->getOptionText($simpleProduct->{$attributeCode});
+
+				if (!in_array($attrOptVal, $childProductAttributes[$attributeCode])) {
+					$childProductAttributes[$attributeCode][] = $attrOptVal;
 				}
 			}
 		}
@@ -469,15 +476,11 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 	///// ///// attribute name to id map ///// /////
 
 
-
-	protected function getAttributeByName($product, $attributeName)
-	{
-		$attributeNameToIdMap = $this->getAttributeCodeToIdMap();
-		$attributeId          = $attributeNameToIdMap[$attributeName];
-
-		return $product[$attributeId];
-	}
-
+	/**
+	 * Creates a map of attribute codes associated to their numerical IDs
+	 *
+	 * @return array attributeCode => attributeId
+	 */
 	protected function getAttributeCodeToIdMap()
 	{
 		if (empty($this->attributeCodeToIdMap)) {
@@ -495,6 +498,13 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		return $this->attributeCodeToIdMap;
 	}
 
+	/**
+	 * Takes an array of product attributeId/value pairs and turns it into an
+	 * array of attributeCode/value pairs.
+	 *
+	 * @param array $productAttributes Array of attributeId/value pairs
+	 * @return array Array of attributeCode/value pairs
+	 */
 	protected function getNamedProductAttributes(array $productAttributes)
 	{
 		$namedAttributes = array();
