@@ -24,7 +24,7 @@ class Asm_Solr_Model_Solr_Query_Modifier_Faceting
 
 		// set facet.* query parameters / which facets to generate
 		foreach ($this->filterableAttributes as $attribute) {
-			$query->addFacetField(Mage::helper('solr')->getFieldNameByAttribute($attribute));
+			$query->addFacetField(Mage::helper('solr/schema')->getFieldNameByAttribute($attribute));
 		}
 
 		// set filter query (fq) parameters / actually filtering results
@@ -71,7 +71,7 @@ class Asm_Solr_Model_Solr_Query_Modifier_Faceting
 			// match attribute codes
 			if (array_key_exists($attributeCode, $urlQuery)) {
 				// generate filters from matches
-				$fieldName = $helper->getFieldNameByAttribute($attribute);
+				$fieldName = Mage::helper('solr/schema')->getFieldNameByAttribute($attribute);
 				$filters[$fieldName] = '"' . $urlQuery[$attributeCode] . '"';
 			}
 		}

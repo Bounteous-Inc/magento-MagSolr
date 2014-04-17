@@ -52,7 +52,7 @@ class Asm_Solr_Model_Solr_Response
 	{
 		$facets              = array();
 		$facetFields         = $this->rawResponse->facet_counts->facet_fields;
-		$fieldToAttributeMap = Mage::helper('solr')->getFieldToAttributeMap();
+		$fieldToAttributeMap = Mage::helper('solr/schema')->getFieldToAttributeMap();
 
 		foreach ($facetFields as $facetField => $facetOptions) {
 			$attributeCode = $facetField;
