@@ -20,6 +20,16 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 	}
 
 	/**
+	 * Gets the current query's result or null if the query has not been
+	 * executed yet.
+	 *
+	 * @return Asm_Solr_Model_Solr_Response|null
+	 */
+	public function getResponse() {
+		return Mage::registry('solr/response');
+	}
+
+		/**
 	 * Generates the result page URL
 	 *
 	 * @param string $keywords
