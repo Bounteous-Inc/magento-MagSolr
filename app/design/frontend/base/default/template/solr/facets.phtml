@@ -19,7 +19,17 @@
 						<ol>
 						<?php foreach ($facet->getOptions() as $facetOption): ?>
 							<li>
-								<a href="<?php echo Mage::helper('core')->escapeUrl($facetOption->getAddUrl()) ?>"><?php echo $facetOption->getLabel() ?></a>
+								<a href="<?php echo Mage::helper('core')->escapeUrl($facetOption->getAddUrl()) ?>">
+									<?php
+									$facetOptionLabel = $facetOption->getLabel();
+									if ($facet->getLabel() == 'price') {
+										// TODO add facet renderers so that facets can be rendered individually
+										echo Mage::app()->getStore()->formatPrice($facetOptionLabel);
+									} else {
+										echo $facetOptionLabel;
+									}
+									?>
+								</a>
 								<?php if ($this->shouldDisplayProductCount()): ?>
 									(<?php echo $facetOption->getNumberOfResults() ?>)
 								<?php endif; ?>
