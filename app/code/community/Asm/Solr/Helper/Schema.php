@@ -91,6 +91,12 @@ class Asm_Solr_Helper_Schema extends Mage_Core_Helper_Abstract
 		$fieldName = false;
 
 		if (is_string($attribute)) {
+			$fieldName = array_search($attribute, self::$fieldToAttributeMap, true);
+			if ($fieldName !== false) {
+				// early return if we can find the field in the field/attribute map
+				return $fieldName;
+			}
+
 			// turn attribute code into attribute instance
 			$attribute = Mage::getSingleton('eav/config')
 				->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attribute);
