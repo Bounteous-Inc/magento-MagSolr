@@ -94,6 +94,10 @@
 						<class>solr/solr_query_modifier_faceting</class>
 						<method>modifyQuery</method>
 					</asm_querymodifier_faceting>
+					<asm_querymodifier_sorting>
+						<class>solr/solr_query_modifier_sorting</class>
+						<method>modifyQuery</method>
+					</asm_querymodifier_sorting>
 				</observers>
 			</asm_search_query_before>
 		</events>
