@@ -90,13 +90,6 @@ class Asm_Solr_Helper_Schema extends Mage_Core_Helper_Abstract
 	public function getFieldNameByAttribute($attribute, $multiValue = false) {
 		$fieldName = false;
 
-		$countFieldType = 'S'; // single value
-		if ($multiValue
-			|| ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract && $attribute->getIsConfigurable())
-		) {
-			$countFieldType = 'M';
-		}
-
 		if (is_string($attribute)) {
 			// turn attribute code into attribute instance
 			$attribute = Mage::getSingleton('eav/config')
@@ -111,6 +104,11 @@ class Asm_Solr_Helper_Schema extends Mage_Core_Helper_Abstract
 		}
 
 		$attributeCode = $attribute->getAttributeCode();
+
+		$countFieldType = 'S'; // single value
+		if ($multiValue || $attribute->getIsConfigurable()) {
+			$countFieldType = 'M';
+		}
 
 		if (array_key_exists($attributeCode, self::$fieldToAttributeMap)) {
 			return self::$fieldToAttributeMap[$attributeCode];
