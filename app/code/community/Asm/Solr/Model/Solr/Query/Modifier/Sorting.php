@@ -61,6 +61,8 @@ class Asm_Solr_Model_Solr_Query_Modifier_Sorting
 		if (array_key_exists($field, $this->sortAttributes)) {
 			if ($field == 'relevance') {
 				$sortField = 'relevance';
+			} else if ($field == 'name') {
+				$sortField = 'sortTitle';
 			} else {
 				$sortField = Mage::helper('solr/schema')->getFieldNameByAttribute($field);
 			}
