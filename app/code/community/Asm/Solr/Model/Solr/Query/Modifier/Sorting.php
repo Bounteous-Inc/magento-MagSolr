@@ -1,5 +1,13 @@
 <?php
 
+
+/**
+ * Sorting Query Modifier, adds sorting parameters to a query
+ *
+ * @category Asm
+ * @package Asm_Solr
+ * @author Ingo Renner <ingo@infielddesign.com>
+ */
 class Asm_Solr_Model_Solr_Query_Modifier_Sorting
 {
 
