@@ -128,6 +128,9 @@
 	<copyField source="title"   dest="spellcheckContent" />
 	<copyField source="content" dest="spellcheckContent" />
 
+	<field name="sortTitle" type="string" indexed="true" stored="false"/>
+	<copyField source="title" dest="sortTitle"/>
+
 	<!--
 		Dynamic field definitions. If a field name is not found, dynamic
 		fields will be used if the name matches any of the patterns.
