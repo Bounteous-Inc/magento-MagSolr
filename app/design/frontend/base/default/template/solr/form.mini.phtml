@@ -10,7 +10,6 @@ $solrHelper = $this->helper('solr');
 		<label for="search"><?php echo $this->__('Search:') ?></label>
 		<input id="search" type="text"
 			   name="<?php echo $solrHelper->getQuery()->getQueryParameterName() ?>"
-			   value="<?php echo $solrHelper->getQuery()->getKeywordsCleaned() ?>"
 			   class="input-text" />
 		<button type="submit" title="<?php echo $this->__('Search') ?>" class="button">
 			<span><span><?php echo $this->__('Search') ?></span></span>
