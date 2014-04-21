@@ -38,6 +38,10 @@ class Asm_Solr_Model_Solr_Query_Modifier_Sorting
 		$this->sortAttributes = array_merge(array(
 			'relevance' => 'Relevance' // the actual label does not matter here, we're only using the keys
 		), $availableSortAttributes);
+
+		// unset the sort order session data to have the sort select box always
+		// reflect the correct sort field and reset it when starting a new search
+		Mage::getSingleton('catalog/session')->unsetData('sort_order');
 	}
 
 	/**
