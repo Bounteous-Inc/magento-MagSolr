@@ -10,6 +10,7 @@
 TOMCAT_VER=7.0.53
 SOLR_VER=4.7.2
 ASM_SOLR_VER=0.9.0
+JAVA_VER=7
 
 GITBRANCH_PATH="asm_$ASM_SOLR_VER.x"
 
@@ -157,6 +158,16 @@ if [ $CHECK -ne "0" ]
 		cecho "ERROR couldn't find Java (Oracle Java is recommended)." $red
 		PASSALLCHECKS=0
 	else cecho "passed" $green
+fi
+
+JAVA_VERSION=$(java -version 2>&1 | grep -Eom1 "[._0-9]{5,}")
+# extract the main Java version from 1.7.0_11 => 7
+JAVA_VERSION=${JAVA_VERSION:2:1}
+# check if java version is 1.7 or newer
+if [ $JAVA_VERSION -lt $JAVA_VER ]
+then
+  cecho "You have installed Java version $JAVA_VERSION. Please install Java 7 or newer." $red
+  PASSALLCHECKS=0
 fi
 
 # Can we connect to the Internet?
