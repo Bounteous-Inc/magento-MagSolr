@@ -8,7 +8,7 @@
 
 	When changing the schema the name property must be updated, too.
 -->
-<schema name="Asm_Solr-0-8-0--20140421" version="1.5">
+<schema name="Asm_Solr-0-10-0--20140429" version="1.5">
 
 	<!-- include shared types -->
 	<xi:include href="../schema_types_shared.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
