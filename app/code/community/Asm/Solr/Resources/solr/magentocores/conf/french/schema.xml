@@ -51,9 +51,9 @@
 				/>
 				<filter class="solr.ManagedStopFilterFactory" managed="french"/>
 				<!--
-								besst practice for synonyms is to add them by expansions during index time
+					best practice for synonyms is to add them by expansions during index time
 
-								<filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+					<filter class="solr.ManagedSynonymFilterFactory" managed="french" />
 				-->
 				<filter class="solr.LowerCaseFilterFactory"/>
 				<filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
