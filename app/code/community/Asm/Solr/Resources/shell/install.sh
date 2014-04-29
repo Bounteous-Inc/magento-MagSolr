@@ -166,7 +166,7 @@ JAVA_VERSION=${JAVA_VERSION:2:1}
 # check if java version is 1.7 or newer
 if [ $JAVA_VERSION -lt $JAVA_VER ]
 then
-  cecho "You have installed Java version $JAVA_VERSION. Please install Java 7 or newer." $red
+  cecho "You have installed Java version $JAVA_VERSION. Please install Java $JAVA_VER or newer." $red
   PASSALLCHECKS=0
 fi
 
