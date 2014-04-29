@@ -8,9 +8,9 @@
 
 	When changing the schema the name property must be updated, too.
 -->
-<config name="Asm_Solr-0-1-0--20130923">
+<config name="Asm_Solr-0-9-0--20140428">
 
-	<luceneMatchVersion>4.7</luceneMatchVersion>
+	<luceneMatchVersion>4.8</luceneMatchVersion>
 
 
 	<!-- Tika / Solr Cell -->
