@@ -1,4 +1,4 @@
-<fields>
+
 	<!--
 	Valid attributes for fields:
 
@@ -192,5 +192,3 @@
 		already match an existing field name or dynamic field, rather than reporting them as an error.
 	-->
 	<dynamicField name="*" type="ignored" />
-
-</fields>
