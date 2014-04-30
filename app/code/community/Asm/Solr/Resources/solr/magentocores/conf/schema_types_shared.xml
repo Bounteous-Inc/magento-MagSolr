@@ -7,7 +7,7 @@
 	<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" />
 
 	<!-- Binary data type. The data should be sent/retrieved in as Base64 encoded Strings -->
-	<fieldtype name="binary" class="solr.BinaryField" />
+	<fieldType name="binary" class="solr.BinaryField" />
 
 	<!--
 		Numeric field types that index each value at various levels of precision
@@ -95,12 +95,12 @@
 		</analyzer>
 	</fieldType>
 
-	<fieldtype name="phonetic" stored="false" indexed="true" class="solr.TextField">
+	<fieldType name="phonetic" stored="false" indexed="true" class="solr.TextField">
 		<analyzer>
 			<tokenizer class="solr.StandardTokenizerFactory" />
 			<filter class="solr.DoubleMetaphoneFilterFactory" inject="false" />
 		</analyzer>
-	</fieldtype>
+	</fieldType>
 
 	<!-- lowercases the entire field value, keeping it as a single token.  -->
 	<fieldType name="lowercase" class="solr.TextField" positionIncrementGap="100">
