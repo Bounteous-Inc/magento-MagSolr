@@ -23,9 +23,12 @@
 		</models>
 		<index>
 			<indexer>
-				<solr>
+				<solr_catalog>
 					<model>solr/indexer_catalog</model>
-				</solr>
+				</solr_catalog>
+				<solr_cms>
+					<model>solr/indexer_cms</model>
+				</solr_cms>
 			</indexer>
 		</index>
 		<blocks>
