@@ -1,4 +1,4 @@
-
+<types>
 
 	<!-- The StrField type is not analyzed, but indexed/stored verbatim. -->
 	<fieldType name="string" class="solr.StrField" sortMissingLast="true"  />
@@ -153,3 +153,4 @@
 	-->
 	<fieldType name="ignored" stored="false" indexed="false" class="solr.StrField" />
 
+</types>
