@@ -8,7 +8,7 @@
 #	sudo ./install-solr.sh english german french
 
 TOMCAT_VER=7.0.53
-SOLR_VER=4.8.0
+SOLR_VER=4.8.1
 ASM_SOLR_VER=0.10.0
 JAVA_VER=7
 
