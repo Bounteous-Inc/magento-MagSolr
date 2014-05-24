@@ -3,6 +3,16 @@
 class Asm_Solr_Model_Indexer_Cms extends Mage_Index_Model_Indexer_Abstract
 {
 
+	protected $_matchedEntities = array(
+		Asm_Solr_Model_Cms_Page::ENTITY => array(
+			Mage_Index_Model_Event::TYPE_SAVE,
+			Mage_Index_Model_Event::TYPE_MASS_ACTION,
+			Mage_Index_Model_Event::TYPE_REINDEX,
+			Mage_Index_Model_Event::TYPE_DELETE
+		),
+	);
+
+
 	protected function _construct()
 	{
 		$this->_init('solr/indexer_cms');
@@ -35,7 +45,11 @@ class Asm_Solr_Model_Indexer_Cms extends Mage_Index_Model_Indexer_Abstract
 	 */
 	protected function _registerEvent(Mage_Index_Model_Event $event)
 	{
-		// TODO: Implement _registerEvent() method.
+		if ($event->getEntity() == Asm_Solr_Model_Cms_Page::ENTITY
+			&& $event->getType() == Mage_Index_Model_Event::TYPE_SAVE
+		) {
+			$event->setData('solr_update_page_id', $event->getDataObject()->getId());
+		}
 	}
 
 	/**
@@ -45,7 +59,9 @@ class Asm_Solr_Model_Indexer_Cms extends Mage_Index_Model_Indexer_Abstract
 	 */
 	protected function _processEvent(Mage_Index_Model_Event $event)
 	{
-		// TODO: Implement _processEvent() method.
+		if ($event->getData('solr_update_page_id')) {
+			$this->callEventHandler($event);
+		}
 	}
 
 	public function reindexAll()
