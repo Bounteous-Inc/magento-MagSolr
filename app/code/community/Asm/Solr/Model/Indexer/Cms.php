@@ -52,8 +52,5 @@ class Asm_Solr_Model_Indexer_Cms extends Mage_Index_Model_Indexer_Abstract
 	{
 		$resource = $this->_getResource();
 		$resource->rebuildIndex();
-
-		$connection = Mage::helper('solr/connectionManager')->getConnection();
-		$connection->commit();
 	}
 }
