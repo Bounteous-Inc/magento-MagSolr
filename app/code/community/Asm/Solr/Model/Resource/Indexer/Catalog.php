@@ -172,13 +172,13 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		$document->setField('id',        $helper->getProductDocumentId($product->getEntityId()));
 		$document->setField('site',      $host);
 		$document->setField('siteHash',  $helper->getSiteHashForDomain($host));
+		$document->setField('storeId',   $storeId);
 
 		$document->setField('created',   $helper->dateToIso($product->getCreatedAt()));
 		$document->setField('changed',   $helper->dateToIso($product->getUpdatedAt()));
 
 		$document->setField('sku',       $product->getSku());
 		$document->setField('productId', $product->getEntityId());
-		$document->setField('storeId',   $storeId);
 
 		$categoryIds = $product->getCategoryIds();
 		foreach ($categoryIds as $categoryId) {
