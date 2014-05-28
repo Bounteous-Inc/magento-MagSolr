@@ -83,6 +83,8 @@
 
 	<field name="storeId" type="integer" indexed="true" stored="true" required="true" />
 
+	<field name="pageId" type="integer" indexed="true" stored="true" />
+
 	<field name="categoryId" type="integer" indexed="true" multiValued="true" />
 
 	<field name="inStock" type="boolean" indexed="true" />

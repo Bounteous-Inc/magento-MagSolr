@@ -73,6 +73,23 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 	}
 
 	/**
+	 * Generates a document id for documents representing CMS pages.
+	 *
+	 * @param integer $pageId Page ID
+	 * @return string The document id for that page
+	 */
+	public function getPageDocumentId($pageId)
+	{
+		$baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
+		$host = parse_url($baseUrl, PHP_URL_HOST);
+		$siteHash = $this->getSiteHashForDomain($host);
+
+		$documentId = $siteHash . '/' . Asm_Solr_Model_Cms_Page::ENTITY . '/' . $pageId;
+
+		return $documentId;
+	}
+
+	/**
 	 * Gets the site hash for a domain
 	 *
 	 * @param string $domain Domain to calculate the site hash for.

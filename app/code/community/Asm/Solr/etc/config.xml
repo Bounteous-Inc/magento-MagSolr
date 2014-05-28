@@ -20,12 +20,20 @@
 			<solr_resource>
 				<class>Asm_Solr_Model_Resource</class>
 			</solr_resource>
+			<cms>
+				<rewrite>
+					<page>Asm_Solr_Model_Cms_Page</page>
+				</rewrite>
+			</cms>
 		</models>
 		<index>
 			<indexer>
-				<solr>
+				<solr_catalog>
 					<model>solr/indexer_catalog</model>
-				</solr>
+				</solr_catalog>
+				<solr_cms>
+					<model>solr/indexer_cms</model>
+				</solr_cms>
 			</indexer>
 		</index>
 		<blocks>
