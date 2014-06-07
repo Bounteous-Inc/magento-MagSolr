@@ -75,6 +75,14 @@
 					</asm_observer_product>
 				</observers>
 			</catalog_product_delete_after>
+			<catalogsearch_query_save_after>
+				<observers>
+					<asm_observer_query>
+						<class>solr/SynonymHandler</class>
+						<method>updateSynonyms</method>
+					</asm_observer_query>
+				</observers>
+			</catalogsearch_query_save_after>
 		</events>
 	</adminhtml>
 
