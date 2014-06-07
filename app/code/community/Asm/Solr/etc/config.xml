@@ -124,6 +124,7 @@
 			<query>
 				<rawPost>0</rawPost>
 				<rawGet>0</rawGet>
+				<rawDelete>0</rawDelete>
 			</query>
 		</log>
 	</default>
