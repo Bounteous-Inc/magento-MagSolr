@@ -12,6 +12,8 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 
 	const LUKE_SERVLET    = 'admin/luke';
 	const PLUGINS_SERVLET = 'admin/plugins';
+	const SCHEMA_SERVLET = 'schema';
+	const SYNONYMS_SERVLET = 'schema/analysis/synonyms/';
 
 	const SCHEME_HTTP  = 'http';
 	const SCHEME_HTTPS = 'https';
@@ -36,6 +38,10 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 	 * @var string
 	 */
 	protected $_pluginsUrl;
+
+	protected $_synonymsUrl;
+
+	protected $_schemaUrl;
 
 	/**
 	 * Response cache, holds the last response
@@ -103,6 +109,11 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 			self::PLUGINS_SERVLET,
 			array('wt' => self::SOLR_WRITER)
 		);
+
+		$managedLanguage = $this->getManagedLanguage();
+		$this->_synonymsUrl = $this->_constructUrl(
+				self::SYNONYMS_SERVLET
+			) . $managedLanguage;
 	}
 
 	/**
@@ -196,6 +207,44 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Central method for making a HTTP DELETE operation against the Solr server
+	 *
+	 * @param $url
+	 * @param bool|float $timeout Read timeout in seconds
+	 * @return Apache_Solr_Response
+	 */
+	protected function _sendRawDelete($url, $timeout = FALSE)
+	{
+		try {
+			$httpTransport = $this->getHttpTransport();
+
+			$httpResponse = $httpTransport->performDeleteRequest($url, $timeout);
+			$solrResponse = new Apache_Solr_Response($httpResponse, $this->_createDocuments, $this->_collapseSingleValueArrays);
+
+			if ($solrResponse->getHttpStatus() != 200) {
+				throw new Apache_Solr_HttpTransportException($solrResponse);
+			}
+		} catch (Apache_Solr_HttpTransportException $e) {
+			$solrResponse = $e->getResponse();
+		}
+
+		if (Mage::getStoreConfig('log/query/rawDelete')) {
+			$logData = array(
+				'query url' => $url,
+				'response'  => (array)$solrResponse
+			);
+
+			if (!empty($e)) {
+				$logData['exception'] = $e->__toString();
+			}
+
+			Mage::helper('solr')->getLogger()->debug('Querying Solr using DELETE', $logData);
+		}
+
+		return $solrResponse;
 	}
 
 	/**
@@ -329,6 +378,39 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 	}
 
 	/**
+	 * Get the configured schema for the current core
+	 *
+	 * @return stdClass
+	 */
+	protected function getSchema() {
+		$response = $this->_sendRawGet($this->_schemaUrl);
+		return json_decode($response->getRawResponse())->schema;
+	}
+
+	/**
+	 * Get the language map name for the text field.
+	 * This is necessary to select the correct synonym map.
+	 *
+	 * @return string
+	 */
+	protected function getManagedLanguage() {
+		$language = 'english';
+
+		$schema = $this->getSchema();
+		foreach ($schema->fieldTypes as $fieldType) {
+			if ($fieldType->name === 'text') {
+				foreach ($fieldType->indexAnalyzer->filters as $filter) {
+					if ($filter->class === 'solr.ManagedSynonymFilterFactory') {
+						$language = $filter->managed;
+					}
+				}
+			}
+		}
+
+		return $language;
+	}
+
+	/**
 	 * Gets the name of the schema.xml file installed and in use on the Solr
 	 * server.
 	 *
@@ -388,6 +470,65 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 		if ($commit) {
 			$this->commit(FALSE, FALSE, FALSE);
 		}
+	}
+
+	/**
+	 * Get currently configured synonyms
+	 *
+	 * @param string $baseWord If given a base word, retrieves the synonyms for that word only
+	 * @return array
+	 */
+	public function getSynonyms($baseWord = '') {
+		$synonymsUrl = $this->_synonymsUrl;
+		if (!empty($baseWord)) {
+			$synonymsUrl .= '/' . $baseWord;
+		}
+
+		$response = $this->_sendRawGet($synonymsUrl);
+		$decodedResponse = json_decode($response->getRawResponse());
+
+		$synonyms = array();
+		if (!empty($baseWord)) {
+			$synonyms = $decodedResponse->{$baseWord};
+		} else {
+			$synonyms = $decodedResponse->synonymMappings->managedMap;
+		}
+
+		return $synonyms;
+	}
+
+	/**
+	 * Add list of synonyms for base word to managed synonyms map
+	 *
+	 * @param $baseWord
+	 * @param array $synonyms
+	 *
+	 * @return Apache_Solr_Response
+	 *
+	 * @throws Apache_Solr_InvalidArgumentException If $baseWord or $synonyms are empty
+	 */
+	public function addSynonym($baseWord, array $synonyms) {
+		if (empty($baseWord) || empty($synonyms)) {
+			throw new Apache_Solr_InvalidArgumentException('Must provide base word and synonyms.');
+		}
+
+		$rawPut = json_encode(array($baseWord => $synonyms));
+		return $this->_sendRawPost($this->_synonymsUrl, $rawPut, $this->getHttpTransport()->getDefaultTimeout(), 'application/json');
+	}
+
+	/**
+	 * Remove a synonym from the synonyms map
+	 *
+	 * @param $baseWord
+	 * @return Apache_Solr_Response
+	 * @throws Apache_Solr_InvalidArgumentException
+	 */
+	public function deleteSynonym($baseWord) {
+		if (empty($baseWord)) {
+			throw new Apache_Solr_InvalidArgumentException('Must provide base word and synonyms.');
+		}
+
+		return $this->_sendRawDelete($this->_synonymsUrl . '/' . $baseWord);
 	}
 
 }
