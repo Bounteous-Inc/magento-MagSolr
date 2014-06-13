@@ -493,7 +493,7 @@ class Apache_Solr_Service
 	/**
 	 * Get the current configured HTTP Transport
 	 *
-	 * @return HttpTransportInterface
+	 * @return Apache_Solr_HttpTransport_Interface
 	 */
 	public function getHttpTransport()
 	{
