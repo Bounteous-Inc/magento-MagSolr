@@ -19,6 +19,8 @@
 class Asm_Solr_Model_SynonymHandler
 {
 
+	// TODO remove synonyms when deleting query in AdminHtml
+	// TODO initial import of synonyms
 
 	public function updateSynonyms($event)
 	{
