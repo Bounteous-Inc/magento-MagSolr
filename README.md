@@ -6,6 +6,15 @@ Currently supports indexing and searching of simple and configurable products.
 Next up on our roadmap is adding facets (layered navigation), consider this a
 working beta version.
 
+## Features
+
+* Index and search products
+* Facetted Search (layered navigation)
+* Index CMS pages (search coming soon)
+* Synonym handling through "Catalog" -> "Search Terms" admin module
+* Detailed logging
+* Automated Solr install script
+
 ## Installation
 
 Use [modman](https://github.com/colinmollenhour/modman) to install the module:
