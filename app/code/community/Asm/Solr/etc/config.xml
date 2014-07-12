@@ -46,6 +46,14 @@
 				<class>Asm_Solr_Block</class>
 			</solr>
 		</blocks>
+		<resources>
+			<solr_setup>
+				<setup>
+					<module>Asm_Solr</module>
+					<class>Asm_Solr_Model_Resource_Setup</class>
+				</setup>
+			</solr_setup>
+		</resources>
 	</global>
 
 	<admin>
