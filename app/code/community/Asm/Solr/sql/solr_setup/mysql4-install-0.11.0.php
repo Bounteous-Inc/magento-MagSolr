@@ -20,9 +20,19 @@ $table = $installer->getConnection()
 		'nullable' => false,
 		'default'  => '0',
 		), 'CMS page ID')
+	->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_INTEGER, 11, array(
+		'unsigned' => true,
+		'nullable' => false,
+		'default'  => '0',
+		), 'Store ID')
 	->addColumn('file_path', Varien_Db_Ddl_Table::TYPE_TEXT, null, array(
 		'nullable' => false,
 		), 'File path')
+	->addColumn('changed', Varien_Db_Ddl_Table::TYPE_INTEGER, 11, array(
+		'unsigned' => true,
+		'nullable' => false,
+		'default'  => '0',
+		), 'File changed or added to tracking at')
 	->addColumn('indexed', Varien_Db_Ddl_Table::TYPE_INTEGER, 11, array(
 		'unsigned' => true,
 		'nullable' => false,
