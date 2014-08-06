@@ -15,6 +15,19 @@ class Asm_Solr_Model_GarbageCollector
 		$this->deleteIndexDocument($productDocumentId);
 	}
 
+	/**
+	 * Listens for event indexqueue_file_delete_after
+	 *
+	 * @param Varien_Event_Observer $event
+	 */
+	public function deleteFile($event)
+	{
+		$fileId = $event->getIndexqueueFile()->getEntityId();
+		$fileDocumentId = Mage::helper('solr')->getFileDocumentId($fileId);
+
+		$this->deleteIndexDocument($fileDocumentId);
+	}
+
 	protected function deleteIndexDocument($documentId)
 	{
 		$connection = Mage::helper('solr/connectionManager')->getConnection();

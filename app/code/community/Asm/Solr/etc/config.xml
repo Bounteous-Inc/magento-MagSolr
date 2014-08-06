@@ -107,6 +107,14 @@
 					</asm_observer_index_page>
 				</observers>
 			</solr_index_page_after>
+			<indexqueue_file_delete_after>
+				<observers>
+					<asm_observer_indexqueue_file>
+						<class>solr/GarbageCollector</class>
+						<method>deleteFile</method>
+					</asm_observer_indexqueue_file>
+				</observers>
+			</indexqueue_file_delete_after>
 		</events>
 	</adminhtml>
 
