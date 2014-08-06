@@ -39,6 +39,9 @@
 				<solr_cms>
 					<model>solr/indexer_cms</model>
 				</solr_cms>
+				<solr_file>
+					<model>solr/indexer_file</model>
+				</solr_file>
 			</indexer>
 		</index>
 		<blocks>

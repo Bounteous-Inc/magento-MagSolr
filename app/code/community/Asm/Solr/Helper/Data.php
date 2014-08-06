@@ -73,6 +73,23 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 	}
 
 	/**
+	 * Generates a document id for documents representing files.
+	 *
+	 * @param integer $fileId File ID
+	 * @return string The document ID for that file
+	 */
+	public function getFileDocumentId($fileId)
+	{
+		$baseUrl  = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
+		$host     = parse_url($baseUrl, PHP_URL_HOST);
+		$siteHash = $this->getSiteHashForDomain($host);
+
+		$documentId = $siteHash . '/' . Asm_Solr_Model_Indexqueue_File::ENTITY . '/' . $fileId;
+
+		return $documentId;
+	}
+
+	/**
 	 * Generates a document id for documents representing CMS pages.
 	 *
 	 * @param integer $pageId Page ID
