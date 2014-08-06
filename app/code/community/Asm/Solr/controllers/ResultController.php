@@ -10,6 +10,7 @@ class Asm_Solr_ResultController extends Mage_Core_Controller_Front_Action {
 		/** @var Asm_Solr_Model_Solr_Query $query */
 		$query = Mage::helper('solr')->getQuery();
 		$query->setKeywords($this->getRequest()->getParam('q'));
+		$query->addFilter('type', 'catalog/product');
 
 		$listToolbar = $layout->getBlock('product_list_toolbar');
 		$limit  = $listToolbar->getLimit();
