@@ -23,7 +23,7 @@
 					<indexqueue_file>
 						<table>solr_indexqueue_file</table>
 					</indexqueue_file>
-            </entities>
+				</entities>
 			</solr_resource>
 			<cms>
 				<rewrite>
