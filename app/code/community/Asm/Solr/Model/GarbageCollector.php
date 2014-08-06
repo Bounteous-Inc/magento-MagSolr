@@ -3,7 +3,7 @@
 class Asm_Solr_Model_GarbageCollector
 {
 	/**
-	 * Listens for event
+	 * Listens for event catalog_product_delete_after
 	 *
 	 * @param Varien_Event_Observer $event
 	 */
