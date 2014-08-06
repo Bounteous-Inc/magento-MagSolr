@@ -77,6 +77,12 @@ class Asm_Solr_Model_Resource_Indexer_Cms extends Mage_Core_Model_Resource_Db_Ab
 		foreach ($pages as $page) {
 			$document = $this->buildPageDocument($storeId, $page);
 			$solr->addDocument($document);
+
+			Mage::dispatchEvent('solr_index_page_after', array(
+				'store_id'      => $storeId,
+				'page'          => $page,
+				'page_document' => $document
+			));
 		}
 	}
 
