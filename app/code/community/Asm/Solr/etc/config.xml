@@ -96,6 +96,14 @@
 					</asm_observer_query>
 				</observers>
 			</catalogsearch_query_save_after>
+			<solr_index_page_after>
+				<observers>
+					<asm_observer_index_page>
+						<class>solr/observer_index_page</class>
+						<method>trackFiles</method>
+					</asm_observer_index_page>
+				</observers>
+			</solr_index_page_after>
 		</events>
 	</adminhtml>
 
