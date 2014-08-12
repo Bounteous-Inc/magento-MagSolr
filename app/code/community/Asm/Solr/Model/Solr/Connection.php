@@ -110,6 +110,8 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 			array('wt' => self::SOLR_WRITER)
 		);
 
+		$this->_schemaUrl = $this->_constructUrl(self::SCHEMA_SERVLET);
+
 		$managedLanguage = $this->getManagedLanguage();
 		$this->_synonymsUrl = $this->_constructUrl(
 				self::SYNONYMS_SERVLET
