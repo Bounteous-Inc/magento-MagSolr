@@ -157,7 +157,7 @@
 				<scheme>http</scheme>
 				<host>localhost</host>
 				<port>8080</port>
-				<path>solr/</path>
+				<path>solr/core_en/</path>
 			</connection>
 		</solr>
 		<index>
