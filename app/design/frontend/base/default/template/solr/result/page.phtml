@@ -1,0 +1,22 @@
+<?php
+/**
+ * @var $this Asm_Solr_Block_Result
+ */
+$_resultCount   = $this->getResultCount();
+$_resultType    = $this->getResultType();
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php if($_resultCount): // if there are results to show...?>
+    <div class="page-title">
+        <h1><?php echo $this->getHeaderText() ?></h1>
+    </div>
+
+    <?php echo $this->getResultListHtml() ?>
+<?php else: // otherwise there isn't anything to display ?>
+    <div class="page-title">
+        <h1><?php echo $this->getHeaderText() ?></h1>
+    </div>
+    <p class="note-msg">
+        <?php echo $this->getNoResultText() ?>
+    </p>
+<?php endif; ?>
