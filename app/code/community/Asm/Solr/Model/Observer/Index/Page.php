@@ -19,8 +19,10 @@
 
 class Asm_Solr_Model_Observer_Index_Page {
 
-
-	public function trackFiles(Varien_Event $event)
+    /**
+     * @param Varien_Event_Observer $event
+     */
+    public function trackFiles($event)
 	{
 		$page             = $event->getPage();
 		$storeId          = $event->getStoreId();
