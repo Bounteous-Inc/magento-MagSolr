@@ -10,8 +10,10 @@ class Asm_Solr_Block_FiltersApplied extends Mage_Core_Block_Template
 	 */
 	public function getAppliedFilters()
 	{
+        $result = Mage::registry('solr_result');
+
 		$filters  = array();
-		$facets   = Mage::helper('solr')->getResponse()->getFacetFields();
+		$facets   = $result->getResponse()->getFacetFields();
 		/** @var Asm_Solr_Model_Solr_Facet_Facet[] $facets */
 		$urlQuery = Mage::getModel('core/url')->getRequest()->getQuery();
 

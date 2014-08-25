@@ -35,6 +35,9 @@ class Asm_Solr_Block_Facets extends Mage_Core_Block_Template
 	 * @return Asm_Solr_Model_Solr_Facet_Facet[]
 	 */
 	public function getFacets() {
-		return Mage::helper('solr')->getResponse()->getFacetFields();
+        $result = Mage::registry('solr_result');
+        $facets   = $result->getResponse()->getFacetFields();
+
+        return $facets;
 	}
 }
