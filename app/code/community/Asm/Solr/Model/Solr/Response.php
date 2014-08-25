@@ -43,6 +43,16 @@ class Asm_Solr_Model_Solr_Response
 		return $this->rawResponse->response->docs;
 	}
 
+    /**
+     * Gets the result highlighting
+     *
+     * @return Apache_Solr_Document[] Array of Apache_Solr_Document
+     */
+    public function getHighlighting()
+    {
+        return $this->rawResponse->highlighting;
+    }
+
 	/**
 	 * Gets the field facets
 	 *
