@@ -4,7 +4,128 @@
 class Asm_Solr_Block_Result extends Mage_Core_Block_Template
 {
 
+    protected $_type        = 'product'; // default result type is product search
+    protected $_solrType    = 'catalog/product';
+
 	protected $productCollection;
+
+
+    /**
+     * Set Store Id
+     *
+     * @param int $storeId
+     * @return Mage_CatalogSearch_Model_Query
+     */
+    public function setStoreId($storeId)
+    {
+        $this->setData('store_id', $storeId);
+    }
+
+    /**
+     * Retrieve store Id
+     *
+     * @return int
+     */
+    public function getStoreId()
+    {
+        if (!$storeId = $this->getData('store_id')) {
+            $storeId = Mage::app()->getStore()->getId();
+        }
+        return $storeId;
+    }
+
+    public function getOffset()
+    {
+        if (!$this->getData('offset'))
+        {
+            $limit = $this->getRequest()->getParam('offset', 0);
+
+            $this->setData('offset', $limit);
+        }
+
+        return $this->getData('offset');
+    }
+
+    public function getLimit()
+    {
+        if (!$this->getData('limit'))
+        {
+            $limit = $this->getRequest()->getParam('limit', 25);
+
+            $this->setData('limit', $limit);
+        }
+
+        return $this->getData('limit');
+    }
+
+    public function getKeywords()
+    {
+        if (!$this->getData('keywords'))
+        {
+            $keywords = $this->getRequest()->getParam('q', '');
+
+            $this->setData('keywords', $keywords);
+        }
+
+        return $this->getData('keywords');
+    }
+
+    public function getKeywordsCleaned()
+    {
+        return Asm_Solr_Model_Solr_Query::cleanKeywords($this->getKeywords());
+    }
+
+    /**
+     * @return Asm_Solr_Model_Solr_Query
+     */
+    public function getQuery()
+    {
+        return Mage::getModel('solr/solr_query');
+    }
+
+    public function getType()
+    {
+        return $this->_type;
+    }
+
+
+    public function getSolrType()
+    {
+        return $this->_solrType;
+    }
+
+    /**
+     * @return Asm_Solr_Model_Result
+     */
+    public function getResult()
+    {
+        // if we don't have a result set for us, let's make one
+        if (!$this->getData('result'))
+        {
+            /** @var Asm_Solr_Model_Result $result */
+            $result = Mage::getModel('solr/result');
+
+            $query = $result->getQuery();
+            $query->setKeywords($this->getKeywords());
+            $query->addFilter('type', $this->getSolrType());
+
+            $result->load($this->getLimit(), $this->getOffset());
+
+            $this->setData('result', $result);
+        }
+
+        return $this->getData('result');
+    }
+
+    public function getResultCount()
+    {
+        return $this->getResult()->getCount();
+    }
+
+    public function getResultDocuments()
+    {
+        return $this->getResult()->getDocuments();
+    }
 
 	/**
 	 * Prepare layout
@@ -131,30 +252,40 @@ class Asm_Solr_Block_Result extends Mage_Core_Block_Template
 		return $this->productCollection;
 	}
 
-	/**
-	 * Retrieve search result count
-	 *
-	 * @return string
-	 */
-	public function getResultCount()
-	{
-		if (!$this->getData('result_count')) {
-			$size = $this->getProductCollection()->getSize();
-			$this->setResultCount($size);
-		}
-		return $this->getData('result_count');
-	}
+    public function getHeaderText()
+    {
+        if (!$this->getData('header_text'))
+        {
+            // supply a default
+            $text = $this->__("%s search results for '%s'", uc_words($this->getType()), $this->getKeywordsCleaned());
 
-	/**
-	 * Retrieve No Result or Minimum query length Text
-	 *
-	 * @return string
-	 */
-	public function getNoResultText()
-	{
-		return $this->_getData('no_result_text');
-	}
+            $this->setData('header_text', $text);
+        }
+
+        return $this->getData('header_text');
+    }
+    /**
+     * Retrieve No Result or Minimum query length Text
+     *
+     * @return string
+     */
+    public function getNoResultText()
+    {
+        if (!$this->getData('no_result_text'))
+        {
+            // supply a default
+            $text = $this->__('Your %s search returned no results.', uc_words($this->getType()));
+
+            $this->setData('no_result_text', $text);
+        }
+
+        return $this->_getData('no_result_text');
+    }
+
+    public function getResultListHtml()
+    {
+
+    }
 
 }
-
 ?>
