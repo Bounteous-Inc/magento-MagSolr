@@ -34,4 +34,11 @@ class Asm_Solr_Model_Resource_Indexqueue_File_Collection extends Mage_Core_Model
 		$this->_init('solr/indexqueue_file');
 	}
 
+    /**
+     * @param integer $size Collection size / total number of results found
+     */
+    public function setSize($size)
+    {
+        $this->_totalRecords = intval($size);
+    }
 }
