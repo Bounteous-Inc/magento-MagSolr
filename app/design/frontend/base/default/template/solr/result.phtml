@@ -1,17 +1,22 @@
-<?php if($this->getResultCount()): ?>
+<?php
+/**
+ * @var $this Asm_Solr_Block_Result
+ */
+$_resultCount   = $this->getResultCount();
+$_resultType    = $this->getResultType();
+?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<div class="page-title">
-    <?php if ($this->helper('rss/catalog')->getTagFeedUrl()): ?>
-        <a href="<?php echo $this->helper('rss/catalog')->getTagFeedUrl() ?>" class="nobr link-rss"><?php echo $this->__('Subscribe to Feed') ?></a>
-    <?php endif; ?>
-    <h1><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('solr')->getQuery()->getKeywordsCleaned()) ?></h1>
-</div>
-    <?php echo $this->getProductListHtml() ?>
-<?php else: ?>
-<div class="page-title">
-    <h1><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('solr')->getQuery()->getKeywordsCleaned()) ?></h1>
-</div>
-<p class="note-msg">
-    <?php echo ($this->getNoResultText()) ? $this->getNoResultText() : $this->__('Your search returned no results.') ?>
-</p>
+<?php if($_resultCount): // if there are results to show...?>
+    <div class="page-title">
+        <h1><?php echo $this->getHeaderText() ?></h1>
+    </div>
+
+    <?php echo $this->getResultListHtml() ?>
+<?php else: // otherwise there isn't anything to display ?>
+    <div class="page-title">
+        <h1><?php echo $this->getHeaderText() ?></h1>
+    </div>
+    <p class="note-msg">
+        <?php echo $this->getNoResultText() ?>
+    </p>
 <?php endif; ?>
