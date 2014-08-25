@@ -284,7 +284,7 @@ class Asm_Solr_Block_Result extends Mage_Core_Block_Template
 
     public function getResultListHtml()
     {
-
+        return $this->getChildHtml('search_result_list');
     }
 
 }
