@@ -1,0 +1,73 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Result_File_List
+ */
+?>
+<?php
+$_fileCollection    =   $this->getCollection();
+$_helper            =   $this->helper('catalog/output');
+?>
+<?php if(!$_fileCollection->count()): ?>
+    <p class="note-msg"><?php echo $this->__('There are no pages matching your search terms.') ?></p>
+<?php else: ?>
+    <div class="category-products">
+        <?php // echo $this->getToolbarHtml() ?>
+        <?php // List mode ?>
+            <?php $_iterator = 0; ?>
+            <ol class="products-list" id="results-list">
+                <?php foreach ($_fileCollection as $_file): ?>
+                    <li class="item<?php if( ++$_iterator == sizeof($_fileCollection) ): ?> last<?php endif; ?>">
+                        <div class="product-shop">
+                            <div class="f-fix">
+                                <?php $_fileNameStripped = $this->stripTags($_file->getTitle(), null, true); ?>
+                                <h2 class="product-name">
+                                    <a href="<?php echo $_file->getData('url') ?>" title="<?php echo $_fileNameStripped; ?>">
+                                        <?php echo $_file->getTitle() ?><span style="border:1px solid; padding: 1px; float: right;"><?php echo strtoupper(substr($_file->getTitle(),-3,3)); ?></span>
+                                    </a>
+                                </h2>
+                                <div class="desc std">
+                                    <?php foreach ($_file->getHighlights() as $highlight): ?>
+                                        <p><?php echo $highlight ?></p>
+                                    <?php endforeach ?>
+                                    <a style="float: right;" href="<?php echo $_file->getData('url') ?>" target="_blank" title="<?php echo $_fileNameStripped ?>" class="link-learn"><?php echo $this->__('Download') ?></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+            <script type="text/javascript">decorateList('results-list', 'none-recursive')</script>
+
+        <div class="toolbar-bottom">
+            <?php echo $this->getToolbarHtml() ?>
+        </div>
+    </div>
+<?php endif; ?>
