@@ -1,79 +1,11 @@
 <?php
 
 
-class Asm_Solr_Block_Result extends Mage_Core_Block_Template
+class Asm_Solr_Block_Result extends Asm_Solr_Block_Abstract
 {
 
     protected $_type        = 'product'; // default result type is product search
     protected $_solrType    = 'catalog/product';
-
-	protected $productCollection;
-
-
-    /**
-     * Set Store Id
-     *
-     * @param int $storeId
-     * @return Mage_CatalogSearch_Model_Query
-     */
-    public function setStoreId($storeId)
-    {
-        $this->setData('store_id', $storeId);
-    }
-
-    /**
-     * Retrieve store Id
-     *
-     * @return int
-     */
-    public function getStoreId()
-    {
-        if (!$storeId = $this->getData('store_id')) {
-            $storeId = Mage::app()->getStore()->getId();
-        }
-        return $storeId;
-    }
-
-    public function getOffset()
-    {
-        if (!$this->getData('offset'))
-        {
-            $limit = $this->getRequest()->getParam('offset', 0);
-
-            $this->setData('offset', $limit);
-        }
-
-        return $this->getData('offset');
-    }
-
-    public function getLimit()
-    {
-        if (!$this->getData('limit'))
-        {
-            $limit = $this->getRequest()->getParam('limit', 25);
-
-            $this->setData('limit', $limit);
-        }
-
-        return $this->getData('limit');
-    }
-
-    public function getKeywords()
-    {
-        if (!$this->getData('keywords'))
-        {
-            $keywords = $this->getRequest()->getParam('q', '');
-
-            $this->setData('keywords', $keywords);
-        }
-
-        return $this->getData('keywords');
-    }
-
-    public function getKeywordsCleaned()
-    {
-        return Asm_Solr_Model_Solr_Query::cleanKeywords($this->getKeywords());
-    }
 
     /**
      * @return Asm_Solr_Model_Solr_Query
@@ -202,21 +134,6 @@ class Asm_Solr_Block_Result extends Mage_Core_Block_Template
 	}
 
 	/**
-	 * Set available view mode
-	 *
-	 * @return Asm_Solr_Block_Result
-	 */
-	public function setListModes()
-	{
-		$this->getListBlock()
-			->setModes(array(
-					'grid' => $this->__('Grid'),
-					'list' => $this->__('List'))
-			);
-		return $this;
-	}
-
-	/**
 	 * Set Search Result collection
 	 *
 	 * @return Asm_Solr_Block_Result
@@ -226,30 +143,6 @@ class Asm_Solr_Block_Result extends Mage_Core_Block_Template
 //        $this->getListBlock()
 //           ->setCollection($this->_getProductCollection());
 		return $this;
-	}
-
-	/**
-	 * Retrieve Search result list HTML output
-	 *
-	 * @return string
-	 */
-	public function getProductListHtml()
-	{
-		return $this->getChildHtml('search_result_list');
-	}
-
-	/**
-	 * Retrieve loaded category collection
-	 *
-	 * @return Mage_CatalogSearch_Model_Resource_Fulltext_Collection
-	 */
-	protected function getProductCollection()
-	{
-		if (is_null($this->productCollection)) {
-			$this->productCollection = $this->getListBlock()->getLoadedProductCollection();
-		}
-
-		return $this->productCollection;
 	}
 
     public function getHeaderText()
