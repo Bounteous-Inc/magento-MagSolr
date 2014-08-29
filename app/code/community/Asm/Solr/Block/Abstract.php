@@ -68,6 +68,18 @@ abstract class Asm_Solr_Block_Abstract extends Mage_Core_Block_Template
         return $this->getData('keywords');
     }
 
+    public function getFilteredQuery()
+    {
+        if (!$this->getData('filtered_query'))
+        {
+            $filteredQuery = $this->getRequest()->getParam('fq', '');
+
+            $this->setData('filtered_query', $filteredQuery);
+        }
+
+        return $this->getData('filtered_query');
+    }
+
     public function getKeywordsCleaned()
     {
         return Asm_Solr_Model_Solr_Query::cleanKeywords($this->getKeywords());
