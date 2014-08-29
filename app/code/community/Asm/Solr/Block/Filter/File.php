@@ -5,10 +5,10 @@
  * Date: 8/28/14
  * Time: 12:30 PM
  */
-class Asm_Solr_Block_Filter_Page extends Asm_Solr_Block_Filter
+class Asm_Solr_Block_Filter_File extends Asm_Solr_Block_Filter
 {
-    protected $_type        = 'page'; // default result type is product search
-    protected $_solrType    = 'cms/page';
+    protected $_type        = 'file';
+    protected $_solrType    = 'solr/indexqueue_file';
 
     public function getResultLink()
     {
@@ -27,7 +27,7 @@ class Asm_Solr_Block_Filter_Page extends Asm_Solr_Block_Filter
 
     public function getTitle(){
 
-        $title = 'Pages';
+        $title = 'Files';
 
         return $title;
     }

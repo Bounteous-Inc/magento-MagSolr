@@ -4,6 +4,6 @@
  */
 ?>
 
-<h1><?php echo $this->getTitle() ?> <span class="result-count">(<?php echo $this->getResultCount() ?>)</span></h1>
+<h1><a href="<?php echo $this->getResultLink() ?>"><?php echo $this->getTitle() ?><span class="result-count">(<?php echo $this->getResultCount() ?>)</span></a></h1>
 
 <?php echo $this->getChildHtml('list_filter') ?>
