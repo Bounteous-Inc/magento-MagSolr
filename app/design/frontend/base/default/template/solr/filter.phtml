@@ -1,7 +1,9 @@
 <?php
-
+/**
+ * @var $this Asm_Solr_Block_Filter
+ */
 ?>
 
-<h1><?php echo $this->getTitle() ?></h1>
+<h1><?php echo $this->getTitle() ?> <span class="result-count">(<?php echo $this->getResultCount() ?>)</span></h1>
 
 <?php echo $this->getChildHtml('list_filter') ?>
