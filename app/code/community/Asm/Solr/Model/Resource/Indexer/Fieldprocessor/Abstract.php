@@ -54,22 +54,17 @@ abstract class Asm_Solr_Model_Resource_Indexer_Fieldprocessor_Abstract {
 		$this->fieldType = (string) Mage::getConfig()->getNode('global/index/fieldMap/' . $parameters['attributeCode'] . '/type');
 	}
 
-	public function getFieldName() {
-		$multiValue = false;
-		if (is_array($this->attributeValue)) {
-			$multiValue = true;
-		}
+	/**
+	 * Generates the Solr field name for a given Magento product field
+	 *
+	 * @return string Solr field name
+	 */
+	abstract public function getFieldName();
 
-		return Mage::helper('solr/schema')->getFieldNameByAttribute($this->attribute, $multiValue);
-	}
-
-	public function getFieldValue() {
-		$attributeValue = $this->attributeValue;
-
-		if ($this->attribute->getBackendType() == 'datetime') {
-			$attributeValue = Mage::helper('solr')->dateToIso($this->attributeValue);
-		}
-
-		return $attributeValue;
-	}
+	/**
+	 * Process the Solr field value from the Magento field's value
+	 *
+	 * @return string|array
+	 */
+	abstract public function getFieldValue();
 }

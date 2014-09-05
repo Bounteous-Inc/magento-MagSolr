@@ -22,5 +22,29 @@
  */
 class Asm_Solr_Model_Resource_Indexer_Fieldprocessor_Default extends Asm_Solr_Model_Resource_Indexer_Fieldprocessor_Abstract {
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getFieldName() {
+		$multiValue = false;
+		if (is_array($this->attributeValue)) {
+			$multiValue = true;
+		}
+
+		return Mage::helper('solr/schema')->getFieldNameByAttribute($this->attribute, $multiValue);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getFieldValue() {
+		$attributeValue = $this->attributeValue;
+
+		if ($this->attribute->getBackendType() == 'datetime') {
+			$attributeValue = Mage::helper('solr')->dateToIso($this->attributeValue);
+		}
+
+		return $attributeValue;
+	}
 
 }
