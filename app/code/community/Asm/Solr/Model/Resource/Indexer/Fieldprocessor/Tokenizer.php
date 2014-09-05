@@ -40,8 +40,6 @@
 class Asm_Solr_Model_Resource_Indexer_Fieldprocessor_Tokenizer extends Asm_Solr_Model_Resource_Indexer_Fieldprocessor_Abstract {
 
 	protected $delimiter;
-
-	protected $fieldType;
 	/**
 	 * @var string
 	 */
