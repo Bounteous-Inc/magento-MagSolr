@@ -1,0 +1,6 @@
+<?php
+
+class Asm_Solr_Model_Resource_Indexer_Fieldprocessor_Default extends Asm_Solr_Model_Resource_Indexer_Fieldprocessor_Abstract {
+
+
+}

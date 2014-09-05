@@ -43,6 +43,19 @@
 					<model>solr/indexer_file</model>
 				</solr_file>
 			</indexer>
+
+			<fieldMap>
+				<!--
+				<foo_field>
+					<type>string</type>
+					<processor>
+						<tokenizer>
+							<delimiter>,</delimiter>
+						</tokenizer>
+					</processor>
+				</foo_field>
+				-->
+			</fieldMap>
 		</index>
 		<blocks>
 			<solr>
