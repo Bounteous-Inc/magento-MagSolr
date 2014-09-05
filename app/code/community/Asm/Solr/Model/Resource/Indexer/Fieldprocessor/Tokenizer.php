@@ -39,17 +39,20 @@
  */
 class Asm_Solr_Model_Resource_Indexer_Fieldprocessor_Tokenizer extends Asm_Solr_Model_Resource_Indexer_Fieldprocessor_Abstract {
 
-	protected $delimiter;
 	/**
 	 * @var string
 	 */
+	protected $delimiter = ',';
 
 
 	/**
 	 * @inheritdoc
 	 */
 	public function __construct($parameters) {
-		$this->delimiter = (string) Mage::getConfig()->getNode('global/index/fieldMap/' . $parameters['attributeCode'] . '/processor/tokenizer/delimiter');
+		$delimiter = (string) Mage::getConfig()->getNode('global/index/fieldMap/' . $parameters['attributeCode'] . '/processor/tokenizer/delimiter');
+		if (!empty($delimiter)) {
+			$this->delimiter = $delimiter;
+		}
 
 		parent::__construct($parameters);
 	}
