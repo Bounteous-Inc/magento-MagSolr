@@ -1,5 +1,25 @@
 <?php
+/**
+ * Copyright 2014 Infield Design
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License .
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied .
+ * See the License for the specific language governing permissions and
+ * limitations under the License .
+ */
 
+
+/**
+ * Indexer class to index catalog products
+ *
+ */
 class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_Db_Abstract
 {
 
@@ -213,6 +233,8 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 			$searchableAttributes = array_merge($searchableAttributes, $childProductAttributes);
 		}
 
+		$fieldProcessorFactory = Mage::getResourceModel('solr/indexer_fieldprocessor_factory');
+
 		// add other searchable attributes as dynamic fields
 		foreach ($searchableAttributes as $attributeCode => $attributeValue) {
 			if (empty($attributeValue) // don't index empty values (for now), might result in type conflicts
@@ -220,22 +242,10 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 				continue;
 			}
 
-			// single or multivalue field type
-			// default to single value, use multivalue for arrays
-			$multiValue = false;
-			if (is_array($attributeValue)) {
-				$multiValue = true;
-			}
-
-			$attribute = Mage::getSingleton('eav/config')
-				->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
-
-			if ($attribute->getBackendType() == 'datetime') {
-				$attributeValue = $helper->dateToIso($attributeValue);
-			}
+			$fieldProcessor = $fieldProcessorFactory->getFieldProcessor($attributeCode, $attributeValue);
 			$document->setField(
-				Mage::helper('solr/schema')->getFieldNameByAttribute($attribute, $multiValue),
-				$attributeValue
+				$fieldProcessor->getFieldName(),
+				$fieldProcessor->getFieldValue()
 			);
 		}
 
