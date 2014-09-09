@@ -9,7 +9,7 @@ class Asm_Solr_Block_Filter extends Asm_Solr_Block_Abstract
 {
 
     public function getTitle(){
-        $title = 'duck';
+        $title = 'Filter';
 
         return $title;
     }

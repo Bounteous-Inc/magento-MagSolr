@@ -45,16 +45,14 @@
 			</indexer>
 
 			<fieldMap>
-				<!--
-				<foo_field>
+				<tcm_functions>
 					<type>string</type>
 					<processor>
 						<tokenizer>
 							<delimiter>,</delimiter>
 						</tokenizer>
 					</processor>
-				</foo_field>
-				-->
+				</tcm_functions>
 			</fieldMap>
 		</index>
 		<blocks>

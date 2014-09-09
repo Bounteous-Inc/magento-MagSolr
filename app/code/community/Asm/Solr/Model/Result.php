@@ -17,6 +17,7 @@
  * @method string getKeywords()
  * @method Asm_Solr_Model_Result setCount(int $count)
  * @method int getCount()
+ * @method Asm_Solr_Model_Solr_Response getResponse()
  * @method Asm_Solr_Model_Result setDocuments(array $documents)
  * @method array getDocuments()
  */

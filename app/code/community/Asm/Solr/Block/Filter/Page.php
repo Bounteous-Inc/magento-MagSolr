@@ -27,7 +27,7 @@ class Asm_Solr_Block_Filter_Page extends Asm_Solr_Block_Filter
 
     public function getTitle(){
 
-        $title = 'Pages';
+        $title = 'Website Pages';
 
         return $title;
     }

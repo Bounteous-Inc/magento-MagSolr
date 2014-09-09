@@ -660,7 +660,7 @@ class Asm_Solr_Model_Solr_Query
 	 * @param string $parameterValue Parameter value
 	 */
 	public function addQueryParameter($parameterName, $parameterValue) {
-		$this->queryParameters[$parameterName] = $parameterValue;
+		$this->queryParameters[$parameterName][] = $parameterValue;
 	}
 
 

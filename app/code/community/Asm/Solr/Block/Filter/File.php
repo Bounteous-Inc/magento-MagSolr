@@ -27,7 +27,7 @@ class Asm_Solr_Block_Filter_File extends Asm_Solr_Block_Filter
 
     public function getTitle(){
 
-        $title = 'Files';
+        $title = 'PDFs & Downloads';
 
         return $title;
     }

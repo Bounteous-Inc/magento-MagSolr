@@ -48,10 +48,20 @@ class Asm_Solr_Block_Result_Product extends Asm_Solr_Block_Result
         {
             /** @var Asm_Solr_Model_Result $result */
             $result = Mage::getModel('solr/result');
+            $filteredQuery = $this->getFilteredQuery();
 
             $query = $result->getQuery();
             $query->setKeywords($this->getKeywords());
             $query->addFilter('type', $this->getSolrType());
+
+            if($filteredQuery!='' or $filteredQuery!=null)
+            {
+                foreach(explode(',',$filteredQuery) as $fq)
+                {
+                    $query->addQueryParameter("fq", $fq);
+                }
+            }
+
 
             $result->load($this->getLimit(), $this->getOffset());
 

@@ -1,4 +1,21 @@
+<?php
+//$_facet_ranges  = $this->getResult()->getResponse();
+$_facet_ranges = $this->getFacetRanges();
+$gap = $_facet_ranges->price->gap - 0.01;
+$start = $_facet_ranges->price->start;
+$end = $_facet_ranges->price->end;
+$facet_ranges_results = $_facet_ranges->price->counts;
 
+$_facet_fields = $this->getFacetFields();
+$category_field_results = $_facet_fields->categoryId;
+$functions_field_results = $_facet_fields->tcm_functions_stringM;
+$all_category = $this->getAllCategories($category_field_results);
+
+$current_filters_applied = $this->getCurrentFilters();
+
+$test='bob';
+//$_price         = $_facet_ranges->price->counts->{"0.0"};
+?>
 <div class="block block-layered-nav">
 	<div class="block-title">
 		<strong><span><?php echo $this->__('Narrow Search') ?></span></strong>
@@ -8,39 +25,114 @@
 		<?php echo $this->getAppliedFiltersHtml() ?>
 
 		<p class="block-subtitle"><?php echo $this->__('Filter Options') ?></p>
+
+        <dl id="narrow-by-list">
+            <dt>
+            <dd>
+                <ol>
+                    <h2>Filters Applied</h2>
+                    <?php foreach ($current_filters_applied['name'] as $key => $result): ?>
+                        <li>
+                            <?php
+                                echo $result;
+                            if($result!='No Filters')
+                            {
+                            ?><a href="<?php echo $this->deleteFilter($key) ?>" title="Remove This Item" class="btn-remove">Remove This Item</a>
+                            <?php
+                            } ?>
+                        </li>
+                    <?php endforeach ?>
+                </ol>
+            </dd>
+            </dt>
+        </dl>
+
 		<dl id="narrow-by-list">
-			<?php $facets = $this->getFacets() ?>
-			<?php foreach ($facets as $facet): ?>
-			<?php if (count($facet->getOptions())): ?>
 				<dt>
-					<?php echo $facet->getLabel() ?>
-					<!-- TODO move the following list into a separate block -->
 					<dd>
 						<ol>
-						<?php foreach ($facet->getOptions() as $facetOption): ?>
+                        <h2>Price</h2>
+						<?php foreach ($facet_ranges_results as $key => $result): ?>
 							<li>
-								<a href="<?php echo Mage::helper('core')->escapeUrl($facetOption->getAddUrl()) ?>">
-									<?php
-									$facetOptionLabel = $facetOption->getLabel();
-									if ($facet->getLabel() == 'price') {
-										// TODO add facet renderers so that facets can be rendered individually
-										echo Mage::app()->getStore()->formatPrice($facetOptionLabel);
-									} else {
-										echo $facetOptionLabel;
-									}
-									?>
-								</a>
-								<?php if ($this->shouldDisplayProductCount()): ?>
-									(<?php echo $facetOption->getNumberOfResults() ?>)
-								<?php endif; ?>
+                                <?php
+                                    $key = ((int)$key);
+                                    $key1 = ((int)$key+$gap);
+                                    $disable = in_array("price:[". $key ." TO ". $key1 ."]", $current_filters_applied['fq']);
+
+                                if(!$disable)
+                                {
+                                ?>
+                                <a href="<?php echo $this->getPriceFilteredLink($key, $key1) ?>">
+                                <?php
+                                }
+                                ?>
+                                <span class="result-count"><?php echo "$". $key." - $". $key1."  (". $result .")" ?></span>
+                                <?php if(!$disable) { ?>
+                                </a>
+                                <?php } ?>
 							</li>
 						<?php endforeach ?>
 						</ol>
 					</dd>
 				</dt>
-			<?php endif ?>
-			<?php endforeach ?>
 		</dl>
+
+        <dl id="narrow-by-list">
+            <dt>
+                <dd>
+                    <ol>
+                        <h2>Category</h2>
+                        <?php foreach ($all_category as $key => $result): ?>
+                            <li>
+                                <?php
+                                $disable = in_array("categoryId:".$result['id'], $current_filters_applied['fq']);
+
+                                if(!$disable)
+                                {
+                                ?>
+                                <a href="<?php echo $this->getFacetFieldFilteredLink('categoryId',$result['id']) ?>">
+                                <?php
+                                }
+                                ?>
+                                <span class="result-count"><h6><?php echo $result['name'] . "(". $result['occurrences'] .")" ?></h6></span>
+                                <?php if(!$disable) { ?>
+                                </a>
+                                <?php } ?>
+                            </li>
+                        <?php endforeach ?>
+                    </ol>
+                </dd>
+            </dt>
+        </dl>
+
+        <dl id="narrow-by-list">
+            <dt>
+            <dd>
+                <ol>
+                    <h2>Functions</h2>
+                    <?php foreach ($functions_field_results as $key => $result): ?>
+                        <li>
+                            <?php
+                            $disable = in_array('tcm_functions_stringM:"'.$key.'"', $current_filters_applied['fq']);
+                            $test='bob';
+
+                            if(!$disable)
+                            {
+                            ?>
+                            <a href="<?php echo $this->getFacetFieldFilteredLink('tcm_functions_stringM', '"'.$key.'"') ?>">
+                            <?php
+                            }
+                            ?>
+                                <span class="result-count"><h6><?php echo $key . "(". $result .")" ?></h6></span>
+                            <?php if(!$disable) { ?>
+                            </a>
+                            <?php } ?>
+                        </li>
+                    <?php endforeach ?>
+                </ol>
+            </dd>
+            </dt>
+        </dl>
 
 	</div>
 </div>

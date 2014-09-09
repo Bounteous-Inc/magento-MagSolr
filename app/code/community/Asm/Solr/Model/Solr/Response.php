@@ -53,6 +53,16 @@ class Asm_Solr_Model_Solr_Response
         return $this->rawResponse->highlighting;
     }
 
+    public function getFacetRanges()
+    {
+        return $this->rawResponse->facet_counts->facet_ranges;
+    }
+
+    public function getFacetField()
+    {
+        return $this->rawResponse->facet_counts->facet_fields;
+    }
+
 	/**
 	 * Gets the field facets
 	 *
