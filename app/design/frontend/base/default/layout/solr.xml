@@ -25,9 +25,6 @@
                 <block type="solr/filter_file" name="file" template="solr/filter.phtml"></block>
             </block>
         </reference>
-        <reference name="right">
-            <block type="solr/filter" name="filter_menu" template="solr/filter_menu.phtml"></block>
-        </reference>
         <reference name="content">
             <block type="solr/result_product" name="result" template="solr/result.phtml">
                 <block type="catalog/product_list" name="search_result_list" template="catalog/product/list.phtml">
