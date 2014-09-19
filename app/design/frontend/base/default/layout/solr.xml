@@ -13,12 +13,20 @@
         <reference name="root">
             <action method="setTemplate"><template>page/3columns.phtml</template></action>
         </reference>
+        <reference name="header">
+            <block type="solr/filter" name="breadcrumbs" template="solr/breadcrumbs.phtml"></block>
+        </reference>
         <reference name="left">
-            <block type="solr/filter_product" name="product" template="solr/filter.phtml">
-                <block type="solr/filter_product" name="list_filter" template="solr/facets.phtml"></block>
+            <block type="solr/filter" name="filter_menu" template="solr/filter_menu.phtml">
+                <block type="solr/filter_product" name="product" template="solr/filter.phtml">
+                    <block type="solr/filter_product" name="list_filter" template="solr/facets.phtml"></block>
+                </block>
+                <block type="solr/filter_page" name="page" template="solr/filter.phtml"></block>
+                <block type="solr/filter_file" name="file" template="solr/filter.phtml"></block>
             </block>
-            <block type="solr/filter_page" name="page" template="solr/filter.phtml"></block>
-            <block type="solr/filter_file" name="file" template="solr/filter.phtml"></block>
+        </reference>
+        <reference name="right">
+            <block type="solr/filter" name="filter_menu" template="solr/filter_menu.phtml"></block>
         </reference>
         <reference name="content">
             <block type="solr/result_product" name="result" template="solr/result.phtml">
@@ -50,13 +58,11 @@
             <action method="setTemplate"><template>page/3columns.phtml</template></action>
         </reference>
         <reference name="left">
-            <block type="solr/filter_product" name="product" template="solr/filter.phtml">
-                <block type="solr/filter_product" name="list_filter" template="solr/facets.phtml"></block>
+            <block type="solr/filter" name="filter_menu" template="solr/filter_menu.phtml">
+                <block type="solr/filter_product" name="product" template="solr/filter.phtml"></block>
+                <block type="solr/filter_page" name="page" template="solr/filter.phtml"></block>
+                <block type="solr/filter_file" name="file" template="solr/filter.phtml"></block>
             </block>
-            <block type="solr/filter_page" name="page" template="solr/filter.phtml"></block>
-            <block type="solr/filter_file" name="file" template="solr/filter.phtml"></block>
-        </reference>
-        <reference name="left">
         </reference>
         <reference name="content">
             <block type="solr/result_page" name="result" template="solr/result/page.phtml">
@@ -72,13 +78,11 @@
             <action method="setTemplate"><template>page/3columns.phtml</template></action>
         </reference>
         <reference name="left">
-            <block type="solr/filter_product" name="product" template="solr/filter.phtml">
-                <block type="solr/filter_product" name="list_filter" template="solr/facets.phtml"></block>
+            <block type="solr/filter" name="filter_menu" template="solr/filter_menu.phtml">
+                <block type="solr/filter_product" name="product" template="solr/filter.phtml"></block>
+                <block type="solr/filter_page" name="page" template="solr/filter.phtml"></block>
+                <block type="solr/filter_file" name="file" template="solr/filter.phtml"></block>
             </block>
-            <block type="solr/filter_page" name="page" template="solr/filter.phtml"></block>
-            <block type="solr/filter_file" name="file" template="solr/filter.phtml"></block>
-        </reference>
-        <reference name="left">
         </reference>
         <reference name="content">
             <block type="solr/result_file" name="result" template="solr/result/file.phtml">
