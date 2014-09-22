@@ -133,6 +133,8 @@ class Asm_Solr_Block_Result_Product extends Asm_Solr_Block_Result
             }
 
             $collection->addAttributeToFilter('entity_id', array('in' => $productIds));
+            // let the rest of the application know the products are loaded
+            Mage::dispatchEvent('catalog_product_collection_load_after', array('collection' => $collection));
 
             $this->setData('collection', $collection);
         }
