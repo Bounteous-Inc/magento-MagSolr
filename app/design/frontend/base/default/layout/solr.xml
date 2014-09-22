@@ -25,6 +25,9 @@
                 <block type="solr/filter_file" name="file" template="solr/filter.phtml"></block>
             </block>
         </reference>
+        <reference name="right">
+            <block type="solr/dispensary" name="dispensary_add" template="solr/dispensary_add.phtml"></block>
+        </reference>
         <reference name="content">
             <block type="solr/result_product" name="result" template="solr/result.phtml">
                 <block type="catalog/product_list" name="search_result_list" template="catalog/product/list.phtml">
@@ -64,6 +67,9 @@
                 <block type="solr/filter_file" name="file" template="solr/filter.phtml"></block>
             </block>
         </reference>
+        <reference name="right">
+            <block type="solr/dispensary" name="dispensary_add" template="solr/dispensary_add.phtml"></block>
+        </reference>
         <reference name="content">
             <block type="solr/result_page" name="result" template="solr/result/page.phtml">
                 <block type="solr/result_page_list" name="result_list" template="solr/result/page/list.phtml"/>
@@ -86,6 +92,9 @@
                 <block type="solr/filter_page" name="page" template="solr/filter.phtml"></block>
                 <block type="solr/filter_file" name="file" template="solr/filter.phtml"></block>
             </block>
+        </reference>
+        <reference name="right">
+            <block type="solr/dispensary" name="dispensary_add" template="solr/dispensary_add.phtml"></block>
         </reference>
         <reference name="content">
             <block type="solr/result_file" name="result" template="solr/result/file.phtml">
