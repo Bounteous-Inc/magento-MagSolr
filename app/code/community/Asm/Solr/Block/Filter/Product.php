@@ -96,17 +96,32 @@ class Asm_Solr_Block_Filter_Product extends Asm_Solr_Block_Filter
 
         if (!empty($ids))
         {
-            foreach ($ids as $id=>$occurrences)
+            $categoryIds = array_keys( (array) $ids);
+
+            /** @var Mage_Catalog_Model_Resource_Category_Collection $categoryCollection */
+            $categoryCollection = Mage::getModel('catalog/category')
+                ->getCollection()
+                ->addAttributeToSelect('*')
+                ->addAttributeToFilter('entity_id', array('in' => $categoryIds)); // should apply category permissions via event dispatch
+
+            foreach ($ids as $cid => $count)
             {
-                $cat = Mage::getModel('catalog/category');
-                $cat->load($id);
-                $categoryData = array('id'=>$id,
-                    'url'=>$cat->getUrl(),
-                    'name'=>$cat->getName(),
-                    'occurrences'=>$occurrences,
-                    'isActive'=>$cat->getIsActive()
-                );
-                array_push($data, $categoryData);
+                /** @var Mage_Catalog_Model_Category $category */
+                $category = $categoryCollection->getItemById($cid);
+
+                if ($category)
+                {
+                    $categoryData =
+                        array(
+                            'id'            =>  $category->getId(),
+                            'url'           =>  $category->getUrl(),
+                            'name'          =>  $category->getName(),
+                            'occurrences'   =>  $count,
+                            'isActive'      =>  $category->getIsActive()
+                        );
+
+                    $data[] = $categoryData;
+                }
             }
         }
 
