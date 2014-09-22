@@ -109,7 +109,7 @@ class Asm_Solr_Block_Filter_Product extends Asm_Solr_Block_Filter
                 /** @var Mage_Catalog_Model_Category $category */
                 $category = $categoryCollection->getItemById($cid);
 
-                if ($category)
+                if ($category && !$category->getIsHidden())
                 {
                     $categoryData =
                         array(
