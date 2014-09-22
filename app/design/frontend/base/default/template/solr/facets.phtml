@@ -47,36 +47,36 @@ $test='bob';
             </dt>
         </dl>
 <hr>
-		<dl id="narrow-by-list">
-				<dt>
-					<dd>
-						<ol>
-                        <h2>Price</h2>
-						<?php foreach ($facet_ranges_results as $key => $result): ?>
-							<li>
-                                <?php
-                                    $key = ((int)$key);
-                                    $key1 = ((int)$key+$gap);
-                                    $disable = in_array("price:[". $key ." TO ". $key1 ."]", $current_filters_applied['fq']);
-
-                                if(!$disable)
-                                {
-                                ?>
-                                <a href="<?php echo $this->getPriceFilteredLink($key, $key1) ?>">
-                                <?php
-                                }
-                                ?>
-                                <span class="result-count"><?php echo "$". $key." - $". $key1."  (". $result .")" ?></span>
-                                <?php if(!$disable) { ?>
-                                </a>
-                                <?php } ?>
-							</li>
-						<?php endforeach ?>
-						</ol>
-					</dd>
-				</dt>
-		</dl>
-<hr>
+<!--		<dl id="narrow-by-list">-->
+<!--				<dt>-->
+<!--					<dd>-->
+<!--						<ol>-->
+<!--                        <h2>Price</h2>-->
+<!--						--><?php //foreach ($facet_ranges_results as $key => $result): ?>
+<!--							<li>-->
+<!--                                --><?php
+//                                    $key = ((int)$key);
+//                                    $key1 = ((int)$key+$gap);
+//                                    $disable = in_array("price:[". $key ." TO ". $key1 ."]", $current_filters_applied['fq']);
+//
+//                                if(!$disable)
+//                                {
+//                                ?>
+<!--                                <a href="--><?php //echo $this->getPriceFilteredLink($key, $key1) ?><!--">-->
+<!--                                --><?php
+//                                }
+//                                ?>
+<!--                                <span class="result-count">--><?php //echo "$". $key." - $". $key1."  (". $result .")" ?><!--</span>-->
+<!--                                --><?php //if(!$disable) { ?>
+<!--                                </a>-->
+<!--                                --><?php //} ?>
+<!--							</li>-->
+<!--						--><?php //endforeach ?>
+<!--						</ol>-->
+<!--					</dd>-->
+<!--				</dt>-->
+<!--		</dl>-->
+<!--<hr>-->
         <dl id="narrow-by-list">
             <dt>
                 <dd>
