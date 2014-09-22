@@ -19,10 +19,11 @@
         <reference name="left">
             <block type="solr/filter" name="filter_menu" template="solr/filter_menu.phtml">
                 <block type="solr/filter_product" name="product" template="solr/filter.phtml">
-                    <block type="solr/filter_product" name="list_filter" template="solr/facets.phtml"></block>
+
                 </block>
                 <block type="solr/filter_page" name="page" template="solr/filter.phtml"></block>
                 <block type="solr/filter_file" name="file" template="solr/filter.phtml"></block>
+                <block type="solr/filter_product" name="list_filter" template="solr/facets.phtml"></block>
             </block>
         </reference>
         <reference name="right">
