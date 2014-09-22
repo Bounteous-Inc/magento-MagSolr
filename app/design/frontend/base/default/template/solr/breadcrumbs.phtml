@@ -1,11 +1,19 @@
+<?php
+$actionName = $this->getRequest()->getActionName();
+$q = $this->getKeywords();
+$bob = 'bob';
+?>
 <div class="breadcrumbs">
     <ul>
-        <li class="home">
-            <a href="/all-products.html?cat=02" title="Go to Home Page">Products</a>
+        <li>
+            <a href="/search/result/<?php echo $actionName ?>/?q=*" title="Go to Home Page"><?php echo ucfirst($actionName).'s'; ?></a>
             <span>/ </span>
         </li>
         <li class="search">
-            <strong>Search results for: 'bai'</strong>
+            <strong><?php if($q!='*'){
+
+                ?>Search results for: '<?php echo $q;?>'
+            <?php } else{ echo 'All '.ucfirst($actionName).'s'; }?></strong>
         </li>
     </ul>
 </div>
