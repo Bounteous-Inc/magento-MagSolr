@@ -41,7 +41,7 @@ class Asm_Solr_Block_Result_Product extends Asm_Solr_Block_Result
     /**
      * @return Asm_Solr_Model_Result
      */
-    public function getResult()
+    public function getResult() // todo abstract query prep to avoid code duplication
     {
         // if we don't have a result set for us, let's make one
         if (!$this->getData('result'))
@@ -53,6 +53,7 @@ class Asm_Solr_Block_Result_Product extends Asm_Solr_Block_Result
             $query = $result->getQuery();
             $query->setKeywords($this->getKeywords());
             $query->addFilter('type', $this->getSolrType());
+            $query->addFilter('storeId', $this->getStoreId());
 
             if($filteredQuery!='' or $filteredQuery!=null)
             {

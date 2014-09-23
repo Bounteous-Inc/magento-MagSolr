@@ -24,6 +24,7 @@ class Asm_Solr_Block_Result_Page extends Asm_Solr_Block_Result
             $query = $result->getQuery();
             $query->setKeywords($this->getKeywords());
             $query->addFilter('type', $this->getSolrType());
+            $query->addFilter('storeId', $this->getStoreId());
 
             $query->addQueryParameter('hl.requireFieldMatch','true');
             $query->addQueryParameter('hl.simple.pre','<em>');

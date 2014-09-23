@@ -29,7 +29,7 @@ class Asm_Solr_Block_Result extends Asm_Solr_Block_Abstract
     /**
      * @return Asm_Solr_Model_Result
      */
-    public function getResult()
+    public function getResult() // todo maybe make this an abstract class, or at least put some query prep into the parent
     {
         // if we don't have a result set for us, let's make one
         if (!$this->getData('result'))
@@ -40,6 +40,7 @@ class Asm_Solr_Block_Result extends Asm_Solr_Block_Abstract
             $query = $result->getQuery();
             $query->setKeywords($this->getKeywords());
             $query->addFilter('type', $this->getSolrType());
+            $query->addFilter('storeId', $this->getStoreId());
 
             $result->load($this->getLimit(), $this->getOffset());
 
