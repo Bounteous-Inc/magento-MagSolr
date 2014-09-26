@@ -172,12 +172,12 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 	}
 
 
-	protected function buildProductDocument($storeId, $productId, $searchableAttributes)
+	protected function buildProductDocument($storeId, $productId, $indexableAttributes)
 	{
 		$helper = Mage::helper('solr');
 
-		$searchableAttributes = Mage::helper('solr/attribute')->getNamedProductAttributes($searchableAttributes);
-		$product              = Mage::getModel('catalog/product')
+		$indexableAttributes = Mage::helper('solr/attribute')->getNamedProductAttributes($indexableAttributes);
+		$product             = Mage::getModel('catalog/product')
 			->setStoreId($storeId)
 			->load($productId); /** @var Mage_Catalog_Model_Product $product */
 
@@ -231,13 +231,13 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 
 		if ($productType == 'configurable') {
 			$childProductAttributes = $this->getConfigurableProductChildProductAttributes($storeId, $product);
-			$searchableAttributes = array_merge($searchableAttributes, $childProductAttributes);
+			$indexableAttributes = array_merge($indexableAttributes, $childProductAttributes);
 		}
 
 		$fieldProcessorFactory = Mage::getResourceModel('solr/indexer_fieldprocessor_factory');
 
 		// add other searchable attributes as dynamic fields
-		foreach ($searchableAttributes as $attributeCode => $attributeValue) {
+		foreach ($indexableAttributes as $attributeCode => $attributeValue) {
 			if (empty($attributeValue) // don't index empty values (for now), might result in type conflicts
 			|| in_array($attributeCode, $this->fixedSchemaFieldAttributes)) { // don't add fixed schema fields twice
 				continue;
