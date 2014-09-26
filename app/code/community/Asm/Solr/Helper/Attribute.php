@@ -162,4 +162,27 @@ class Asm_Solr_Helper_Attribute {
 		return $this->attributeCodeToIdMap;
 	}
 
+	/**
+	 * Takes an array of product attributeId/value pairs and turns it into an
+	 * array of attributeCode/value pairs.
+	 *
+	 * @param array $productAttributes Array of attributeId/value pairs
+	 * @return array Array of attributeCode/value pairs
+	 */
+	public function getNamedProductAttributes(array $productAttributes)
+	{
+		$namedAttributes = array();
+
+		if (empty($this->attributeCodeToIdMap)) {
+			Mage::helper('solr/attribute')->getAttributeCodeToIdMap();
+		}
+
+		foreach ($productAttributes as $attributeId => $attributeValue) {
+			list($attributeCode) = array_keys($this->attributeCodeToIdMap, $attributeId);
+			$namedAttributes[$attributeCode] = $attributeValue;
+		}
+
+		return $namedAttributes;
+	}
+
 }

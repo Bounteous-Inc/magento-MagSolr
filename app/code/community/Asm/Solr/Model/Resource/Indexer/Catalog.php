@@ -176,7 +176,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 	{
 		$helper = Mage::helper('solr');
 
-		$searchableAttributes = $this->getNamedProductAttributes($searchableAttributes);
+		$searchableAttributes = Mage::helper('solr/attribute')->getNamedProductAttributes($searchableAttributes);
 		$product              = Mage::getModel('catalog/product')
 			->setStoreId($storeId)
 			->load($productId); /** @var Mage_Catalog_Model_Product $product */
@@ -420,34 +420,6 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		}
 
 		return $expr;
-	}
-
-
-
-	///// ///// attribute name to id map ///// /////
-
-
-	/**
-	 * Takes an array of product attributeId/value pairs and turns it into an
-	 * array of attributeCode/value pairs.
-	 *
-	 * @param array $productAttributes Array of attributeId/value pairs
-	 * @return array Array of attributeCode/value pairs
-	 */
-	protected function getNamedProductAttributes(array $productAttributes)
-	{
-		$namedAttributes = array();
-
-		if (empty($this->attributeCodeToIdMap)) {
-			Mage::helper('solr/attribute')->getAttributeCodeToIdMap();
-		}
-
-		foreach ($productAttributes as $attributeId => $attributeValue) {
-			list($attributeCode) = array_keys($this->attributeCodeToIdMap, $attributeId);
-			$namedAttributes[$attributeCode] = $attributeValue;
-		}
-
-		return $namedAttributes;
 	}
 
 
