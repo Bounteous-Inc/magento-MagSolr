@@ -7,7 +7,7 @@
  * @package Asm_Solr
  * @author Ingo Renner <ingo@infielddesign.com>
  */
-class Asm_Solr_Helper_Schema extends Mage_Core_Helper_Abstract
+class Asm_Solr_Helper_Schema
 {
 	/**
 	 * A map of  Solr document fields to Magento product attributes.
