@@ -140,4 +140,26 @@ class Asm_Solr_Helper_Attribute {
 		return $this->searchableAttributes;
 	}
 
+	/**
+	 * Creates a map of attribute codes associated to their numerical IDs
+	 *
+	 * @return array attributeCode => attributeId
+	 */
+	public function getAttributeCodeToIdMap()
+	{
+		if (empty($this->attributeCodeToIdMap)) {
+			$attributeNameToIdMap = array();
+			$searchableAttributes = Mage::helper('solr/attribute')->getIndexableAttributes();
+
+			foreach ($searchableAttributes as $attributeId => $attribute) {
+				$attributeCode = $attribute->getAttributeCode();
+				$attributeNameToIdMap[$attributeCode] = $attributeId;
+			}
+
+			$this->attributeCodeToIdMap = $attributeNameToIdMap;
+		}
+
+		return $this->attributeCodeToIdMap;
+	}
+
 }

@@ -428,28 +428,6 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 
 
 	/**
-	 * Creates a map of attribute codes associated to their numerical IDs
-	 *
-	 * @return array attributeCode => attributeId
-	 */
-	protected function getAttributeCodeToIdMap()
-	{
-		if (empty($this->attributeCodeToIdMap)) {
-			$attributeNameToIdMap = array();
-			$searchableAttributes = Mage::helper('solr/attribute')->getIndexableAttributes();
-
-			foreach ($searchableAttributes as $attributeId => $attribute) {
-				$attributeCode = $attribute->getAttributeCode();
-				$attributeNameToIdMap[$attributeCode] = $attributeId;
-			}
-
-			$this->attributeCodeToIdMap = $attributeNameToIdMap;
-		}
-
-		return $this->attributeCodeToIdMap;
-	}
-
-	/**
 	 * Takes an array of product attributeId/value pairs and turns it into an
 	 * array of attributeCode/value pairs.
 	 *
@@ -461,7 +439,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		$namedAttributes = array();
 
 		if (empty($this->attributeCodeToIdMap)) {
-			$this->getAttributeCodeToIdMap();
+			Mage::helper('solr/attribute')->getAttributeCodeToIdMap();
 		}
 
 		foreach ($productAttributes as $attributeId => $attributeValue) {
