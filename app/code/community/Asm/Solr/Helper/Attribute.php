@@ -28,6 +28,11 @@ class Asm_Solr_Helper_Attribute {
 	 */
 	protected $indexableAttributes;
 
+	/**
+	 * @var Mage_Catalog_Model_Resource_Eav_Attribute[]
+	 */
+	protected $searchableAttributes;
+
 
 	/**
 	 * Gets an array of attributes marked as indexable
@@ -57,6 +62,36 @@ class Asm_Solr_Helper_Attribute {
 		}
 
 		return $this->indexableAttributes;
+	}
+
+	/**
+	 * Gets an array of attributes marked as searchable
+	 *
+	 * @return Mage_Catalog_Model_Resource_Eav_Attribute[]
+	 */
+	public function getSearchableAttributes()
+	{
+		if (empty($this->searchableAttributes)) {
+			$productAttributeCollection = Mage::getResourceModel('catalog/product_attribute_collection');
+			/** @var Mage_Catalog_Model_Resource_Product_Attribute_Collection $productAttributeCollection */
+
+			$productAttributeCollection->addSearchableAttributeFilter();
+			$attributes = $productAttributeCollection->getItems();
+
+			$entity = Mage::getSingleton('eav/config')
+				->getEntityType(Mage_Catalog_Model_Product::ENTITY)
+				->getEntity();
+			/** @var Mage_Catalog_Model_Resource_Product $entity */
+
+			foreach ($attributes as $attribute) {
+				/** @var Mage_Catalog_Model_Resource_Eav_Attribute $attribute */
+				$attribute->setEntity($entity);
+			}
+
+			$this->searchableAttributes = $attributes;
+		}
+
+		return $this->searchableAttributes;
 	}
 
 }
