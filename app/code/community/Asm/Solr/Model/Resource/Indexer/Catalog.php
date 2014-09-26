@@ -281,36 +281,10 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		return $childProductAttributes;
 	}
 
-
-	protected function getSearchableAttributes()
-	{
-		if (empty($this->searchableAttributes)) {
-			$productAttributeCollection = Mage::getResourceModel('catalog/product_attribute_collection');
-			/** @var Mage_Catalog_Model_Resource_Product_Attribute_Collection $productAttributeCollection */
-
-			$productAttributeCollection->addToIndexFilter(true);
-			$attributes = $productAttributeCollection->getItems();
-
-			$entity = Mage::getSingleton('eav/config')
-				->getEntityType(Mage_Catalog_Model_Product::ENTITY)
-				->getEntity();
-			/** @var Mage_Catalog_Model_Resource_Product $entity */
-
-			foreach ($attributes as $attribute) {
-				/** @var Mage_Catalog_Model_Resource_Eav_Attribute $attribute */
-				$attribute->setEntity($entity);
-			}
-
-			$this->searchableAttributes = $attributes;
-		}
-
-		return $this->searchableAttributes;
-	}
-
 	protected function getSearchableAttributesByType($type)
 	{
 		$typedAttributes      = array();
-		$searchableAttributes = $this->getSearchableAttributes();
+		$searchableAttributes = Mage::helper('solr/attribute')->getIndexableAttributes();
 
 		foreach ($searchableAttributes as $attributeId => $attribute) {
 			if ($attribute->getBackendType() == $type) {
@@ -326,7 +300,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		$searchableAttribute = Mage::getSingleton('eav/config')
 			->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeName);
 
-		$attributes = $this->getSearchableAttributes();
+		$attributes = Mage::helper('solr/attribute')->getIndexableAttributes();
 		if (is_numeric($attributeName) && isset($attributes[$attributeName])) {
 			$searchableAttribute = $attributes[$attributeName];
 		} elseif (is_string($attributeName)) {
@@ -495,7 +469,7 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 	{
 		if (empty($this->attributeCodeToIdMap)) {
 			$attributeNameToIdMap = array();
-			$searchableAttributes = $this->getSearchableAttributes();
+			$searchableAttributes = Mage::helper('solr/attribute')->getIndexableAttributes();
 
 			foreach ($searchableAttributes as $attributeId => $attribute) {
 				$attributeCode = $attribute->getAttributeCode();
