@@ -81,18 +81,19 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 
 	protected function rebuildStoreIndex($storeId, $productIds = null)
 	{
-		$staticFields = array();
-		foreach ($this->getSearchableAttributesByType('static') as $attribute) {
+		$staticFields     = array();
+		$staticAttributes = Mage::helper('solr/attribute')->getIndexableAttributesByType('static');
+		foreach ($staticAttributes as $attribute) {
 			/** @var Mage_Catalog_Model_Resource_Eav_Attribute $attribute */
 			$staticFields[] = $attribute->getAttributeCode();
 		}
 
 		$dynamicFields = array(
-			'int'      => array_keys($this->getSearchableAttributesByType('int')),
-			'varchar'  => array_keys($this->getSearchableAttributesByType('varchar')),
-			'text'     => array_keys($this->getSearchableAttributesByType('text')),
-			'decimal'  => array_keys($this->getSearchableAttributesByType('decimal')),
-			'datetime' => array_keys($this->getSearchableAttributesByType('datetime')),
+			'int'      => array_keys(Mage::helper('solr/attribute')->getIndexableAttributesByType('int')),
+			'varchar'  => array_keys(Mage::helper('solr/attribute')->getIndexableAttributesByType('varchar')),
+			'text'     => array_keys(Mage::helper('solr/attribute')->getIndexableAttributesByType('text')),
+			'decimal'  => array_keys(Mage::helper('solr/attribute')->getIndexableAttributesByType('decimal')),
+			'datetime' => array_keys(Mage::helper('solr/attribute')->getIndexableAttributesByType('datetime')),
 		);
 
 		// status and visibility
@@ -279,20 +280,6 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		}
 
 		return $childProductAttributes;
-	}
-
-	protected function getSearchableAttributesByType($type)
-	{
-		$typedAttributes      = array();
-		$searchableAttributes = Mage::helper('solr/attribute')->getIndexableAttributes();
-
-		foreach ($searchableAttributes as $attributeId => $attribute) {
-			if ($attribute->getBackendType() == $type) {
-				$typedAttributes[$attributeId] = $attribute;
-			}
-		}
-
-		return $typedAttributes;
 	}
 
 	protected function getSearchableAttribute($attributeName)

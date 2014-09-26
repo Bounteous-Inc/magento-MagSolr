@@ -65,6 +65,26 @@ class Asm_Solr_Helper_Attribute {
 	}
 
 	/**
+	 * Gets attributes by backend type
+	 *
+	 * @param $type string backend type; can be static, int, varchar, text, decimal, datetime
+	 * @return Mage_Catalog_Model_Resource_Eav_Attribute[]
+	 */
+	public function getIndexableAttributesByType($type)
+	{
+		$typedAttributes      = array();
+		$searchableAttributes = Mage::helper('solr/attribute')->getIndexableAttributes();
+
+		foreach ($searchableAttributes as $attributeId => $attribute) {
+			if ($attribute->getBackendType() == $type) {
+				$typedAttributes[$attributeId] = $attribute;
+			}
+		}
+
+		return $typedAttributes;
+	}
+
+	/**
 	 * Gets an array of attributes marked as searchable
 	 *
 	 * @return Mage_Catalog_Model_Resource_Eav_Attribute[]
