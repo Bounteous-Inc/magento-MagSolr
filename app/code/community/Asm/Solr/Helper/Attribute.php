@@ -33,6 +33,11 @@ class Asm_Solr_Helper_Attribute {
 	 */
 	protected $searchableAttributes;
 
+	/**
+	 * @var array
+	 */
+	protected $attributeCodeToIdMap = array();
+
 
 	/**
 	 * Gets an array of attributes marked as indexable

@@ -25,16 +25,6 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 
 	// FIXME refactor storeId to be a member instead of providing it as parameter everywhere
 
-
-	/**
-	 * Searchable attributes cache
-	 *
-	 * @var array
-	 */
-	protected $searchableAttributes = array();
-
-	protected $attributeCodeToIdMap = array();
-
 	/**
 	 * Product attributes that have fixed schema fields and thus do not need
 	 * to be added when processing dynamic fields.
