@@ -147,22 +147,6 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 					continue;
 				}
 
-				// FIXME find better name for $productIndex
-#				$productIndex = array($productData['entity_id'] => $singleProductAttributes);
-
-
-				// convert numeric product attribute IDs keys to names
-
-
-
-#				if ($productChildren = $productRelations[$productData['entity_id']]) {
-#					foreach ($productChildren as $productChildId) {
-#						if (isset($productAttributes[$productChildId])) {
-#							$productIndex[$productChildId] = $productAttributes[$productChildId];
-#						}
-#					}
-#				}
-
 				$productDocument = $this->buildProductDocument($storeId, $productData['entity_id'], $singleProductAttributes);
 				$productDocuments[] = $productDocument;
 			}
