@@ -97,9 +97,9 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		);
 
 		// status and visibility
-		$visibility       = $this->getSearchableAttribute('visibility');
+		$visibility       = Mage::helper('solr/attribute')->getIndexableAttributeByName('visibility');
 		$visibilityValues = Mage::getSingleton('catalog/product_visibility')->getVisibleInSearchIds();
-		$status           = $this->getSearchableAttribute('status');
+		$status           = Mage::helper('solr/attribute')->getIndexableAttributeByName('status');
 		$statusValues     = Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
 
 		$lastProductId = 0;
@@ -280,26 +280,6 @@ class Asm_Solr_Model_Resource_Indexer_Catalog extends Mage_Core_Model_Resource_D
 		}
 
 		return $childProductAttributes;
-	}
-
-	protected function getSearchableAttribute($attributeName)
-	{
-		$searchableAttribute = Mage::getSingleton('eav/config')
-			->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeName);
-
-		$attributes = Mage::helper('solr/attribute')->getIndexableAttributes();
-		if (is_numeric($attributeName) && isset($attributes[$attributeName])) {
-			$searchableAttribute = $attributes[$attributeName];
-		} elseif (is_string($attributeName)) {
-			foreach ($attributes as $attributeModel) {
-				if ($attributeModel->getAttributeCode() == $attributeName) {
-					$searchableAttribute = $attributeModel;
-					break;
-				}
-			}
-		}
-
-		return $searchableAttribute;
 	}
 
 	protected function getSearchableProducts($storeId, array $staticFields, $productIds = null, $lastProductId = 0, $limit = 100)

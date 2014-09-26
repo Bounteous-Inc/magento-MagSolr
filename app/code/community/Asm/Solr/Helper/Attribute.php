@@ -85,6 +85,32 @@ class Asm_Solr_Helper_Attribute {
 	}
 
 	/**
+	 * Gets a indexable attribute by name
+	 *
+	 * @param $attributeName string attribute name
+	 * @return \Mage_Catalog_Model_Resource_Eav_Attribute|\Mage_Eav_Model_Entity_Attribute_Abstract
+	 */
+	public function getIndexableAttributeByName($attributeName)
+	{
+		$searchableAttribute = Mage::getSingleton('eav/config')
+			->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeName);
+
+		$attributes = Mage::helper('solr/attribute')->getIndexableAttributes();
+		if (is_numeric($attributeName) && isset($attributes[$attributeName])) {
+			$searchableAttribute = $attributes[$attributeName];
+		} elseif (is_string($attributeName)) {
+			foreach ($attributes as $attributeModel) {
+				if ($attributeModel->getAttributeCode() == $attributeName) {
+					$searchableAttribute = $attributeModel;
+					break;
+				}
+			}
+		}
+
+		return $searchableAttribute;
+	}
+
+	/**
 	 * Gets an array of attributes marked as searchable
 	 *
 	 * @return Mage_Catalog_Model_Resource_Eav_Attribute[]
