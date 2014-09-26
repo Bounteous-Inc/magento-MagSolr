@@ -51,6 +51,15 @@ class Asm_Solr_Block_Result_Product extends Asm_Solr_Block_Result
             $filteredQuery = $this->getFilteredQuery();
 
             $query = $result->getQuery();
+
+            // add attributes marked as searchable to the fields to query
+            $searchableAttributes = Mage::helper('solr/attribute')->getSearchableAttributes();
+            foreach ($searchableAttributes as $attribtue)
+            {
+                $solrFieldName = Mage::helper('solr/schema')->getFieldNameByAttribute($attribtue);
+                $query->setQueryField($solrFieldName);
+            }
+
             $query->setKeywords($this->getKeywords());
             $query->addFilter('type', $this->getSolrType());
             $query->addFilter('storeId', $this->getStoreId());
