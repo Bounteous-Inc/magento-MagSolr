@@ -48,6 +48,7 @@ class Asm_Solr_Model_Result extends Mage_Core_Model_Abstract
 
     private $_results   = array();
 
+
     /**
      * Init resource model
      *
@@ -102,6 +103,7 @@ class Asm_Solr_Model_Result extends Mage_Core_Model_Abstract
         if (!$storeId = $this->getData('store_id')) {
             $storeId = Mage::app()->getStore()->getId();
         }
+
         return $storeId;
     }
 
@@ -140,7 +142,9 @@ class Asm_Solr_Model_Result extends Mage_Core_Model_Abstract
     public function setResultTypeCount($type = '', $count = 0)
     {
         if (!$type)
+        {
             $type = self::DOCUMENT_TYPE_PRODUCT;
+        }
 
         $this->_results[$type]['count'] = $count;
 
@@ -170,10 +174,14 @@ class Asm_Solr_Model_Result extends Mage_Core_Model_Abstract
         $highlighting = $this->getData('highlighting');
 
         if ($id == '')
+        {
             return $highlighting;
+        }
 
         if ($highlighting && is_array($highlighting) && array_key_exists($id, $highlighting))
+        {
             return $highlighting[$id];
+        }
 
         return array();
     }
