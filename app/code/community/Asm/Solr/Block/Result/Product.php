@@ -53,11 +53,12 @@ class Asm_Solr_Block_Result_Product extends Asm_Solr_Block_Result
             $query = $result->getQuery();
 
             // add attributes marked as searchable to the fields to query
-            $searchableAttributes = Mage::helper('solr/attribute')->getSearchableAttributes();
-            foreach ($searchableAttributes as $attribtue)
+            $searchableAttributes  = Mage::helper('solr/attribute')->getSearchableAttributes();
+            $fieldProcessorFactory = Mage::getResourceModel('solr/indexer_fieldprocessor_factory');
+            foreach ($searchableAttributes as $attribute)
             {
-                $solrFieldName = Mage::helper('solr/schema')->getFieldNameByAttribute($attribtue);
-                $query->setQueryField($solrFieldName);
+                $fieldProcessor = $fieldProcessorFactory->getFieldProcessor($attribute->getAttributeCode());
+                $query->setQueryField($fieldProcessor->getFieldName());
             }
 
             $query->setKeywords($this->getKeywords());
