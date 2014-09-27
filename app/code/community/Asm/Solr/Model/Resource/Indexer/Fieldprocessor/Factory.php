@@ -32,7 +32,7 @@ class Asm_Solr_Model_Resource_Indexer_Fieldprocessor_Factory {
 	 * @param mixed $value Attribute value
 	 * @return Asm_Solr_Model_Resource_Indexer_Fieldprocessor_Abstract
 	 */
-	public function getFieldProcessor($attributeCode, $value)
+	public function getFieldProcessor($attributeCode, $value = '')
 	{
 		$fieldProcessor = null;
 
