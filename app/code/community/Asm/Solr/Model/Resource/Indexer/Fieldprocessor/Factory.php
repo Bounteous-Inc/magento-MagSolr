@@ -46,7 +46,7 @@ class Asm_Solr_Model_Resource_Indexer_Fieldprocessor_Factory {
 			$processors = array_keys($fieldMap[$attributeCode]['processor']);
 			$processorName = $processors[0];
 
-			$fieldProcessor     = Mage::getResourceModel(
+			$fieldProcessor = Mage::getResourceModel(
 				'solr/indexer_fieldprocessor_' . $processorName,
 				$fieldProcessorParameters
 			);
