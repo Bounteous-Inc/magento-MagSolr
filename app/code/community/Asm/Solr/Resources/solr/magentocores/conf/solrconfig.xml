@@ -10,7 +10,7 @@
 -->
 <config name="Asm_Solr-0-10-0--20140429">
 
-	<luceneMatchVersion>4.8</luceneMatchVersion>
+	<luceneMatchVersion>4.10.1</luceneMatchVersion>
 
 
 	<!-- Tika / Solr Cell -->
