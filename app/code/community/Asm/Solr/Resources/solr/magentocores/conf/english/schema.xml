@@ -31,7 +31,6 @@
 		<analyzer type="index">
 			<tokenizer class="solr.WhitespaceTokenizerFactory"/>
 
-			<filter class="solr.ManagedSynonymFilterFactory" managed="english"/>
 			<filter class="solr.WordDelimiterFilterFactory"
 				generateWordParts="1"
 				generateNumberParts="1"
@@ -58,11 +57,7 @@
 				splitOnCaseChange="1"
 				preserveOriginal="1"
 			/>
-			<!--
-				best practice (currently) for synonyms is to add them by expansions during index time
-				unless your synonyms change all the time, which they probably don't
-				<filter class="solr.ManagedSynonymFilterFactory" managed="english" />
-			-->
+			<filter class="solr.ManagedSynonymFilterFactory" managed="english" />
 			<filter class="solr.ManagedStopFilterFactory" managed="english"/>
 			<filter class="solr.LowerCaseFilterFactory"/>
 			<filter class="solr.SnowballPorterFilterFactory" language="English" protected="english/protwords.txt"/>
@@ -99,7 +94,6 @@
 			<tokenizer class="solr.StandardTokenizerFactory"/>
 
 			<filter class="solr.LowerCaseFilterFactory"/>
-			<filter class="solr.ManagedSynonymFilterFactory" managed="english"/>
 			<filter class="solr.ManagedStopFilterFactory" managed="english"/>
 			<filter class="solr.StandardFilterFactory" />
 			<filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
@@ -107,6 +101,7 @@
 		<analyzer type="query">
 			<tokenizer class="solr.StandardTokenizerFactory" />
 
+			<filter class="solr.ManagedSynonymFilterFactory" managed="english"/>
 			<filter class="solr.LowerCaseFilterFactory"/>
 			<filter class="solr.ManagedStopFilterFactory" managed="english"/>
 			<filter class="solr.StandardFilterFactory" />
