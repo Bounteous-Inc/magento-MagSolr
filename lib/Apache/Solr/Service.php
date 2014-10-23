@@ -385,6 +385,32 @@ class Apache_Solr_Service
 	}
 
 	/**
+	 * Central method for making a put operation against this Solr Server
+	 *
+	 * @param string $url
+	 * @param string $rawPut
+	 * @param float $timeout Read timeout in seconds
+	 * @param string $contentType
+	 * @return Apache_Solr_Response
+	 *
+	 * @throws Apache_Solr_HttpTransportException If a non 200 response status is returned
+	 */
+	protected function _sendRawPut($url, $rawPut, $timeout = FALSE, $contentType = 'text/xml; charset=UTF-8')
+	{
+		$httpTransport = $this->getHttpTransport();
+
+		$httpResponse = $httpTransport->performPutRequest($url, $rawPut, $contentType, $timeout);
+		$solrResponse = new Apache_Solr_Response($httpResponse, $this->_createDocuments, $this->_collapseSingleValueArrays);
+
+		if ($solrResponse->getHttpStatus() != 200)
+		{
+			throw new Apache_Solr_HttpTransportException($solrResponse);
+		}
+
+		return $solrResponse;
+	}
+
+	/**
 	 * Returns the set host
 	 *
 	 * @return string

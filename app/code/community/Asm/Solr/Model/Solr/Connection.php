@@ -141,7 +141,7 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 	}
 
 	/**
-	 * Central method for making a post operation against this Solr Server
+	 * Central method for making a POST operation against this Solr Server
 	 *
 	 * @param string $url
 	 * @param string $rawPost
@@ -157,7 +157,6 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 			$response = $e->getResponse();
 		}
 
-
 		if (Mage::getStoreConfig('log/query/rawPost')) {
 			$logData = array(
 				'query url' => $url,
@@ -172,6 +171,39 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 			Mage::helper('solr')->getLogger()->debug('Querying Solr using POST', $logData);
 		}
 
+		return $response;
+	}
+
+	/**
+	 * Central method for making a PUT operation against this Solr Server
+	 *
+	 * @param string $url
+	 * @param string $rawPut
+	 * @param bool|float $timeout Read timeout in seconds
+	 * @param string $contentType
+	 * @return Apache_Solr_Response
+	 */
+	protected function _sendRawPut($url, $rawPut, $timeout = FALSE, $contentType = 'text/xml; charset=UTF-8')
+	{
+		try {
+			$response = parent::_sendRawPut($url, $rawPut, $timeout, $contentType);
+		} catch (Apache_Solr_HttpTransportException $e) {
+			$response = $e->getResponse();
+		}
+
+		if (Mage::getStoreConfig('log/query/rawPut')) {
+			$logData = array(
+				'query url' => $url,
+				'content'   => $rawPut,
+				'response'  => (array) $response
+			);
+
+			if (!empty($e)) {
+				$logData['exception'] = $e->__toString();
+			}
+
+			Mage::helper('solr')->getLogger()->debug('Querying Solr using PUT', $logData);
+		}
 
 		return $response;
 	}
