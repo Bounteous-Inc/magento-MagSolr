@@ -8,7 +8,7 @@
 
 	When changing the schema the name property must be updated, too.
 -->
-<config name="Asm_Solr-0-10-0--20141022">
+<config name="Asm_Solr-0-12-0--20141023">
 
 	<luceneMatchVersion>4.10.1</luceneMatchVersion>
 
