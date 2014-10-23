@@ -98,13 +98,13 @@
 	<updateHandler class="solr.DirectUpdateHandler2">
 
 		<updateLog>
-			<str name="dir">${solr.data.dir:}</str>
+			<str name="dir">${solr.ulog.dir:}</str>
 		</updateLog>
 
 		<autoCommit>
 			<maxDocs>100</maxDocs>
 			<maxTime>3600000</maxTime>
-			<openSearcher>true</openSearcher>
+			<openSearcher>false</openSearcher>
 		</autoCommit>
 
 		<autoSoftCommit>
@@ -132,6 +132,14 @@
 				initialSize="512"
 				autowarmCount="0" />
 
+		<!-- custom cache currently used by block join -->
+		<cache name="perSegFilter"
+				class="solr.search.LRUCache"
+				size="10"
+				initialSize="0"
+				autowarmCount="10"
+				regenerator="solr.NoOpRegenerator" />
+
 		<enableLazyFieldLoading>true</enableLazyFieldLoading>
 
 		<queryResultWindowSize>50</queryResultWindowSize>
@@ -154,7 +162,14 @@
 
 
 	<requestDispatcher handleSelect="false" >
-		<!-- Make sure your system has some authentication! before using enableRemoteStreaming="true" -->
+		<!--
+
+		*** WARNING ***
+		The settings below authorize Solr to fetch remote files, You
+		should make sure your system has some authentication before
+		using enableRemoteStreaming="true"
+
+		-->
 		<requestParsers enableRemoteStreaming="true"
 			multipartUploadLimitInKB="2048000"
 			formdataUploadLimitInKB="2048"
