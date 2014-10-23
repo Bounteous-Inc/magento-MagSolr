@@ -127,6 +127,24 @@
 						</file_types>
 					</fields>
 				</files>
+				<synonyms>
+					<label>Synonyms</label>
+					<sort_order>30</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<sync_synonyms translate="button_label">
+							<label></label>
+							<button_label>Sync Synonyms</button_label>
+							<frontend_model>solr/adminhtml_system_config_syncSynonyms</frontend_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</sync_synonyms>
+					</fields>
+				</synonyms>
 			</groups>
 		</index>
 

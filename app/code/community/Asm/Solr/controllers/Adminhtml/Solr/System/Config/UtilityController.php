@@ -69,6 +69,46 @@ class Asm_Solr_Adminhtml_Solr_System_Config_UtilityController extends Mage_Admin
 		echo $result ? 1 : 0;
 	}
 
+	public function syncsynonymsAction() {
+		$result = true;
+
+		// FIXME does not support per store synonyms yet, syncing for all
+		$connections = Mage::helper('solr/connectionManager')->getAllConnections();
+		$connection = $connections[0];
+
+		$synonymHandler = Mage::getModel('solr/synonymHandler');
+
+		if (!$synonymHandler->managedSynonymsRestEndpointExists()) {
+			$synonymHandler->createManagedSynonymsRestEndpoint();
+		}
+
+		// remove existing synonyms
+		$oldSynonyms = $connection->getSynonyms();
+		$oldSynonyms = (array) $oldSynonyms;
+		$oldSynonyms = array_keys($oldSynonyms);
+		foreach ($oldSynonyms as $synonym) {
+			$connection->deleteSynonym($synonym);
+		}
+
+		// write new synonyms
+		$queries = Mage::getModel('catalogsearch/query')
+			->getCollection()
+			->addFieldToFilter('synonym_for', array("notnull"=>true));
+
+		foreach ($queries as $query) {
+			$baseWord = $query->getData('query_text');
+			$synonyms = $query->getData('synonym_for');
+
+			if (!empty($synonyms)) {
+				$synonyms = trim($synonyms, " \"\n\r\t");
+				$newSynonyms = Mage::helper('solr')->trimExplode(',', $synonyms);
+				$connection->addSynonym($baseWord, $newSynonyms);
+			}
+		}
+
+		echo $result ? 1 : 0;
+	}
+
 	/**
 	 * Action to test the configured connection (ping) depending on the current scope
 	 *

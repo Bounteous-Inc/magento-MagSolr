@@ -19,6 +19,29 @@
 class Asm_Solr_Model_SynonymHandler
 {
 
+	public function __construct() {
+
+	}
+
+	public function managedSynonymsRestEndpointExists() {
+		$connection = Mage::helper('solr/connectionManager')->getConnection();
+		$resources = $connection->getManagedSchemaResources();
+
+		return (in_array(
+			'/' . $connection::SYNONYMS_SERVLET . $connection->getManagedLanguage(),
+			$resources
+		));
+	}
+
+	public function createManagedSynonymsRestEndpoint() {
+		$connection = Mage::helper('solr/connectionManager')->getConnection();
+
+		$response = $connection->addManagedSynonymResource();
+
+		// todo return something
+	}
+
+
 	// TODO remove synonyms when deleting query in AdminHtml
 	// TODO initial import of synonyms
 
