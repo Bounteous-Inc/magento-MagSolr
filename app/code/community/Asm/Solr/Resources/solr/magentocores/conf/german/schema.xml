@@ -8,7 +8,7 @@
 
 	When changing the schema the name property must be updated, too.
 -->
-<schema name="Asm_Solr-0-10-0--20140429" version="1.5">
+<schema name="Asm_Solr-0-10-0--20141023" version="1.5">
 
 	<!-- include shared types -->
 	<xi:include href="../schema_types_shared.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
@@ -42,11 +42,6 @@
 			/>
 
 			<filter class="solr.LowerCaseFilterFactory"/>
-
-			<!-- best practice (currently) for synonyms is to add them by
-				expansions during index time
-			-->
-			<filter class="solr.ManagedSynonymFilterFactory" managed="german"/>
 
 			<!--
 				minWordSize : only words longer than this get processed
@@ -84,6 +79,7 @@
 					preserveOriginal="1"
 			/>
 			<filter class="solr.LowerCaseFilterFactory"/>
+			<filter class="solr.ManagedSynonymFilterFactory" managed="german" />
 			<filter class="solr.ManagedStopFilterFactory" managed="german"/>
 			<filter class="solr.GermanNormalizationFilterFactory"/>
 			<filter class="solr.SnowballPorterFilterFactory" language="German2" protected="german/protwords.txt"/>
@@ -137,9 +133,6 @@
 			<tokenizer class="solr.StandardTokenizerFactory"/>
 
 			<filter class="solr.LowerCaseFilterFactory"/>
-
-			<filter class="solr.ManagedSynonymFilterFactory" managed="german"/>
-
 			<!--
 				minWordSize : only words longer than this get processed
 				minSubwordSize : only subwords longer than this get to the output stream
@@ -161,6 +154,7 @@
 		<analyzer type="query">
 			<tokenizer class="solr.StandardTokenizerFactory"/>
 
+			<filter class="solr.ManagedSynonymFilterFactory" managed="german"/>
 			<filter class="solr.LowerCaseFilterFactory"/>
 			<filter class="solr.ManagedStopFilterFactory" managed="german"/>
 			<filter class="solr.StandardFilterFactory"/>
