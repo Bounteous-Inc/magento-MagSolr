@@ -141,7 +141,7 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 	}
 
 	/**
-	 * Central method for making a post operation against this Solr Server
+	 * Central method for making a POST operation against this Solr Server
 	 *
 	 * @param string $url
 	 * @param string $rawPost
@@ -157,7 +157,6 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 			$response = $e->getResponse();
 		}
 
-
 		if (Mage::getStoreConfig('log/query/rawPost')) {
 			$logData = array(
 				'query url' => $url,
@@ -172,6 +171,39 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 			Mage::helper('solr')->getLogger()->debug('Querying Solr using POST', $logData);
 		}
 
+		return $response;
+	}
+
+	/**
+	 * Central method for making a PUT operation against this Solr Server
+	 *
+	 * @param string $url
+	 * @param string $rawPut
+	 * @param bool|float $timeout Read timeout in seconds
+	 * @param string $contentType
+	 * @return Apache_Solr_Response
+	 */
+	protected function _sendRawPut($url, $rawPut, $timeout = FALSE, $contentType = 'text/xml; charset=UTF-8')
+	{
+		try {
+			$response = parent::_sendRawPut($url, $rawPut, $timeout, $contentType);
+		} catch (Apache_Solr_HttpTransportException $e) {
+			$response = $e->getResponse();
+		}
+
+		if (Mage::getStoreConfig('log/query/rawPut')) {
+			$logData = array(
+				'query url' => $url,
+				'content'   => $rawPut,
+				'response'  => (array) $response
+			);
+
+			if (!empty($e)) {
+				$logData['exception'] = $e->__toString();
+			}
+
+			Mage::helper('solr')->getLogger()->debug('Querying Solr using PUT', $logData);
+		}
 
 		return $response;
 	}
@@ -395,7 +427,7 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 	 *
 	 * @return string
 	 */
-	protected function getManagedLanguage() {
+	public function getManagedLanguage() {
 		$language = 'english';
 
 		$schema = $this->getSchema();
@@ -530,7 +562,44 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 			throw new Apache_Solr_InvalidArgumentException('Must provide base word and synonyms.');
 		}
 
+		$baseWord = urlencode($baseWord);
+
 		return $this->_sendRawDelete($this->_synonymsUrl . '/' . $baseWord);
+	}
+
+
+	// ----- ----- ----- managed resources ----- ----- ----- //
+
+
+	/**
+	 * Talks to Solr's RestManager, finding schema-related resources.
+	 *
+	 * @return array Array of resource IDs
+	 */
+	public function getManagedSchemaResources() {
+		$response = $this->_sendRawGet($this->_schemaUrl . '/managed');
+		$resources = $response->managedResources;
+
+		$resourceIds = array();
+		foreach ($resources as $resource) {
+			$resourceIds[] = $resource->resourceId;
+		}
+
+		return $resourceIds;
+	}
+
+	public function addManagedSynonymResource() {
+		$synonymResource = new stdClass();
+		$synonymResource->class = 'org.apache.solr.rest.schema.analysis.ManagedSynonymFilterFactory$SynonymManager';
+
+		$rawPut = json_encode($synonymResource);
+
+		return $this->_sendRawPut(
+			$this->_synonymsUrl,
+			$rawPut,
+			$this->getHttpTransport()->getDefaultTimeout(),
+			'application/json'
+		);
 	}
 
 }

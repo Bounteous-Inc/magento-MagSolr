@@ -7,8 +7,8 @@
 #	sudo ./install-solr.sh
 #	sudo ./install-solr.sh english german french
 
-TOMCAT_VER=7.0.55
-SOLR_VER=4.8.1
+TOMCAT_VER=7.0.56
+SOLR_VER=4.10.1
 ASM_SOLR_VER=0.10.0
 JAVA_VER=7
 
@@ -224,12 +224,16 @@ fi
 mkdir -p /opt/solr-tomcat
 cd /opt/solr-tomcat/
 
-cecho "Downloading Apache Tomcat $TOMCAT_VER" $green
 TOMCAT_MAINVERSION=`echo "$TOMCAT_VER" | cut -d'.' -f1`
-wget --progress=bar:force http://www.us.apache.org/dist/tomcat/tomcat-$TOMCAT_MAINVERSION/v$TOMCAT_VER/bin/apache-tomcat-$TOMCAT_VER.zip 2>&1 | progressfilt
+TOMCAT_DOWNLOAD_URL=https://dist.apache.org/repos/dist/release/tomcat/tomcat-$TOMCAT_MAINVERSION/v$TOMCAT_VER/bin/apache-tomcat-$TOMCAT_VER.zip
+cecho "Downloading Apache Tomcat $TOMCAT_VER" $green
+cecho "$TOMCAT_DOWNLOAD_URL" $green
+wget --progress=bar:force $TOMCAT_DOWNLOAD_URL 2>&1 | progressfilt
 
+SOLR_DOWNLOAD_URL=http://www.us.apache.org/dist/lucene/solr/$SOLR_VER/solr-$SOLR_VER.zip
 cecho "Downloading Apache Solr $SOLR_VER" $green
-wget --progress=bar:force http://www.us.apache.org/dist/lucene/solr/$SOLR_VER/solr-$SOLR_VER.zip 2>&1 | progressfilt
+cecho "$SOLR_DOWNLOAD_URL" $green
+wget --progress=bar:force $SOLR_DOWNLOAD_URL 2>&1 | progressfilt
 
 cecho "Unpacking Apache Tomcat." $green
 unzip -q apache-tomcat-$TOMCAT_VER.zip
