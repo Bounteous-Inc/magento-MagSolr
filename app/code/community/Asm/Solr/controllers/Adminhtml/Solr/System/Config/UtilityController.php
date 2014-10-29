@@ -78,10 +78,6 @@ class Asm_Solr_Adminhtml_Solr_System_Config_UtilityController extends Mage_Admin
 
 		$synonymHandler = Mage::getModel('solr/synonymHandler');
 
-		if (!$synonymHandler->managedSynonymsRestEndpointExists()) {
-			$synonymHandler->createManagedSynonymsRestEndpoint();
-		}
-
 		// remove existing synonyms
 		$oldSynonyms = $connection->getSynonyms();
 		$oldSynonyms = (array) $oldSynonyms;

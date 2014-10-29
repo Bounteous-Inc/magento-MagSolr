@@ -567,39 +567,4 @@ class Asm_Solr_Model_Solr_Connection extends Apache_Solr_Service
 		return $this->_sendRawDelete($this->_synonymsUrl . '/' . $baseWord);
 	}
 
-
-	// ----- ----- ----- managed resources ----- ----- ----- //
-
-
-	/**
-	 * Talks to Solr's RestManager, finding schema-related resources.
-	 *
-	 * @return array Array of resource IDs
-	 */
-	public function getManagedSchemaResources() {
-		$response = $this->_sendRawGet($this->_schemaUrl . '/managed');
-		$resources = $response->managedResources;
-
-		$resourceIds = array();
-		foreach ($resources as $resource) {
-			$resourceIds[] = $resource->resourceId;
-		}
-
-		return $resourceIds;
-	}
-
-	public function addManagedSynonymResource() {
-		$synonymResource = new stdClass();
-		$synonymResource->class = 'org.apache.solr.rest.schema.analysis.ManagedSynonymFilterFactory$SynonymManager';
-
-		$rawPut = json_encode($synonymResource);
-
-		return $this->_sendRawPut(
-			$this->_synonymsUrl,
-			$rawPut,
-			$this->getHttpTransport()->getDefaultTimeout(),
-			'application/json'
-		);
-	}
-
 }
