@@ -5,7 +5,7 @@
 
 	<!-- TODO What's host, hostPort, hostContext attributes? -->
 
-	<cores adminPath="/admin/cores" host="${host:}" hostPort="${tomcat.port:8080}" hostContext="${hostContext:solr}" shareSchema="true">
+	<cores adminPath="/admin/cores" host="${host:}" hostPort="${tomcat.port:8080}" hostContext="${hostContext:solr}">
 		<core name="core_en" instanceDir="magentocores" schema="english/schema.xml" dataDir="data/core_en">
 			<property name="language" value="english" />
 		</core>
