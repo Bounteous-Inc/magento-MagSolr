@@ -7,6 +7,7 @@ $installer = $this;
 $installer->startSetup();
 
 
+// create file index queue
 $table = $installer->getConnection()
 	->newTable($installer->getTable('solr/indexqueue_file'))
 	->addColumn('file_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -40,6 +41,20 @@ $table = $installer->getConnection()
 		), 'File indexed at')
 	->setComment('Keeps track of which files have been indexed for which page');
 $installer->getConnection()->createTable($table);
+
+
+// add search weight field to eav attributes
+$installer->getConnection()->addColumn(
+	$installer->getTable('catalog/eav_attribute'),
+	'search_weight',
+	array(
+		'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+		'unsigned' => true,
+		'nullable' => false,
+		'default'  => '1',
+		'comment'  => 'Search Weight',
+	)
+);
 
 
 $installer->endSetup();

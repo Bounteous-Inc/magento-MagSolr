@@ -84,6 +84,14 @@
 
 	<adminhtml>
 		<events>
+			<adminhtml_catalog_product_attribute_edit_prepare_form>
+				<observers>
+					<asm_observer_product>
+						<class>solr/observer_attribute</class>
+						<method>addAttributeWeightField</method>
+					</asm_observer_product>
+				</observers>
+			</adminhtml_catalog_product_attribute_edit_prepare_form>
 			<catalog_product_save_after>
 				<!-- edit and create products -->
 				<observers>
