@@ -153,11 +153,10 @@ class Asm_Solr_Model_Result extends Mage_Core_Model_Abstract
 
     public function load($limit = 0, $offset = 0)
     {
-        /** @var Asm_Solr_Model_Solr_Query $query */
         $query = $this->getQuery();
-        $search   = Mage::getResourceModel('solr/search');
+        $query->setQueryFieldsFromString($this->getWeightedQueryFields());
 
-        /** @var Asm_Solr_Model_Solr_Response $response */
+        $search   = Mage::getResourceModel('solr/search');
         $response = $search->search($query, $offset, $limit);
         $this->setResponse($response);
 
@@ -184,5 +183,29 @@ class Asm_Solr_Model_Result extends Mage_Core_Model_Abstract
         }
 
         return array();
+    }
+
+    /**
+     * Gets the searchable product attributes and their weights/boosts
+     *
+     * @return string query fields with their boosts
+     */
+    protected function getWeightedQueryFields()
+    {
+        $weightedFields = array();
+
+        $attributes = Mage::helper('solr/attribute')->getSearchableAttributes();
+        foreach ($attributes as $attribute) {
+            /** @var Mage_Catalog_Model_Resource_Eav_Attribute $attribute */
+            $attributeCode = $attribute->getAttributeCode();
+            $fieldName = Mage::helper('solr/schema')->getFieldNameByAttribute($attributeCode);
+
+            $weight = floatval($attribute->getSearchWeight()) ?: 1.0;
+            $formattedWeight = number_format($weight, 1, '.', '');
+
+            $weightedFields[] = $fieldName . '^' . $formattedWeight;
+        }
+
+        return implode(', ', $weightedFields);
     }
 }
