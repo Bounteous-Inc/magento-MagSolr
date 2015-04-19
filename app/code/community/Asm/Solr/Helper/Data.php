@@ -152,7 +152,10 @@ class Asm_Solr_Helper_Data extends Mage_Core_Helper_Abstract
 			$date = new Zend_Date($date, Zend_Date::TIMESTAMP);
 		}
 
-		return str_replace('+00:00', 'Z', $date->getIso());
+		$date = strstr($date->getIso(), '+', true); //strip timezone
+                $date .= 'Z';
+
+		return $date;
 	}
 
 	/**
